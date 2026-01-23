@@ -1,0 +1,29 @@
+# Arquivos de dados (grandes, não versionar)
+database.csv
+data_transformed.csv
+ligas_times.json
+lol_history.db
+
+# Logs
+*.log
+data_processing.log
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
