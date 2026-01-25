@@ -72,36 +72,99 @@ class ValueBetsCollector:
             'games_analyzed': 0,
             'bets_found': 0,
             'bets_saved': 0,
-            'errors': 0
+            'errors': 0,
+            'empirical_found': 0,
+            'ml_found': 0,
         }
     
     def collect_all_value_bets(self, league_filter: str = None, include_finalized: bool = True) -> List[Dict]:
         """
-        Coleta todas as apostas com valor dos jogos futuros e finalizados.
-        
+        Coleta apostas com valor em duas passadas sequenciais. Sem fallbacks; apenas dados reais.
+
+        1. PASSA 1 – Método empírico: análise estatística + EV com total_kills_values (histórico real).
+           Termina a passada antes de prosseguir.
+
+        2. PASSA 2 – Método ML: apenas jogos com draft; só considera valor se empírico + ML convergem.
+           Usa sempre dados reais (empírico obrigatório).
+
         Args:
             league_filter: Filtro opcional de liga
-            include_finalized: Se True, também busca jogos finalizados com draft (para análise retrospectiva)
-            
+            include_finalized: Se True, roda PASSA 2 para jogos finalizados com draft (ML)
+
         Returns:
             Lista de apostas com valor encontradas
         """
         all_value_bets = []
         
-        # 1. Busca jogos futuros
-        print("[BUSCANDO] Buscando jogos futuros...")
-        future_games = self.analyzer.get_upcoming_games(league_filter=league_filter)
+        # Busca TODOS os jogos do banco (futuros e passados)
+        print("[BUSCANDO] Buscando TODOS os jogos do banco Pinnacle (futuros e passados)...")
+        all_games = self.analyzer.get_all_games(league_filter=league_filter)
         
-        if future_games:
-            print(f"   [OK] {len(future_games)} jogos futuros encontrados")
-            print("\n[ANALISANDO] Analisando jogos futuros para encontrar apostas com valor...\n")
+        if not all_games:
+            print("[AVISO] Nenhum jogo encontrado no banco")
+            return all_value_bets
+        
+        print(f"   [OK] {len(all_games)} jogos encontrados no banco")
+        
+        # ========================================================================
+        # PASSA 1: MÉTODO EMPÍRICO (todos os jogos)
+        # ========================================================================
+        print("\n" + "=" * 80)
+        print("[PASSA 1] MÉTODO EMPÍRICO - Analisando todos os jogos")
+        print("=" * 80)
+        
+        for i, game in enumerate(all_games, 1):
+            matchup_id = game['matchup_id']
+            status = game.get('status', 'unknown')
+            print(f"[JOGO {i}/{len(all_games)}] {game['home_team']} vs {game['away_team']} ({game['league_name']}) [{status}]")
             
-            for i, game in enumerate(future_games, 1):
+            try:
+                # Força uso do método empírico
+                analysis = self.analyzer.analyze_game(matchup_id, force_method='probabilidade_empirica')
+                
+                if not analysis or 'error' in analysis:
+                    print(f"   [AVISO] Erro ou sem dados históricos")
+                    self.stats['errors'] += 1
+                    continue
+                
+                self.stats['games_analyzed'] += 1
+                
+                # Extrai apostas com valor (método empírico)
+                value_bets = self._extract_value_bets(analysis, only_empirical=True)
+                
+                if value_bets:
+                    n = len(value_bets)
+                    print(f"   [OK] {n} apostas com valor encontradas (método empírico)")
+                    all_value_bets.extend(value_bets)
+                    self.stats['bets_found'] += n
+                    self.stats['empirical_found'] += n
+                else:
+                    print(f"   [INFO] Nenhuma aposta com valor")
+            
+            except Exception as e:
+                print(f"   [ERRO] Erro ao analisar jogo: {e}")
+                self.stats['errors'] += 1
+                continue
+        
+        # ========================================================================
+        # PASSA 2: MÉTODO MACHINELEARNING (jogos com draft no histórico)
+        # ========================================================================
+        if include_finalized:
+            print("\n" + "=" * 80)
+            print("[PASSA 2] MÉTODO MACHINELEARNING - Jogos com draft no histórico (lol_history)")
+            print("=" * 80)
+            print("[INFO] ML so para jogos que EXISTEM no historico (match liga+times+data +-1 dia).")
+            print("[INFO] Status Pinnacle nao importa (API sempre 'scheduled'). Match por lol_history.db + compositions.\n")
+            games_with_draft = 0
+            ml_bets_this_pass = 0
+
+            for i, game in enumerate(all_games, 1):
                 matchup_id = game['matchup_id']
-                print(f"[FUTURO {i}/{len(future_games)}] Analisando: {game['home_team']} vs {game['away_team']} ({game['league_name']})")
+                status = game.get('status', 'unknown')
+                print(f"[JOGO {i}/{len(all_games)}] {game['home_team']} vs {game['away_team']} ({game['league_name']}) [{status}]")
                 
                 try:
-                    analysis = self.analyzer.analyze_game(matchup_id)
+                    analysis = self.analyzer.analyze_game(matchup_id, force_method='machinelearning')
                     
                     if not analysis or 'error' in analysis:
                         print(f"   [AVISO] Erro ou sem dados históricos")
@@ -109,76 +172,46 @@ class ValueBetsCollector:
                         continue
                     
                     self.stats['games_analyzed'] += 1
+                    if analysis.get('ml_available_for_game'):
+                        games_with_draft += 1
                     
-                    # Extrai apostas com valor
-                    value_bets = self._extract_value_bets(analysis)
+                    value_bets = self._extract_value_bets(analysis, only_ml=True)
                     
                     if value_bets:
-                        print(f"   [OK] {len(value_bets)} apostas com valor encontradas")
+                        n = len(value_bets)
+                        ml_bets_this_pass += n
+                        print(f"   [OK] {n} apostas ML (empírico + ML convergiram)")
                         all_value_bets.extend(value_bets)
-                        self.stats['bets_found'] += len(value_bets)
+                        self.stats['bets_found'] += n
+                        self.stats['ml_found'] += n
                     else:
-                        print(f"   [INFO] Nenhuma aposta com valor")
+                        if analysis.get('ml_available_for_game'):
+                            print(f"   [INFO] Draft OK, mas nenhuma aposta com convergencia ML (divergiu ou sem valor empirico)")
+                        else:
+                            print(f"   [INFO] Sem match no historico (liga+times+data +-1d) ou sem compositions")
                 
                 except Exception as e:
                     print(f"   [ERRO] Erro ao analisar jogo: {e}")
                     self.stats['errors'] += 1
                     continue
-        else:
-            print("[AVISO] Nenhum jogo futuro encontrado")
-        
-        # 2. Busca jogos finalizados com draft (para análise retrospectiva)
-        if include_finalized:
-            print("\n[BUSCANDO] Buscando jogos finalizados com draft disponível...")
-            finalized_games = self.analyzer.get_finalized_games_with_draft(league_filter=league_filter)
-            
-            if finalized_games:
-                print(f"   [OK] {len(finalized_games)} jogos finalizados com draft encontrados")
-                print("\n[ANALISANDO] Analisando jogos finalizados (método ML + empírico)...\n")
-                
-                for i, game in enumerate(finalized_games, 1):
-                    matchup_id = game['matchup_id']
-                    print(f"[FINALIZADO {i}/{len(finalized_games)}] Analisando: {game['home_team']} vs {game['away_team']} ({game['league_name']})")
-                    
-                    try:
-                        analysis = self.analyzer.analyze_game(matchup_id)
-                        
-                        if not analysis or 'error' in analysis:
-                            print(f"   [AVISO] Erro ou sem dados históricos")
-                            self.stats['errors'] += 1
-                            continue
-                        
-                        self.stats['games_analyzed'] += 1
-                        
-                        # Extrai apenas apostas com método ML (que convergiram)
-                        value_bets = self._extract_value_bets(analysis, only_ml=True)
-                        
-                        if value_bets:
-                            print(f"   [OK] {len(value_bets)} apostas com método ML encontradas (empírico + ML convergiram)")
-                            all_value_bets.extend(value_bets)
-                            self.stats['bets_found'] += len(value_bets)
-                        else:
-                            print(f"   [INFO] Nenhuma aposta com convergência ML (empírico e ML divergiram ou sem valor)")
-                    
-                    except Exception as e:
-                        print(f"   [ERRO] Erro ao analisar jogo: {e}")
-                        self.stats['errors'] += 1
-                        continue
-            else:
-                print("[AVISO] Nenhum jogo finalizado com draft encontrado")
+
+            print(f"\n[RESUMO ML] Jogos com draft: {games_with_draft}/{len(all_games)} | Apostas ML encontradas: {ml_bets_this_pass}")
+            if games_with_draft == 0:
+                print("[INFO] Nenhum jogo com draft. Match Pinnacle<->historico: liga+times+data +-1 dia em lol_history.db + compositions.")
         
         return all_value_bets
     
-    def _extract_value_bets(self, analysis: Dict, only_ml: bool = False) -> List[Dict]:
+    def _extract_value_bets(self, analysis: Dict, only_ml: bool = False, only_empirical: bool = False) -> List[Dict]:
         """
-        Extrai apostas com valor de uma análise.
-        
+        Extrai apostas com valor. Ignora markets com error e exige empirical_prob (dados reais).
+
         Args:
             analysis: Resultado de analyze_game
-            only_ml: Se True, só retorna apostas com método ML (que convergiram)
-            
+            only_ml: Se True, só apostas com método ML (empírico + ML convergiram)
+            only_empirical: Se True, só apostas com método empírico
+
         Returns:
-            Lista de apostas com valor formatadas para salvar
+            Lista de apostas formatadas para salvar
         """
         value_bets = []
         
@@ -186,21 +219,30 @@ class ValueBetsCollector:
         markets = analysis.get('markets', [])
         
         for market_data in markets:
+            if 'error' in market_data:
+                continue
             market = market_data['market']
             analysis_data = market_data['analysis']
-            
-            # Só processa se tiver valor
+
+            # Apenas apostas com dados reais (empirical_prob presente)
+            if analysis_data.get('empirical_prob') is None:
+                continue
             if not analysis_data.get('value', False):
                 continue
-            
-            # Se only_ml=True, só processa apostas com método ML (que convergiram)
+
+            metodo = analysis_data.get('metodo', 'probabilidade_empirica')
+
             if only_ml:
-                metodo = analysis_data.get('metodo', '')
+                # Só processa apostas com método ML (que convergiram)
                 if metodo != 'ml':  # METODO_ML = 'ml'
                     continue
                 # Verifica se realmente convergiu (ML aponta para mesma direção)
                 ml_converges = analysis_data.get('ml_converges')
                 if ml_converges is not True:
+                    continue
+            elif only_empirical:
+                # Só processa apostas com método empírico
+                if metodo != 'probabilidade_empirica':
                     continue
             
             # Prepara dados da aposta
@@ -221,7 +263,7 @@ class ValueBetsCollector:
                 'implied_prob': analysis_data.get('implied_probability'),
                 'historical_mean': market_data.get('historical_stats', {}).get('mean'),
                 'historical_std': market_data.get('historical_stats', {}).get('std'),
-                'historical_games': market_data.get('historical_stats', {}).get('n'),
+                'historical_games': market_data.get('historical_stats', {}).get('games'),
                 'status': 'pending',
                 'metadata': {
                     'normalization': analysis.get('normalization', {}),
@@ -246,7 +288,9 @@ class ValueBetsCollector:
         if not bets:
             return 0
         
-        print(f"\n[SALVANDO] Salvando {len(bets)} apostas no banco...")
+        n_emp = sum(1 for b in bets if b.get('metodo') == 'probabilidade_empirica')
+        n_ml = sum(1 for b in bets if b.get('metodo') == 'ml')
+        print(f"\n[SALVANDO] Salvando {len(bets)} apostas no banco ({n_emp} empirico | {n_ml} ML)...")
         
         saved = 0
         duplicates = 0
@@ -273,7 +317,7 @@ class ValueBetsCollector:
         print("[ESTATISTICAS] Estatísticas da Coleta")
         print("=" * 60)
         print(f"   Jogos analisados: {self.stats['games_analyzed']}")
-        print(f"   Apostas com valor encontradas: {self.stats['bets_found']}")
+        print(f"   Apostas com valor encontradas: {self.stats['bets_found']} (empirico: {self.stats['empirical_found']} | ML: {self.stats['ml_found']})")
         print(f"   Apostas salvas: {self.stats['bets_saved']}")
         print(f"   Erros: {self.stats['errors']}")
         print("=" * 60)

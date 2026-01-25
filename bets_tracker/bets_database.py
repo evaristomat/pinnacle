@@ -127,15 +127,15 @@ def save_bet(bet_data: Dict) -> Optional[int]:
     conn = sqlite3.connect(BETS_DB)
     cursor = conn.cursor()
     
-    # Verifica se já existe aposta idêntica
+    # Verifica se já existe aposta idêntica (qualquer status: pending, won, lost, void)
+    # Evita duplicar ao rodar run_all/collect novamente após atualizar resultados
     cursor.execute("""
         SELECT id FROM bets
-        WHERE matchup_id = ? 
+        WHERE matchup_id = ?
           AND market_type = ?
           AND line_value = ?
           AND side = ?
           AND metodo = ?
-          AND status = 'pending'
     """, (
         bet_data['matchup_id'],
         bet_data['market_type'],
@@ -147,7 +147,7 @@ def save_bet(bet_data: Dict) -> Optional[int]:
     existing = cursor.fetchone()
     if existing:
         conn.close()
-        return None  # Já existe, não salva duplicata
+        return None  # Ja existe, nao salva duplicata
     
     now = datetime.now().isoformat()
     
@@ -215,6 +215,33 @@ def get_pending_bets() -> List[Dict]:
     return bets
 
 
+def get_bets_by_metodo(metodo: Optional[str] = None) -> List[Dict]:
+    """
+    Retorna apostas, opcionalmente filtradas por metodo.
+    metodo: 'probabilidade_empirica' | 'ml' | None (todas).
+    Ordenadas por game_date.
+    """
+    conn = sqlite3.connect(BETS_DB)
+    conn.row_factory = sqlite3.Row
+    cursor = conn.cursor()
+    
+    if metodo:
+        cursor.execute("""
+            SELECT * FROM bets
+            WHERE metodo = ?
+            ORDER BY game_date ASC, id ASC
+        """, (metodo,))
+    else:
+        cursor.execute("""
+            SELECT * FROM bets
+            ORDER BY game_date ASC, id ASC
+        """)
+    
+    bets = [dict(row) for row in cursor.fetchall()]
+    conn.close()
+    return bets
+
+
 def update_bet_result(bet_id: int, result_value: float, status: str = 'won'):
     """
     Atualiza resultado de uma aposta.
@@ -271,45 +298,49 @@ def get_bet_stats() -> Dict:
         # Se coluna metodo não existir (banco antigo)
         by_metodo = {}
     
-    # ROI (se houver resultados)
-    cursor.execute("""
-        SELECT 
+    def _roi_from_row(row) -> dict:
+        if not row or not row[0]:
+            return {'total_resolved': 0, 'wins': 0, 'losses': 0, 'win_rate': 0, 'avg_win_odd': 0, 'avg_ev': 0, 'lucro': 0}
+        return {
+            'total_resolved': row[0],
+            'wins': row[1],
+            'losses': row[2],
+            'win_rate': (row[1] / row[0] * 100) if row[0] > 0 else 0,
+            'avg_win_odd': row[3] or 0,
+            'avg_ev': row[4] or 0,
+            'lucro': row[5] if len(row) > 5 and row[5] is not None else 0,
+        }
+
+    roi_sql = """
+        SELECT
             COUNT(*) as total_resolved,
             SUM(CASE WHEN status = 'won' THEN 1 ELSE 0 END) as wins,
             SUM(CASE WHEN status = 'lost' THEN 1 ELSE 0 END) as losses,
-            AVG(CASE WHEN status = 'won' THEN odd_decimal ELSE 0 END) as avg_win_odd,
-            AVG(expected_value) as avg_ev
+            AVG(CASE WHEN status = 'won' THEN odd_decimal ELSE NULL END) as avg_win_odd,
+            AVG(expected_value) as avg_ev,
+            SUM(CASE WHEN status = 'won' THEN odd_decimal - 1 ELSE -1 END) as lucro
         FROM bets
         WHERE status IN ('won', 'lost')
-    """)
-    
-    result = cursor.fetchone()
-    if result and result[0]:
-        roi_data = {
-            'total_resolved': result[0],
-            'wins': result[1],
-            'losses': result[2],
-            'win_rate': (result[1] / result[0] * 100) if result[0] > 0 else 0,
-            'avg_win_odd': result[3] or 0,
-            'avg_ev': result[4] or 0
-        }
-    else:
-        roi_data = {
-            'total_resolved': 0,
-            'wins': 0,
-            'losses': 0,
-            'win_rate': 0,
-            'avg_win_odd': 0,
-            'avg_ev': 0
-        }
-    
+    """
+
+    cursor.execute(roi_sql)
+    roi_data = _roi_from_row(cursor.fetchone())
+
+    cursor.execute(roi_sql + " AND metodo = ?", ('probabilidade_empirica',))
+    roi_empirico = _roi_from_row(cursor.fetchone())
+
+    cursor.execute(roi_sql + " AND metodo = ?", ('ml',))
+    roi_ml = _roi_from_row(cursor.fetchone())
+
     conn.close()
-    
+
     return {
         'total': total,
         'by_status': by_status,
         'by_metodo': by_metodo,
-        'roi': roi_data
+        'roi': roi_data,
+        'roi_empirico': roi_empirico,
+        'roi_ml': roi_ml,
     }
 
 

@@ -61,6 +61,14 @@ python main.py update --dry-run
 python main.py stats
 ```
 
+### 5. Listar apostas separadas por método
+
+```bash
+python main.py list
+```
+
+Exibe todas as apostas do banco em duas seções: **MÉTODO EMPÍRICO** e **MÉTODO ML**, com totais e detalhes (jogo, liga, data, side, line, odd, EV, status).
+
 ## 🔄 Fluxo Completo
 
 ```
@@ -161,6 +169,17 @@ O sistema calcula automaticamente:
    EV médio: +8.2%
 ```
 
+## Método ML (Machine Learning)
+
+A coleta usa duas passadas **independentes**: **empírico** (PASSA 1) e **ML** (PASSA 2).
+
+- **PASSA 1 – Empírico**: Análise estatística + EV com `total_kills_values` (histórico). Funciona para todos os jogos com dados no CSV.
+- **PASSA 2 – ML**: Só considera apostas quando **empírico e ML convergem**. Exige que o jogo **exista no histórico** com draft:
+  1. **Match Pinnacle ↔ histórico** por **liga + times + data ±1 dia** (não há ID em comum; fontes diferentes; horários podem diferir).
+  2. Jogo em `database_improved/lol_history.db` (matchups) com **compositions** (draft).
+
+O **status** no Pinnacle **não é usado**: a API tende a manter tudo como `scheduled`. "Finalizado" = jogo existe no histórico (match acima). O resumo ao final da PASSA 2 indica `Jogos com draft: X/N` e, se 0, sugere verificar o match em `lol_history.db` e `compositions`.
+
 ## 🔧 Resolução de Problemas
 
 ### Apostas não encontram match
@@ -168,6 +187,12 @@ O sistema calcula automaticamente:
 1. **Verifique normalização**: Nomes podem estar diferentes
 2. **Ajuste tolerância de data**: Pode ser necessário aumentar `DATE_TOLERANCE_HOURS`
 3. **Adicione correções**: Use `name_corrections` para mapear nomes específicos
+
+### Método ML não encontra apostas
+
+1. **Match Pinnacle ↔ histórico**: ML só roda quando o jogo **existe no histórico** (match por liga + times + **data ±1 dia**). Status Pinnacle é ignorado.
+2. **Jogo não está em `lol_history.db`**: O jogo precisa existir em `matchups` e ter `compositions` (draft) para o mesmo `gameid`.
+3. **Normalização**: Liga/times no Pinnacle devem mapear para os mesmos nomes usados em `matchups` (via `ligas_times.json`). Ajuste `MATCH_DATE_TOLERANCE_DAYS` em `odds_analysis/config.py` se precisar de mais que ±1 dia.
 
 ### Resultados incorretos
 

@@ -21,3 +21,7 @@ if not LIGAS_TIMES_JSON.exists():
 # Configurações de análise
 MIN_GAMES_FOR_ANALYSIS = 5  # Mínimo de jogos históricos para considerar análise válida
 VALUE_THRESHOLD = 0.05  # Valor mínimo de EV para considerar aposta com valor (5%)
+
+# Match Pinnacle <-> histórico (fontes diferentes, sem ID em comum)
+# "Finalizado" = jogo existe no histórico. Match por liga + times + data ± N dias (horários diferem).
+MATCH_DATE_TOLERANCE_DAYS = 1

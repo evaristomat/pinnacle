@@ -31,7 +31,7 @@ class NameNormalizer:
     def _load_ligas_times(self):
         """Carrega mapeamento de ligas e times do histórico."""
         if not self.ligas_times_path.exists():
-            print(f"⚠️  Arquivo não encontrado: {self.ligas_times_path}")
+            print(f"[AVISO] Arquivo nao encontrado: {self.ligas_times_path}")
             return
         
         try:

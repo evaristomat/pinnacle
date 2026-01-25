@@ -6,8 +6,9 @@ import sqlite3
 from pathlib import Path
 from datetime import datetime, timedelta
 from odds_analyzer import OddsAnalyzer, Colors
-from config import PINNACLE_DB, HISTORY_DB
+from config import PINNACLE_DB, HISTORY_DB, MATCH_DATE_TOLERANCE_DAYS
 from normalizer import get_normalizer
+import pandas as pd
 
 def find_finalized_games_in_pinnacle():
     """Busca jogos no banco Pinnacle que podem estar finalizados."""
@@ -49,19 +50,15 @@ def find_matching_history_game(pinnacle_game):
     conn.row_factory = sqlite3.Row
     cursor = conn.cursor()
     
-    # Busca jogo com tolerância de ±2 horas
+    # Match por liga + times + data ±N dias (horários Pinnacle vs histórico diferem)
     try:
-        game_date = datetime.strptime(pinnacle_game['start_time'], '%Y-%m-%dT%H:%M:%S')
-    except:
-        try:
-            game_date = datetime.strptime(pinnacle_game['start_time'], '%Y-%m-%d %H:%M:%S')
-        except:
-            conn.close()
-            return None
-    
-    tolerance = timedelta(hours=2)
-    date_min = (game_date - tolerance).strftime('%Y-%m-%d %H:%M:%S')
-    date_max = (game_date + tolerance).strftime('%Y-%m-%d %H:%M:%S')
+        game_date = pd.to_datetime(pinnacle_game['start_time'])
+    except Exception:
+        conn.close()
+        return None
+    delta = timedelta(days=MATCH_DATE_TOLERANCE_DAYS)
+    date_min = (game_date - delta).strftime('%Y-%m-%d 00:00:00')
+    date_max = (game_date + delta).strftime('%Y-%m-%d 23:59:59')
     
     cursor.execute("""
         SELECT gameid, league, t1, t2, date, total_kills
@@ -233,10 +230,9 @@ def main():
         print(f"{Colors.YELLOW}{'=' * 80}{Colors.RESET}\n")
         
         print(f"{Colors.BRIGHT_BLUE}Possíveis razões:{Colors.RESET}")
-        print(f"   1. Jogos no Pinnacle são todos futuros (status: scheduled)")
-        print(f"   2. Jogos finalizados não têm correspondência no histórico (normalização)")
-        print(f"   3. Diferença de datas muito grande (> 2 horas)")
-        print(f"   4. Jogos no histórico não têm composições (draft) salvas")
+        print(f"   1. Match Pinnacle <-> histórico: liga + times + data ±{MATCH_DATE_TOLERANCE_DAYS} dia(s). Sem ID em comum.")
+        print(f"   2. Normalização: liga/times Pinnacle não batem com matchups (ligas_times.json)")
+        print(f"   3. Jogos no histórico não têm compositions (draft) para o gameid")
         
         if matches_found:
             print(f"\n{Colors.BRIGHT_BLUE}Jogos encontrados mas sem draft:{Colors.RESET}")

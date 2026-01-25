@@ -108,7 +108,7 @@ def main():
                 ml_used = analysis.get('ml_available_for_game', False)
                 if ml_used:
                     print(f"\n{Colors.BRIGHT_GREEN}{'=' * 80}{Colors.RESET}")
-                    print(f"{Colors.BRIGHT_GREEN}✓ MÉTODO ML FOI USADO COM SUCESSO!{Colors.RESET}")
+                    print(f"{Colors.BRIGHT_GREEN}[OK] METODO ML FOI USADO COM SUCESSO!{Colors.RESET}")
                     print(f"{Colors.BRIGHT_GREEN}{'=' * 80}{Colors.RESET}\n")
                 
                 print_analysis(analysis)

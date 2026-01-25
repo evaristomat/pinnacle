@@ -933,16 +933,16 @@ def main():
         
         if using_new_api:
             new_api_response = matchups_data
-            print(f"  ✓ Nova API: {len(new_api_response.get('data', {}).get('leagues', []))} ligas encontradas")
+            print(f"  [OK] Nova API: {len(new_api_response.get('data', {}).get('leagues', []))} ligas encontradas")
             
             # Conta eventos
             total_events = 0
             for league in new_api_response.get('data', {}).get('leagues', []):
                 total_events += len(league.get('events', []))
-            print(f"  ✓ {total_events} eventos encontrados")
+            print(f"  [OK] {total_events} eventos encontrados")
         else:
-            print(f"  ✓ {len(markets_data)} markets encontrados")
-            print(f"  ✓ {len(matchups_data)} matchups encontrados")
+            print(f"  [OK] {len(markets_data)} markets encontrados")
+            print(f"  [OK] {len(matchups_data)} matchups encontrados")
         
         # ETAPA 2: Salvar dados da API em JSON único
         print("\n[ETAPA 2] Salvando dados da API...")
@@ -967,18 +967,18 @@ def main():
             games = extract_game_data_from_new_api(new_api_response)
         else:
             games = extract_game_data(matchups_data, markets_data)
-        print(f"  ✓ {len(games)} jogos extraídos")
+        print(f"  [OK] {len(games)} jogos extraídos")
         
         # ETAPA 4: Salvar no banco de dados
         print("\n[ETAPA 4] Salvando no banco de dados...")
         stats = process_and_save_to_database(games)
-        print(f"  ✓ Novos jogos: {stats['new_games']}")
-        print(f"  ✓ Jogos atualizados: {stats['updated_games']}")
-        print(f"  ✓ Novos markets: {stats['new_markets']}")
-        print(f"  ✓ Markets existentes: {stats['existing_markets']}")
+        print(f"  [OK] Novos jogos: {stats['new_games']}")
+        print(f"  [OK] Jogos atualizados: {stats['updated_games']}")
+        print(f"  [OK] Novos markets: {stats['new_markets']}")
+        print(f"  [OK] Markets existentes: {stats['existing_markets']}")
         if 'new_teams' in stats:
-            print(f"  ✓ Novos times: {stats['new_teams']}")
-            print(f"  ✓ Times atualizados: {stats['updated_teams']}")
+            print(f"  [OK] Novos times: {stats['new_teams']}")
+            print(f"  [OK] Times atualizados: {stats['updated_teams']}")
         
         # ETAPA 5: Exportar banco para JSON único
         print("\n[ETAPA 5] Exportando banco para JSON...")
@@ -987,11 +987,11 @@ def main():
         # ETAPA 6: Estatísticas finais
         print("\n[ETAPA 6] Estatísticas finais...")
         db_stats = get_database_stats()
-        print(f"  ✓ Total de jogos no banco: {db_stats['total_games']}")
-        print(f"  ✓ Total de markets no banco: {db_stats['total_markets']}")
-        print(f"  ✓ Jogos com markets: {db_stats['games_with_markets']}")
-        print(f"  ✓ Total de times: {db_stats['total_teams']}")
-        print(f"  ✓ Total de ligas: {db_stats['total_leagues']}")
+        print(f"  [OK] Total de jogos no banco: {db_stats['total_games']}")
+        print(f"  [OK] Total de markets no banco: {db_stats['total_markets']}")
+        print(f"  [OK] Jogos com markets: {db_stats['games_with_markets']}")
+        print(f"  [OK] Total de times: {db_stats['total_teams']}")
+        print(f"  [OK] Total de ligas: {db_stats['total_leagues']}")
         
         print("\n" + "="*60)
         print("PROCESSO CONCLUÍDO COM SUCESSO!")

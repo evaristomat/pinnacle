@@ -18,7 +18,8 @@ from config import (
     HISTORY_CSV,
     HISTORY_DB,
     MIN_GAMES_FOR_ANALYSIS,
-    VALUE_THRESHOLD
+    VALUE_THRESHOLD,
+    MATCH_DATE_TOLERANCE_DAYS,
 )
 from normalizer import get_normalizer
 from metodos_analise import METODO_PROBABILIDADE_EMPIRICA, METODO_ML
@@ -133,23 +134,23 @@ class OddsAnalyzer:
                 self.history_df = pd.read_csv(HISTORY_CSV, low_memory=False)
                 print(f"   {Colors.BRIGHT_GREEN}OK:{Colors.RESET} {Colors.BRIGHT_GREEN}{len(self.history_df):,}{Colors.RESET} jogos carregados")
             except Exception as e:
-                print(f"   ❌ Erro ao carregar CSV: {e}")
+                print(f"   [ERRO] Erro ao carregar CSV: {e}")
         
         # Fallback para SQLite se CSV não existir
         elif HISTORY_DB.exists():
             try:
-                print(f"📥 Carregando histórico de: {HISTORY_DB.name}")
+                print(f"{Colors.BRIGHT_BLUE}Carregando historico de:{Colors.RESET} {HISTORY_DB.name}")
                 conn = sqlite3.connect(HISTORY_DB)
                 self.history_df = pd.read_sql_query(
                     "SELECT * FROM matchups ORDER BY date DESC",
                     conn
                 )
                 conn.close()
-                print(f"   ✅ {len(self.history_df):,} jogos carregados")
+                print(f"   {Colors.BRIGHT_GREEN}OK:{Colors.RESET} {len(self.history_df):,} jogos carregados")
             except Exception as e:
-                print(f"   ❌ Erro ao carregar SQLite: {e}")
+                print(f"   [ERRO] Erro ao carregar SQLite: {e}")
         else:
-            print(f"⚠️  Nenhum arquivo de histórico encontrado!")
+            print(f"{Colors.YELLOW}[AVISO] Nenhum arquivo de historico encontrado!{Colors.RESET}")
             print(f"   Procurando em: {HISTORY_CSV} ou {HISTORY_DB}")
     
     def _load_ml_model(self):
@@ -199,17 +200,17 @@ class OddsAnalyzer:
     
     def game_exists_in_history(self, team1: str, team2: str, league: str, start_time: Optional[str] = None) -> bool:
         """
-        Verifica se um jogo específico entre os times já existe no banco histórico.
-        Se existe, significa que o jogo já aconteceu e pode ter draft disponível.
-        
+        Verifica se um jogo existe no histórico. Match por liga + times + data ±N dias.
+        "Finalizado" = existe no histórico (não usar status Pinnacle; API sempre scheduled).
+
         Args:
-            team1: Nome do time 1 (normalizado)
-            team2: Nome do time 2 (normalizado)
-            league: Nome da liga (normalizado)
-            start_time: Data/hora do jogo (opcional, para verificação específica)
-            
+            team1: Time 1 (normalizado)
+            team2: Time 2 (normalizado)
+            league: Liga (normalizada)
+            start_time: Data/hora do jogo (Pinnacle). Usada com ±MATCH_DATE_TOLERANCE_DAYS.
+
         Returns:
-            True se jogo específico existe no histórico, False caso contrário
+            True se existe matchup no histórico na janela de data
         """
         if not HISTORY_DB.exists():
             return False
@@ -218,93 +219,79 @@ class OddsAnalyzer:
             conn = sqlite3.connect(HISTORY_DB)
             cursor = conn.cursor()
             
-            # Se temos data, busca jogo específico com tolerância de ±2 horas
             if start_time:
                 try:
                     game_date = pd.to_datetime(start_time)
-                    tolerance = timedelta(hours=2)
-                    date_min = (game_date - tolerance).strftime('%Y-%m-%d %H:%M:%S')
-                    date_max = (game_date + tolerance).strftime('%Y-%m-%d %H:%M:%S')
-                    
+                    delta = timedelta(days=MATCH_DATE_TOLERANCE_DAYS)
+                    date_min = (game_date - delta).strftime('%Y-%m-%d 00:00:00')
+                    date_max = (game_date + delta).strftime('%Y-%m-%d 23:59:59')
                     cursor.execute("""
                         SELECT COUNT(*) FROM matchups
-                        WHERE league = ? 
+                        WHERE league = ?
                         AND ((t1 = ? AND t2 = ?) OR (t1 = ? AND t2 = ?))
                         AND date >= ? AND date <= ?
                     """, (league, team1, team2, team2, team1, date_min, date_max))
                 except Exception as e:
-                    logger.warning(f"Erro ao processar data para verificação: {e}")
-                    # Fallback: busca sem data
+                    logger.warning(f"Erro ao processar data para match: {e}")
                     cursor.execute("""
                         SELECT COUNT(*) FROM matchups
-                        WHERE league = ? 
-                        AND ((t1 = ? AND t2 = ?) OR (t1 = ? AND t2 = ?))
+                        WHERE league = ? AND ((t1 = ? AND t2 = ?) OR (t1 = ? AND t2 = ?))
                     """, (league, team1, team2, team2, team1))
             else:
-                # Sem data: verifica se existe algum jogo entre os times (comportamento antigo)
                 cursor.execute("""
                     SELECT COUNT(*) FROM matchups
-                    WHERE league = ? 
-                    AND ((t1 = ? AND t2 = ?) OR (t1 = ? AND t2 = ?))
+                    WHERE league = ? AND ((t1 = ? AND t2 = ?) OR (t1 = ? AND t2 = ?))
                 """, (league, team1, team2, team2, team1))
             
             count = cursor.fetchone()[0]
             conn.close()
-            
             return count > 0
         except Exception as e:
-            logger.warning(f"Erro ao verificar se jogo existe no histórico: {e}")
+            logger.warning(f"Erro ao verificar jogo no histórico: {e}")
             return False
     
     def get_draft_data(self, team1: str, team2: str, league: str, start_time: Optional[str] = None) -> Optional[Dict]:
         """
-        Busca dados do draft (composição de campeões) para um jogo específico.
-        Usa data exata do jogo para identificar o jogo correto no histórico.
-        
+        Busca draft (compositions) do jogo no histórico. Match por liga + times + data ±N dias.
+        Não usa ID (fontes diferentes); horários Pinnacle vs histórico podem diferir.
+
         Args:
-            team1: Nome do time 1 (normalizado)
-            team2: Nome do time 2 (normalizado)
-            league: Nome da liga (normalizado)
-            start_time: Data/hora do jogo (obrigatório para buscar jogo específico)
-            
+            team1: Time 1 (normalizado)
+            team2: Time 2 (normalizado)
+            league: Liga (normalizada)
+            start_time: Data/hora do jogo (Pinnacle). Obrigatório.
+
         Returns:
-            Dict com dados do draft ou None se não encontrado
+            Dict com draft ou None se não encontrado
         """
         if not HISTORY_DB.exists():
             return None
-        
         if not start_time:
-            logger.warning("get_draft_data chamado sem start_time - não é possível buscar jogo específico")
+            logger.warning("get_draft_data chamado sem start_time")
             return None
         
         try:
             conn = sqlite3.connect(HISTORY_DB)
             conn.row_factory = sqlite3.Row
-            
-            # Busca o jogo específico usando data exata (tolerância de ±2 horas)
-            game_date = pd.to_datetime(start_time)
-            tolerance = timedelta(hours=2)
-            date_min = (game_date - tolerance).strftime('%Y-%m-%d %H:%M:%S')
-            date_max = (game_date + tolerance).strftime('%Y-%m-%d %H:%M:%S')
-            
             cursor = conn.cursor()
-            # Busca jogo específico usando data exata (tolerância de ±2 horas)
-            # Ordena por proximidade da data para pegar o mais próximo
+            
+            game_date = pd.to_datetime(start_time)
+            delta = timedelta(days=MATCH_DATE_TOLERANCE_DAYS)
+            date_min = (game_date - delta).strftime('%Y-%m-%d 00:00:00')
+            date_max = (game_date + delta).strftime('%Y-%m-%d 23:59:59')
+            
             try:
                 cursor.execute("""
                     SELECT gameid, date FROM matchups
-                    WHERE league = ? 
-                    AND ((t1 = ? AND t2 = ?) OR (t1 = ? AND t2 = ?))
+                    WHERE league = ? AND ((t1 = ? AND t2 = ?) OR (t1 = ? AND t2 = ?))
                     AND date >= ? AND date <= ?
                     ORDER BY ABS(JULIANDAY(date) - JULIANDAY(?)) ASC
                     LIMIT 1
                 """, (league, team1, team2, team2, team1, date_min, date_max, start_time))
             except sqlite3.OperationalError:
-                # Fallback se JULIANDAY não estiver disponível: ordena por data DESC
                 cursor.execute("""
                     SELECT gameid, date FROM matchups
-                    WHERE league = ? 
-                    AND ((t1 = ? AND t2 = ?) OR (t1 = ? AND t2 = ?))
+                    WHERE league = ? AND ((t1 = ? AND t2 = ?) OR (t1 = ? AND t2 = ?))
                     AND date >= ? AND date <= ?
                     ORDER BY date DESC
                     LIMIT 1
@@ -577,6 +564,42 @@ class OddsAnalyzer:
         print(f"{Colors.BRIGHT_GREEN}Encontrados {len(games)} jogos futuros{Colors.RESET}")
         return games
     
+    def get_all_games(self, league_filter: Optional[str] = None) -> List[Dict]:
+        """
+        Busca TODOS os jogos do banco Pinnacle (futuros e passados).
+        
+        Args:
+            league_filter: Filtro opcional de liga
+            
+        Returns:
+            Lista de jogos (futuros e passados)
+        """
+        if not PINNACLE_DB.exists():
+            return []
+        
+        conn = sqlite3.connect(PINNACLE_DB)
+        conn.row_factory = sqlite3.Row
+        cursor = conn.cursor()
+        
+        query = """
+            SELECT matchup_id, league_name, home_team, away_team, start_time, status
+            FROM games
+            WHERE 1=1
+        """
+        params = []
+        
+        if league_filter:
+            query += " AND league_name LIKE ?"
+            params.append(f"%{league_filter}%")
+        
+        query += " ORDER BY start_time ASC"
+        
+        cursor.execute(query, params)
+        games = [dict(row) for row in cursor.fetchall()]
+        conn.close()
+        
+        return games
+    
     def get_finalized_games_with_draft(self, league_filter: Optional[str] = None) -> List[Dict]:
         """
         Busca jogos do banco Pinnacle que já estão finalizados no histórico e têm draft disponível.
@@ -818,13 +841,24 @@ class OddsAnalyzer:
             'edge': ev * 100  # Edge em porcentagem
         }
     
-    def analyze_game(self, matchup_id: int) -> Optional[Dict]:
+    def analyze_game(self, matchup_id: int, force_method: Optional[str] = None) -> Optional[Dict]:
         """
-        Analisa um jogo completo buscando valor nas odds.
-        
+        Analisa um jogo buscando valor nas odds. Apenas dados reais; sem fallbacks nem aproximações.
+
+        Independência dos métodos (sem relação funcional um com o outro):
+        - Empírico (force_method='probabilidade_empirica'): usa APENAS Pinnacle + data_transformed.
+          Não acessa lol_history, compositions, nem modelo ML. Probabilidade e EV só com
+          total_kills_values. Sem total_kills_values → error.
+        - ML (force_method='machinelearning'): usa Pinnacle + data_transformed + lol_history
+          (match + draft) + modelo ML. Valor só se empírico e ML convergem. Exige draft.
+
+        Orquestração (collect_value_bets): PASSA 1 só empírico; PASSA 2 só ML. Chamadas
+        separadas, sem estado compartilhado entre passes.
+
         Args:
             matchup_id: ID do matchup
-            
+            force_method: 'probabilidade_empirica' | 'machinelearning' | None (automático)
+
         Returns:
             Dicionário com análise completa ou None
         """
@@ -883,26 +917,26 @@ class OddsAnalyzer:
         # Busca histórico
         historical_stats = self.get_historical_stats(team1_norm, team2_norm, league_norm)
         
-        # Verifica se jogo específico já aconteceu (existe no banco histórico)
-        # Se existe no histórico, significa que já aconteceu e pode ter draft disponível
-        game_exists_in_history = self.game_exists_in_history(team1_norm, team2_norm, league_norm, game['start_time'])
-        
-        # Busca dados do draft para modelo ML (apenas se jogo específico já aconteceu)
+        # Método empírico: NUNCA acessa histórico/draft (lol_history). Totalmente independente do ML.
+        # Método ML: usa game_exists_in_history + get_draft_data (match liga+times+data +-1d).
+        game_exists_in_history = False
         draft_data = None
         ml_available_for_game = False
         
-        if self.ml_available:
+        force_ml = force_method in (METODO_ML, 'machinelearning')
+        if force_method != METODO_PROBABILIDADE_EMPIRICA and self.ml_available:
+            game_exists_in_history = self.game_exists_in_history(team1_norm, team2_norm, league_norm, game['start_time'])
             if not game_exists_in_history:
-                # Jogo futuro: não existe no histórico ainda, draft não disponível
-                print(f"{Colors.CYAN}[INFO]{Colors.RESET} Jogo futuro - nao encontrado no historico. Usando apenas metodo empirico (ML disponivel apenas para jogos finalizados){Colors.RESET}")
+                if not force_ml:
+                    print(f"{Colors.CYAN}[INFO]{Colors.RESET} Jogo nao encontrado no historico (match liga+times+data +-{MATCH_DATE_TOLERANCE_DAYS}d). ML so para jogos que existem no historico com draft.{Colors.RESET}")
             else:
-                # Jogo já aconteceu: tentar buscar draft do jogo específico
                 draft_data = self.get_draft_data(team1_norm, team2_norm, league_norm, game['start_time'])
                 if draft_data:
                     ml_available_for_game = True
-                    print(f"{Colors.BRIGHT_GREEN}[ML ATIVO]{Colors.RESET} Jogo finalizado encontrado no historico - draft disponivel. Usando metodo ML + empirico{Colors.RESET}")
-                else:
-                    print(f"{Colors.YELLOW}[INFO]{Colors.RESET} Jogo no historico mas draft nao encontrado - usando apenas metodo empirico{Colors.RESET}")
+                    if not force_ml:
+                        print(f"{Colors.BRIGHT_GREEN}[ML ATIVO]{Colors.RESET} Jogo encontrado no historico (match +-{MATCH_DATE_TOLERANCE_DAYS}d) - draft OK. ML + empirico.{Colors.RESET}")
+                elif not force_ml:
+                    print(f"{Colors.YELLOW}[INFO]{Colors.RESET} Jogo no historico mas sem draft (compositions) - usando apenas empirico.{Colors.RESET}")
         
         # Analisa cada market
         analyzed_markets = []
@@ -914,25 +948,30 @@ class OddsAnalyzer:
                 })
                 continue
             
-            # Calcula probabilidade empírica primeiro (se disponível)
+            # Método empírico: apenas dados reais (total_kills_values). Sem fallbacks.
             vals = historical_stats.get('total_kills_values', [])
             line_val = market['line_value']
             mean_val = historical_stats['mean']
             empirical_prob = None
-            
-            if vals and len(vals) > 0:
-                n = len(vals)
-                if market['side'].lower() == 'over':
-                    empirical_prob = sum(1 for x in vals if x > line_val) / n
-                    alinhado = line_val < mean_val  # OVER em linha abaixo da média = a favor
-                else:
-                    empirical_prob = sum(1 for x in vals if x < line_val) / n
-                    alinhado = line_val > mean_val  # UNDER em linha acima da média = a favor
-                empirical_prob = round(empirical_prob, 4)
+
+            if not vals or len(vals) == 0:
+                analyzed_markets.append({
+                    'market': market,
+                    'historical_stats': historical_stats,
+                    'error': 'Dados reais insuficientes (total_kills_values vazio)'
+                })
+                continue
+
+            n = len(vals)
+            if market['side'].lower() == 'over':
+                empirical_prob = sum(1 for x in vals if x > line_val) / n
+                alinhado = line_val < mean_val  # OVER em linha abaixo da média = a favor
             else:
-                alinhado = None
-            
-            # Calcula EV usando probabilidade empírica se disponível, senão usa aproximação
+                empirical_prob = sum(1 for x in vals if x < line_val) / n
+                alinhado = line_val > mean_val  # UNDER em linha acima da média = a favor
+            empirical_prob = round(empirical_prob, 4)
+
+            # EV e valor apenas com probabilidade empírica real (sem aproximações)
             if empirical_prob is not None:
                 # MÉTODO 1: Probabilidade Empírica
                 # Usa probabilidade empírica real calculada dos dados históricos
@@ -944,47 +983,78 @@ class OddsAnalyzer:
                 # Verifica se há valor: prob histórica maior que prob implícita E EV acima do threshold
                 has_value_empirical = (empirical_prob > implied_prob) and (ev > VALUE_THRESHOLD)
                 
-                # MÉTODO ML: Verifica se modelo ML também aponta para mesma direção
-                # Só usa ML se draft estiver disponível (jogo ao vivo ou finalizado)
+                # Inicializa variáveis ML
                 ml_prediction = None
                 ml_probability = None
                 ml_confidence = None
+                ml_converges = None
                 has_value_ml = False
                 metodo_nome = METODO_PROBABILIDADE_EMPIRICA
                 
-                # Se temos modelo ML e draft disponível, faz predição
-                if ml_available_for_game and draft_data:
-                    ml_result = self._predict_ml(draft_data, line_val)
-                    if ml_result:
-                        ml_prediction = ml_result['prediction']
-                        ml_probability = ml_result['probability_over'] if market['side'].lower() == 'over' else ml_result['probability_under']
-                        ml_confidence = ml_result['confidence']
-                        
-                        # Verifica convergência: empírico indica valor E ML aponta para mesmo lado
-                        empirical_side = market['side'].upper()
-                        ml_converges = (ml_prediction == empirical_side)
-                        
-                        # Só considera aposta boa se ambos convergirem
-                        if has_value_empirical and ml_converges:
-                            metodo_nome = METODO_ML
-                            has_value_ml = True
-                        elif has_value_empirical and not ml_converges:
-                            # Empírico indica valor mas ML diverge - não considera como aposta boa
-                            has_value_ml = False
-                
-                # Se não tem ML disponível para este jogo, usa apenas método empírico
-                if not ml_available_for_game or not draft_data:
-                    has_value_ml = has_value_empirical
-                
-                # Decide qual valor usar
-                # Para jogos futuros: sempre usa apenas empírico
-                # Para jogos ao vivo/finalizados: usa ML se disponível, senão empírico
-                has_value = has_value_ml if ml_available_for_game else has_value_empirical
+                # LÓGICA BASEADA EM force_method
+                if force_method == METODO_PROBABILIDADE_EMPIRICA:
+                    # Força método empírico: usa apenas valor empírico (ignora ML completamente)
+                    has_value = has_value_empirical
+                    metodo_nome = METODO_PROBABILIDADE_EMPIRICA
+                elif force_ml:
+                    # Força método ML: só considera valor se ML convergiu
+                    # Primeiro precisa fazer predição ML
+                    if ml_available_for_game and draft_data:
+                        ml_result = self._predict_ml(draft_data, line_val)
+                        if ml_result:
+                            ml_prediction = ml_result['prediction']
+                            ml_probability = ml_result['probability_over'] if market['side'].lower() == 'over' else ml_result['probability_under']
+                            ml_confidence = ml_result['confidence']
+                            
+                            # Verifica convergência: empírico indica valor E ML aponta para mesmo lado
+                            empirical_side = market['side'].upper()
+                            ml_converges = (ml_prediction == empirical_side)
+                    
+                    # Só considera valor se ML convergiu E empírico tem valor
+                    if ml_available_for_game and ml_converges is True and has_value_empirical:
+                        has_value = True
+                        metodo_nome = METODO_ML
+                    else:
+                        has_value = False
+                        metodo_nome = METODO_ML  # Mesmo sem valor, marca como ML
+                else:
+                    # Lógica automática (comportamento padrão - igual ao commit original)
+                    # MÉTODO ML: Verifica se modelo ML também aponta para mesma direção
+                    # Só usa ML se draft estiver disponível (jogo ao vivo ou finalizado)
+                    
+                    # Se temos modelo ML e draft disponível, faz predição
+                    if ml_available_for_game and draft_data:
+                        ml_result = self._predict_ml(draft_data, line_val)
+                        if ml_result:
+                            ml_prediction = ml_result['prediction']
+                            ml_probability = ml_result['probability_over'] if market['side'].lower() == 'over' else ml_result['probability_under']
+                            ml_confidence = ml_result['confidence']
+                            
+                            # Verifica convergência: empírico indica valor E ML aponta para mesmo lado
+                            empirical_side = market['side'].upper()
+                            ml_converges = (ml_prediction == empirical_side)
+                            
+                            # Só considera aposta boa se ambos convergirem
+                            if has_value_empirical and ml_converges:
+                                metodo_nome = METODO_ML
+                                has_value_ml = True
+                            elif has_value_empirical and not ml_converges:
+                                # Empírico indica valor mas ML diverge - não considera como aposta boa
+                                has_value_ml = False
+                    
+                    # Se não tem ML disponível para este jogo, usa apenas método empírico
+                    if not ml_available_for_game or not draft_data:
+                        has_value_ml = has_value_empirical
+                    
+                    # Decide qual valor usar
+                    # Para jogos futuros: sempre usa apenas empírico
+                    # Para jogos ao vivo/finalizados: usa ML se disponível, senão empírico
+                    has_value = has_value_ml if ml_available_for_game else has_value_empirical
                 
                 analysis = {
                     'metodo': metodo_nome,
                     'implied_probability': implied_prob,
-                    'estimated_real_probability': empirical_prob,  # Usa empírica
+                    'estimated_real_probability': empirical_prob,
                     'expected_value': ev,
                     'value': has_value,
                     'edge': ev * 100,
@@ -995,25 +1065,8 @@ class OddsAnalyzer:
                     'ml_confidence': ml_confidence,
                     'ml_converges': ml_prediction == market['side'].upper() if ml_prediction else None
                 }
-            else:
-                # Fallback: usa aproximação (quando não temos dados empíricos)
-                # TODO: Criar método separado para aproximação (METODO_2 ou METODO_3)
-                metodo_nome = METODO_PROBABILIDADE_EMPIRICA  # Por enquanto usa o mesmo nome
-                analysis = self.calculate_expected_value(
-                    line_value=market['line_value'],
-                    side=market['side'],
-                    odd_decimal=market['odd_decimal'],
-                    historical_mean=historical_stats['mean'],
-                    historical_std=historical_stats['std']
-                )
-                analysis['metodo'] = metodo_nome
-                analysis['empirical_prob'] = None
-                analysis['alinhado_media'] = alinhado
-                analysis['ml_prediction'] = None
-                analysis['ml_probability'] = None
-                analysis['ml_confidence'] = None
-                analysis['ml_converges'] = None
-            
+            # Sem fallback: análise apenas com dados reais (total_kills_values)
+
             analyzed_markets.append({
                 'market': market,
                 'historical_stats': historical_stats,
@@ -1151,7 +1204,7 @@ def print_analysis(analysis: Dict):
         
         if ml_prediction is not None:
             ml_color = Colors.BRIGHT_GREEN if ml_converges else Colors.BRIGHT_RED
-            converge_str = "✓ Converge" if ml_converges else "✗ Diverge"
+            converge_str = "Converge" if ml_converges else "Diverge"
             print(f"      {Colors.CYAN}Modelo ML:{Colors.RESET} {ml_color}{ml_prediction}{Colors.RESET} "
                   f"({ml_probability*100:.1f}%) {Colors.YELLOW}|{Colors.RESET} {ml_color}{converge_str}{Colors.RESET}")
             if metodo == METODO_ML:
@@ -1260,7 +1313,7 @@ def print_analysis(analysis: Dict):
             # Convergência ML
             ml_converges = bet.get('ml_converges')
             if ml_converges is not None:
-                ml_str = f" {Colors.BRIGHT_GREEN}| ML: ✓{Colors.RESET}" if ml_converges else f" {Colors.YELLOW}| ML: ✗{Colors.RESET}"
+                ml_str = f" {Colors.BRIGHT_GREEN}| ML: OK{Colors.RESET}" if ml_converges else f" {Colors.YELLOW}| ML: X{Colors.RESET}"
             else:
                 ml_str = ""
             

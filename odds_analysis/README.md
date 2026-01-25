@@ -63,6 +63,20 @@ Edite `config.py` para ajustar:
 - Mínimo de jogos para análise válida
 - Threshold de valor mínimo
 
+## 🔒 Independência dos métodos
+
+Os métodos **empírico** e **ML** são independentes; não há relação funcional entre eles.
+
+| Aspecto | Empírico | ML |
+|--------|----------|-----|
+| **Fontes** | Pinnacle + `data_transformed.csv` | Pinnacle + `data_transformed` + `lol_history` (matchups, compositions) + modelo ML |
+| **I/O específico** | Não acessa `lol_history`, draft nem modelo | Usa `game_exists_in_history`, `get_draft_data`, `_predict_ml` |
+| **Quando empírico é forçado** | Nunca chama histórico/draft/ML | — |
+| **Orquestração** | PASSA 1: só empírico (`force_method='probabilidade_empirica'`) | PASSA 2: só ML (`force_method='machinelearning'`) |
+| **Estado compartilhado** | Nenhum entre passes | Nenhum entre passes |
+
+Cada pass em `collect_value_bets` chama `analyze_game` separadamente; não há reuso de resultado de um método no outro.
+
 ## 🔍 Normalização
 
 O sistema trata diferenças de nomes:
