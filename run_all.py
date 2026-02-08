@@ -34,7 +34,7 @@ def print_step(step_num: int, total: int, description: str):
     print("-" * 70)
 
 
-def run_command(cmd: list, cwd: Path = None, description: str = None) -> bool:
+def run_command(cmd: list, cwd: Path = None, description: str = None, capture_output: bool = True) -> bool:
     """
     Executa um comando e retorna True se sucesso.
     
@@ -42,6 +42,7 @@ def run_command(cmd: list, cwd: Path = None, description: str = None) -> bool:
         cmd: Lista com comando e argumentos
         cwd: Diretório de trabalho
         description: Descrição do comando (opcional)
+        capture_output: Se False, output vai direto para terminal (preserva cores)
         
     Returns:
         True se sucesso, False caso contrário
@@ -50,26 +51,37 @@ def run_command(cmd: list, cwd: Path = None, description: str = None) -> bool:
         print(f"   Executando: {description}")
     
     try:
-        result = subprocess.run(
-            cmd,
-            cwd=cwd,
-            check=True,
-            capture_output=True,
-            text=True,
-            encoding='utf-8',
-            errors='replace'
-        )
-        
-        if result.stdout:
-            print(result.stdout)
-        
-        return True
+        if capture_output:
+            result = subprocess.run(
+                cmd,
+                cwd=cwd,
+                check=True,
+                capture_output=True,
+                text=True,
+                encoding='utf-8',
+                errors='replace'
+            )
+            
+            if result.stdout:
+                print(result.stdout)
+            
+            return True
+        else:
+            # Executa sem capturar output para preservar cores/formatação
+            result = subprocess.run(
+                cmd,
+                cwd=cwd,
+                check=True,
+                encoding='utf-8',
+                errors='replace'
+            )
+            return True
     
     except subprocess.CalledProcessError as e:
         print(f"{RED}   ERRO: {e}{RESET}")
-        if e.stdout:
+        if capture_output and e.stdout:
             print(f"   Output: {e.stdout}")
-        if e.stderr:
+        if capture_output and e.stderr:
             print(f"   Erro: {e.stderr}")
         return False
     
@@ -111,7 +123,7 @@ def main():
         print(f"{RED}   ERRO: Pasta database_improved não encontrada!{RESET}")
     else:
         success = run_command(
-            [sys.executable, "main.py", "--skip-download"],
+            [sys.executable, "main.py", "--skip-download-if-downloaded-today-after-noon"],
             cwd=DATABASE_IMPROVED,
             description="Processando dados históricos"
         )
@@ -183,18 +195,87 @@ def main():
         )
         results['bets_collect'] = success
         
-        # Verifica quantas apostas foram salvas (independente de success)
+        # Verifica estatísticas do banco (independente de success)
         import sqlite3
         bets_db = BETS_TRACKER / "bets.db"
         if bets_db.exists():
             try:
                 conn = sqlite3.connect(bets_db)
                 cursor = conn.cursor()
+                
+                # Total de apostas
                 cursor.execute("SELECT COUNT(*) FROM bets")
                 total = cursor.fetchone()[0]
+                
+                # Por status
+                cursor.execute("""
+                    SELECT status, COUNT(*) 
+                    FROM bets 
+                    GROUP BY status
+                """)
+                by_status = {row[0]: row[1] for row in cursor.fetchall()}
+                
+                # Por método
+                try:
+                    cursor.execute("""
+                        SELECT metodo, COUNT(*) 
+                        FROM bets 
+                        GROUP BY metodo
+                    """)
+                    by_metodo = {row[0]: row[1] for row in cursor.fetchall()}
+                except:
+                    by_metodo = {}
+                
+                # ROI básico (apenas resolvidas)
+                cursor.execute("""
+                    SELECT
+                        COUNT(*) as total_resolved,
+                        SUM(CASE WHEN status = 'won' THEN 1 ELSE 0 END) as wins,
+                        SUM(CASE WHEN status = 'lost' THEN 1 ELSE 0 END) as losses,
+                        AVG(CASE WHEN status = 'won' THEN odd_decimal ELSE NULL END) as avg_win_odd,
+                        SUM(CASE WHEN status = 'won' THEN odd_decimal - 1 ELSE -1 END) as lucro
+                    FROM bets
+                    WHERE status IN ('won', 'lost')
+                """)
+                roi_row = cursor.fetchone()
                 conn.close()
+                
                 if total > 0:
-                    print(f"{GREEN}   [OK] {total} apostas no banco{RESET}")
+                    print(f"\n{BOLD}{CYAN}Estatísticas do Banco de Apostas:{RESET}")
+                    print(f"   {BOLD}Total de apostas:{RESET} {total}")
+                    print(f"   {BOLD}Por status:{RESET} {by_status}")
+                    if by_metodo:
+                        # Formata métodos
+                        metodo_display = {}
+                        for metodo, count in by_metodo.items():
+                            if metodo == 'probabilidade_empirica':
+                                metodo_display['Empírico'] = count
+                            elif metodo in ('ml', 'machinelearning'):
+                                metodo_display['ML'] = metodo_display.get('ML', 0) + count
+                            else:
+                                metodo_display[metodo] = count
+                        print(f"   {BOLD}Por método:{RESET} {metodo_display}")
+                    
+                    # ROI se houver apostas resolvidas
+                    if roi_row and roi_row[0] and roi_row[0] > 0:
+                        total_resolved = roi_row[0]
+                        wins = roi_row[1] or 0
+                        losses = roi_row[2] or 0
+                        avg_win_odd = roi_row[3] or 0
+                        lucro = roi_row[4] or 0
+                        win_rate = (wins / total_resolved * 100) if total_resolved > 0 else 0
+                        roi_pct = (lucro / total_resolved * 100) if total_resolved > 0 else 0
+                        
+                        print(f"\n{BOLD}{CYAN}ROI:{RESET}")
+                        print(f"   Resolvidas: {BOLD}{total_resolved}{RESET}")
+                        print(f"   {GREEN}Vitórias:{RESET} {BOLD}{GREEN}{wins}{RESET} ({win_rate:.1f}%)")
+                        print(f"   {RED}Derrotas:{RESET} {BOLD}{RED}{losses}{RESET}")
+                        if avg_win_odd > 0:
+                            print(f"   Odd média (vitórias): {BOLD}{avg_win_odd:.2f}{RESET}")
+                        roi_color = GREEN if roi_pct > 0 else RED if roi_pct < 0 else YELLOW
+                        profit_color = GREEN if lucro > 0 else RED if lucro < 0 else YELLOW
+                        print(f"   {BOLD}Return:{RESET} {BOLD}{roi_color}{roi_pct:+.2f}%{RESET} (lucro/total u apostadas)")
+                        print(f"   {BOLD}Lucro:{RESET} {BOLD}{profit_color}{lucro:+.2f} u{RESET}")
                 else:
                     print(f"{YELLOW}   [AVISO] Banco criado mas nenhuma aposta foi salva{RESET}")
             except Exception as e:
@@ -210,7 +291,8 @@ def main():
     
     if BETS_TRACKER.exists():
         success = run_command(
-            [sys.executable, "main.py", "update"],
+            # Inclui pending e filtra por idade para evitar resolver jogos que ainda não aconteceram
+            [sys.executable, "main.py", "update", "--db", "bets", "--include-pending", "--min-hours", "24", "--summary"],
             cwd=BETS_TRACKER,
             description="Atualizando resultados"
         )
@@ -218,6 +300,50 @@ def main():
         
         if success:
             print(f"{GREEN}   [OK] Resultados atualizados{RESET}")
+            
+            # Mostra estatísticas atualizadas após update
+            bets_db = BETS_TRACKER / "bets.db"
+            if bets_db.exists():
+                try:
+                    import sqlite3
+                    conn = sqlite3.connect(bets_db)
+                    cursor = conn.cursor()
+                    
+                    # ROI atualizado
+                    cursor.execute("""
+                        SELECT
+                            COUNT(*) as total_resolved,
+                            SUM(CASE WHEN status = 'won' THEN 1 ELSE 0 END) as wins,
+                            SUM(CASE WHEN status = 'lost' THEN 1 ELSE 0 END) as losses,
+                            AVG(CASE WHEN status = 'won' THEN odd_decimal ELSE NULL END) as avg_win_odd,
+                            SUM(CASE WHEN status = 'won' THEN odd_decimal - 1 ELSE -1 END) as lucro
+                        FROM bets
+                        WHERE status IN ('won', 'lost')
+                    """)
+                    roi_row = cursor.fetchone()
+                    conn.close()
+                    
+                    if roi_row and roi_row[0] and roi_row[0] > 0:
+                        total_resolved = roi_row[0]
+                        wins = roi_row[1] or 0
+                        losses = roi_row[2] or 0
+                        avg_win_odd = roi_row[3] or 0
+                        lucro = roi_row[4] or 0
+                        win_rate = (wins / total_resolved * 100) if total_resolved > 0 else 0
+                        roi_pct = (lucro / total_resolved * 100) if total_resolved > 0 else 0
+                        
+                        print(f"\n{BOLD}{CYAN}Estatísticas Atualizadas:{RESET}")
+                        print(f"   Resolvidas: {BOLD}{total_resolved}{RESET}")
+                        print(f"   {GREEN}Vitórias:{RESET} {BOLD}{GREEN}{wins}{RESET} ({win_rate:.1f}%)")
+                        print(f"   {RED}Derrotas:{RESET} {BOLD}{RED}{losses}{RESET}")
+                        if avg_win_odd > 0:
+                            print(f"   Odd média (vitórias): {BOLD}{avg_win_odd:.2f}{RESET}")
+                        roi_color = GREEN if roi_pct > 0 else RED if roi_pct < 0 else YELLOW
+                        profit_color = GREEN if lucro > 0 else RED if lucro < 0 else YELLOW
+                        print(f"   {BOLD}Return:{RESET} {BOLD}{roi_color}{roi_pct:+.2f}%{RESET}")
+                        print(f"   {BOLD}Lucro:{RESET} {BOLD}{profit_color}{lucro:+.2f} u{RESET}")
+                except Exception as e:
+                    pass  # Ignora erros ao mostrar stats
         else:
             print(f"{YELLOW}   [AVISO] Nenhum resultado atualizado{RESET}")
     
@@ -230,14 +356,20 @@ def main():
         step_name = step.replace('_', ' ').title()
         print(f"   {status} {step_name}")
     
-    # Estatísticas do bets_tracker
+    # Estatísticas do bets_tracker usando results_analysis.py
     if BETS_TRACKER.exists():
-        print(f"\n{BOLD}Estatísticas do Bets Tracker:{RESET}")
-        run_command(
-            [sys.executable, "main.py", "stats"],
-            cwd=BETS_TRACKER,
-            description="Estatísticas"
-        )
+        bets_db = BETS_TRACKER / "bets.db"
+        if bets_db.exists():
+            print(f"\n{BOLD}Estatísticas Detalhadas:{RESET}")
+            # Não captura output para preservar cores do Rich
+            run_command(
+                [sys.executable, "results_analysis.py", "--bets-db", str(bets_db)],
+                cwd=BASE_DIR,
+                description="Análise detalhada de resultados",
+                capture_output=False
+            )
+        else:
+            print(f"\n{YELLOW}   [AVISO] Banco de apostas não encontrado para análise{RESET}")
     
     print(f"\n{BOLD}{GREEN}Pipeline concluído!{RESET}")
     print(f"Finalizado em: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")

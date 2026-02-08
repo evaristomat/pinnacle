@@ -362,7 +362,9 @@ def extract_game_data_from_new_api(new_api_response: Dict) -> List[Dict]:
             "total_kill_home": {},
             "total_kill_away": {},
             "handicap_kills": {},
-            "total_kills": {}
+            "total_kills": {},
+            "total_dragons": {},
+            "total_towers": {}
         }
         
         # Processa períodos do evento principal
@@ -444,52 +446,62 @@ def extract_game_data_from_new_api(new_api_response: Dict) -> List[Dict]:
                     except:
                         pass
             
-            # Over/Under (Total)
+            # Over/Under (Total) — mapa (0,1,2,3), ou period 11=dragões, 12=torres no evento principal
             over_under_list = period_data.get("overUnder", [])
+            if period == 11:
+                ou_target = game_markets["total_dragons"]
+            elif period == 12:
+                ou_target = game_markets["total_towers"]
+            else:
+                ou_target = game_markets["total_map"]
             for ou in over_under_list:
                 if not isinstance(ou, dict) or ou.get("unavailable", False):
                     continue
-                
                 points = ou.get("points", "")
                 over_odds = ou.get("overOdds", "")
                 under_odds = ou.get("underOdds", "")
                 is_alt = ou.get("isAlt", False)
-                
-                if points and over_odds and under_odds:
-                    try:
-                        total_line = float(points)
-                        over_decimal = float(over_odds)
-                        under_decimal = float(under_odds)
-                        over_american = int((over_decimal - 1) * 100) if over_decimal >= 2.0 else int(-100 / (over_decimal - 1))
-                        under_american = int((under_decimal - 1) * 100) if under_decimal >= 2.0 else int(-100 / (under_decimal - 1))
-                        
-                        if period not in game_markets["total_map"]:
-                            game_markets["total_map"][period] = {}
-                        
-                        game_markets["total_map"][period][str(total_line)] = {
-                            "line": total_line,
-                            "over": {
-                                "american": over_american,
-                                "decimal": round(over_decimal, 2)
-                            },
-                            "under": {
-                                "american": under_american,
-                                "decimal": round(under_decimal, 2)
-                            },
-                            "is_alternate": is_alt
-                        }
-                    except:
-                        pass
+                if not (points and over_odds and under_odds):
+                    continue
+                try:
+                    total_line = float(points)
+                    over_decimal = float(over_odds)
+                    under_decimal = float(under_odds)
+                    over_american = int((over_decimal - 1) * 100) if over_decimal >= 2.0 else int(-100 / (over_decimal - 1))
+                    under_american = int((under_decimal - 1) * 100) if under_decimal >= 2.0 else int(-100 / (under_decimal - 1))
+                    if period not in ou_target:
+                        ou_target[period] = {}
+                    ou_target[period][str(total_line)] = {
+                        "line": total_line,
+                        "over": {"american": over_american, "decimal": round(over_decimal, 2)},
+                        "under": {"american": under_american, "decimal": round(under_decimal, 2)},
+                        "is_alternate": is_alt
+                    }
+                except Exception:
+                    pass
         
-        # Processa eventos filhos (kills) se existirem
+        # Processa eventos filhos (kills, dragões, torres) se existirem
         for child_event_id, child_info in events_by_id.items():
             child_event = child_info["event"]
-            if child_event.get("parentId") == event_id:
-                # É um evento de kills
-                child_participants = child_event.get("participants", [])
-                is_kills = any("Mortes" in p.get("name", "") or "Kills" in p.get("name", "") for p in child_participants)
-                
-                if is_kills:
+            if child_event.get("parentId") != event_id:
+                continue
+            child_participants = child_event.get("participants", [])
+            participant_names = " ".join(p.get("name", "") or "" for p in child_participants)
+            resulting_unit = (child_event.get("resultingUnit") or "").lower()
+            names_lower = participant_names.lower()
+            is_kills = any("Mortes" in p.get("name", "") or "Kills" in p.get("name", "") for p in child_participants)
+            # Total de dragões elementais: por nome de participante ou resultingUnit (PT/EN)
+            is_dragons = (
+                "dragões" in names_lower or "dragon" in names_lower or "elemental" in names_lower
+                or "drag" in resulting_unit or "dragão" in resulting_unit
+            )
+            # Totais de torres: por nome de participante ou resultingUnit (PT/EN)
+            is_towers = (
+                "torres" in names_lower or "tower" in names_lower
+                or "tower" in resulting_unit or "torre" in resulting_unit
+            )
+
+            if is_kills:
                     child_periods = child_event.get("periods", {})
                     for period_str, period_data in child_periods.items():
                         try:
@@ -580,6 +592,72 @@ def extract_game_data_from_new_api(new_api_response: Dict) -> List[Dict]:
                         if isinstance(money_line, dict) and not money_line.get("unavailable", False):
                             # Pode ser usado para identificar qual time tem mais kills
                             pass
+
+            if is_dragons:
+                child_periods = child_event.get("periods", {})
+                for period_str, period_data in child_periods.items():
+                    try:
+                        period = int(period_str)
+                    except:
+                        continue
+                    if not isinstance(period_data, dict):
+                        continue
+                    over_under_list = period_data.get("overUnder", [])
+                    for ou in over_under_list:
+                        if not isinstance(ou, dict) or ou.get("unavailable", False):
+                            continue
+                        points = ou.get("points", "")
+                        over_odds = ou.get("overOdds", "")
+                        under_odds = ou.get("underOdds", "")
+                        is_alt = ou.get("isAlt", False)
+                        if points and over_odds and under_odds:
+                            try:
+                                total_line = float(points)
+                                over_decimal = float(over_odds)
+                                under_decimal = float(under_odds)
+                                if period not in game_markets["total_dragons"]:
+                                    game_markets["total_dragons"][period] = {}
+                                game_markets["total_dragons"][period][str(total_line)] = {
+                                    "line": total_line,
+                                    "over": {"decimal": round(over_decimal, 2)},
+                                    "under": {"decimal": round(under_decimal, 2)},
+                                    "is_alternate": is_alt
+                                }
+                            except:
+                                pass
+
+            if is_towers:
+                child_periods = child_event.get("periods", {})
+                for period_str, period_data in child_periods.items():
+                    try:
+                        period = int(period_str)
+                    except:
+                        continue
+                    if not isinstance(period_data, dict):
+                        continue
+                    over_under_list = period_data.get("overUnder", [])
+                    for ou in over_under_list:
+                        if not isinstance(ou, dict) or ou.get("unavailable", False):
+                            continue
+                        points = ou.get("points", "")
+                        over_odds = ou.get("overOdds", "")
+                        under_odds = ou.get("underOdds", "")
+                        is_alt = ou.get("isAlt", False)
+                        if points and over_odds and under_odds:
+                            try:
+                                total_line = float(points)
+                                over_decimal = float(over_odds)
+                                under_decimal = float(under_odds)
+                                if period not in game_markets["total_towers"]:
+                                    game_markets["total_towers"][period] = {}
+                                game_markets["total_towers"][period][str(total_line)] = {
+                                    "line": total_line,
+                                    "over": {"decimal": round(over_decimal, 2)},
+                                    "under": {"decimal": round(under_decimal, 2)},
+                                    "is_alternate": is_alt
+                                }
+                            except:
+                                pass
         
         # Cria objeto do jogo
         game = {
@@ -652,7 +730,9 @@ def extract_game_data(matchups_data: List, markets_data: List) -> List[Dict]:
             "total_kill_home": {},
             "total_kill_away": {},
             "handicap_kills": {},
-            "total_kills": {}
+            "total_kills": {},
+            "total_dragons": {},
+            "total_towers": {}
         }
         
         for market in markets:
