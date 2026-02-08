@@ -2,6 +2,7 @@
 Sistema Integrado de Coleta e Processamento de Dados Pinnacle
 Busca dados da API, processa, salva no banco e atualiza JSON único
 """
+import os
 import requests
 import json
 import sys
@@ -10,6 +11,13 @@ from datetime import datetime
 from pathlib import Path
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from typing import Dict, List, Optional, Tuple, Union
+
+# Tenta carregar .env se python-dotenv estiver instalado
+try:
+    from dotenv import load_dotenv
+    load_dotenv()
+except ImportError:
+    pass  # dotenv opcional, usa os.getenv com fallbacks
 
 # Importa módulos locais
 from database import init_database, save_games_and_markets, get_database_stats, get_all_games
@@ -35,10 +43,10 @@ EXPORT_JSON_FILE = "league_of_legends_data.json"
 # Configuração da Nova API
 USE_NEW_API = True  # Tenta usar nova API primeiro
 NEW_API_COOKIES = {
-    "_sig": "Acy1NbVUwTlRnd01ESmhPRGxsT1RrMVlROmJvTkRZcnJSaFNKQ2hCVkJvekpFVWdaN2g6LTgyNjU4NTk2Mjo3NjkwMzc0NDk6Mi4xMS4wOl9iUUJ5bTN5TXM%3D",
-    "_apt": "_bQBym3yMs",
+    "_sig": os.getenv("PINNACLE_SIG", ""),
+    "_apt": os.getenv("PINNACLE_APT", ""),
     "closeAnnTime": "0",
-    "pctag": "3cbdf5af-49c7-4376-971a-66212d5cf965",
+    "pctag": os.getenv("PINNACLE_PCTAG", ""),
     "C_U_I": "",
     "BIAB_LANGUAGE": "PT_BR",
     "BIAB_TZ": "240"
@@ -62,8 +70,8 @@ def get_headers() -> Dict:
         "sec-fetch-mode": "cors",
         "sec-fetch-site": "same-site",
         "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36",
-        "api-key": "CkM2XNyMuFwgNyF7eDEyRTClOIkN",
-        "device-uuid": "a95be66e-ea9e-4f8e-a52b-3dd4b559878f"
+        "api-key": os.getenv("PINNACLE_API_KEY", ""),
+        "device-uuid": os.getenv("PINNACLE_DEVICE_UUID", "")
     }
 
 def fetch_markets(league_id: int, headers: Dict) -> Optional[Dict]:
@@ -113,7 +121,7 @@ def get_new_api_headers() -> Dict:
         "sec-fetch-mode": "cors",
         "sec-fetch-site": "same-origin",
         "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/144.0.0.0 Safari/537.36 Edg/144.0.0.0",
-        "x-app-data": "pctag=3cbdf5af-49c7-4376-971a-66212d5cf965;directusToken=TwEdnphtyxsfMpXoJkCkWaPsL2KJJ3lo;dpVXz=ZDfaFZUP9"
+        "x-app-data": f"pctag={os.getenv('PINNACLE_PCTAG', '')};directusToken={os.getenv('PINNACLE_DIRECTUS_TOKEN', '')};dpVXz={os.getenv('PINNACLE_DPVXZ', '')}"
     }
 
 def fetch_new_api_data() -> Optional[Dict]:

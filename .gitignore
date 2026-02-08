@@ -1,0 +1,30 @@
+# Credenciais
+.env
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+# Databases (dados locais, nao commitar)
+*.db
+*.db-journal
+
+# Dados gerados
+league_of_legends_data.json
+pinnacle_markets.json
+pinnacle_matchups.json
+
+# Backups
+*.bak-*.db
+
+# Logs
+odds_analysis/logs/
+
+# CSV exportados
+bets_tracker/*.csv
+bets_tracker/database.csv
+
+# IDE
+.vscode/
+.idea/
