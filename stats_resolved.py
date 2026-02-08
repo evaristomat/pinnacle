@@ -179,3 +179,22 @@ def summary_stats(df: pd.DataFrame) -> dict[str, Any]:
 def odds_bucket_order() -> list[str]:
     """Ordem das faixas de odds para exibição."""
     return ["1.50 – 1.80", "1.80 – 2.00", "2.00 – 2.20", "2.20 – 2.50", "2.50+"]
+
+
+def build_pl_curve(df: pd.DataFrame) -> pd.DataFrame:
+    """Cumulative P/L by day for charting.
+
+    Returns DataFrame with columns: date (datetime), daily (float), cumulative (float).
+    """
+    if df.empty or "game_date_day" not in df.columns:
+        return pd.DataFrame(columns=["date", "daily", "cumulative"])
+    daily = (
+        df.groupby("game_date_day")["lucro_u"]
+        .sum()
+        .reset_index()
+        .rename(columns={"game_date_day": "date", "lucro_u": "daily"})
+        .sort_values("date")
+    )
+    daily["cumulative"] = daily["daily"].cumsum()
+    daily["date"] = pd.to_datetime(daily["date"])
+    return daily
