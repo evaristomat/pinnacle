@@ -25,6 +25,13 @@ odds_analysis/logs/
 bets_tracker/*.csv
 bets_tracker/database.csv
 
+# Dados historicos gerados (grandes, nao commitar)
+database_improved/database.csv
+database_improved/data_transformed.csv
+
+# HAR files (capturas de rede)
+*.har
+
 # IDE
 .vscode/
 .idea/

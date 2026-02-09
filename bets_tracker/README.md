@@ -19,6 +19,7 @@ bets_tracker/
 ├── update_results.py      # Atualiza resultados
 ├── result_matcher.py      # Matching de jogos
 ├── normalizer.py          # Normalização para matching
+├── analyze_results.py     # Sistema completo de análise de resultados
 ├── main.py                # Orquestrador principal
 └── bets.db                # Banco de dados (gerado)
 ```
@@ -53,7 +54,19 @@ python main.py update
 
 # Simula atualização (não salva)
 python main.py update --dry-run
+
+# Incluir apostas com menos de 24h (ex.: para validar jogos de ontem)
+python main.py update --db bets --include-pending --min-hours 0 --summary
 ```
+
+**Debug: apostas que não encontram resultado**  
+Se jogos continuam como `pending` mesmo com resultado no histórico, exporte as pendentes com colunas de diagnóstico e inspecione por que o match falha (liga, times, mapa, data):
+
+```bash
+python export_pending_bets.py --format csv --min-hours 0 --out pending_bets_debug.csv
+```
+
+No CSV gerado, use as colunas `dbg_match_ok`, `dbg_notes`, `dbg_candidates_league`, `dbg_candidates_teams`, `dbg_candidates_map`, `dbg_candidates_date` para ver em que etapa o matching falhou. O histórico é carregado de `database_improved/lol_history.db` (SQLite) quando existe; o CSV `data_transformed.csv` é usado apenas como fallback.
 
 ### 4. Ver Estatísticas
 
@@ -68,6 +81,45 @@ python main.py list
 ```
 
 Exibe todas as apostas do banco em duas seções: **MÉTODO EMPÍRICO** e **MÉTODO ML**, com totais e detalhes (jogo, liga, data, side, line, odd, EV, status).
+
+### 6. Análise Completa de Resultados
+
+```bash
+# Análise completa com todos os detalhes
+python main.py analyze
+
+# Apenas resumo geral (sem detalhes por liga/mercado/estratégia)
+python main.py analyze --summary-only
+```
+
+O sistema de análise completa executa:
+
+1. **Método Empírico - Completo**: Análise de todas as apostas empíricas resolvidas
+   - Resumo geral
+   - Por liga
+   - Por tipo de mercado
+   - Por estratégia (todas, melhor, top 2, top 3)
+
+2. **Método Empírico - Sem under 27.5 ou menos**: Mesma análise excluindo apostas under com linha ≤ 27.5
+
+3. **Método ML - Completo**: Análise de todas as apostas ML resolvidas
+   - Resumo geral
+   - Por liga
+   - Por tipo de mercado
+   - Por estratégia (todas, melhor, top 2, top 3)
+
+4. **Método ML - Sem under 27.5 ou menos**: Mesma análise excluindo apostas under com linha ≤ 27.5
+
+5. **Tabela Resumo Final**: Comparação de todos os métodos e variantes
+
+Cada análise mostra:
+- Total de apostas resolvidas
+- Vitórias e derrotas
+- Win rate
+- ROI (%)
+- Lucro (unidades)
+- Odd média das vitórias
+- EV médio
 
 ## 🔄 Fluxo Completo
 
@@ -88,6 +140,8 @@ Exibe todas as apostas do banco em duas seções: **MÉTODO EMPÍRICO** e **MÉT
 3. Atualizar Resultados
    cd ../bets_tracker
    python main.py update
+   ↓
+   Carrega histórico de database_improved/lol_history.db (ou data_transformed.csv se o DB não existir)
    ↓
    Compara apostas pendentes com histórico
    ↓

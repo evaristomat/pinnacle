@@ -1,0 +1,100 @@
+name: Update Bet Results
+
+on:
+  schedule:
+    # Roda 4x ao dia: 06:00, 12:00, 18:00, 00:00 UTC
+    # Mais frequente que o pipeline completo para capturar resultados rapido
+    - cron: '0 0,6,12,18 * * *'
+  workflow_dispatch:
+    # Permite execucao manual
+
+jobs:
+  update-results:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      # ------------------------------------------------------------------
+      # Setup
+      # ------------------------------------------------------------------
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      # ------------------------------------------------------------------
+      # Restore cached data (needs databases from pipeline runs)
+      # ------------------------------------------------------------------
+      - name: Restore databases from cache
+        uses: actions/cache@v4
+        with:
+          path: |
+            pinnacle_data.db
+            bets_tracker/bets.db
+            bets_tracker/user_bets.db
+            database_improved/lol_history.db
+            database_improved/data_transformed.csv
+            database_improved/ligas_times.json
+            database_improved/database.csv
+          key: pinnacle-data-${{ github.run_number }}
+          restore-keys: |
+            pinnacle-data-
+
+      # ------------------------------------------------------------------
+      # Step 1: Update historical data (needed for result matching)
+      # ------------------------------------------------------------------
+      - name: Update historical data
+        run: python run_all.py --only 1
+
+      # ------------------------------------------------------------------
+      # Step 4: Update bet results
+      # ------------------------------------------------------------------
+      - name: Update bet results
+        env:
+          PINNACLE_SIG: ${{ secrets.PINNACLE_SIG }}
+          PINNACLE_APT: ${{ secrets.PINNACLE_APT }}
+          PINNACLE_PCTAG: ${{ secrets.PINNACLE_PCTAG }}
+          PINNACLE_API_KEY: ${{ secrets.PINNACLE_API_KEY }}
+          PINNACLE_DEVICE_UUID: ${{ secrets.PINNACLE_DEVICE_UUID }}
+          PINNACLE_DIRECTUS_TOKEN: ${{ secrets.PINNACLE_DIRECTUS_TOKEN }}
+          PINNACLE_DPVXZ: ${{ secrets.PINNACLE_DPVXZ }}
+          PINNACLE_EV_MIN_STORE: ${{ secrets.PINNACLE_EV_MIN_STORE }}
+          PINNACLE_EV_MIN_APP: ${{ secrets.PINNACLE_EV_MIN_APP }}
+        run: python run_all.py --only 4
+
+      # ------------------------------------------------------------------
+      # Upload updated databases
+      # ------------------------------------------------------------------
+      - name: Upload updated bets database
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: bets-updated-${{ github.run_number }}
+          path: |
+            bets_tracker/bets.db
+          retention-days: 14
+          if-no-files-found: ignore
+
+      # ------------------------------------------------------------------
+      # Summary
+      # ------------------------------------------------------------------
+      - name: Results update summary
+        if: always()
+        run: |
+          echo "## Results Update Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "- **Run:** #${{ github.run_number }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Date:** $(date -u '+%Y-%m-%d %H:%M:%S UTC')" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          if [ -f bets_tracker/bets.db ]; then
+            echo "- bets.db size: $(du -h bets_tracker/bets.db | cut -f1)" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "- bets.db: not found (run full pipeline first)" >> $GITHUB_STEP_SUMMARY
+          fi

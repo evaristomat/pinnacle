@@ -90,6 +90,24 @@ def print_summary(results: dict):
     print()
 
 
+def was_downloaded_today_after_noon(file_path: Path, now: datetime | None = None) -> bool:
+    """
+    Retorna True se o arquivo foi atualizado hoje após 12:00 (horário local).
+
+    A ideia é permitir baixar novamente pela manhã (ou se o arquivo for antigo),
+    mas evitar re-download no mesmo dia quando já existe um arquivo atualizado
+    após o meio-dia.
+    """
+    if not file_path.exists():
+        return False
+
+    now = now or datetime.now()
+    noon_today = now.replace(hour=12, minute=0, second=0, microsecond=0)
+    mtime = datetime.fromtimestamp(file_path.stat().st_mtime)
+
+    return mtime.date() == now.date() and mtime >= noon_today
+
+
 def run_pipeline(
     skip_download: bool = False,
     download_only: bool = False,
@@ -219,6 +237,7 @@ Exemplos:
   python main.py --ligas-only        # Apenas geração de ligas
   python main.py --database-only     # Apenas atualização do banco
   python main.py --skip-download     # Pula download (usa CSV existente)
+  python main.py --skip-download-if-downloaded-today-after-noon  # Pula se já baixou hoje após 12:00
         """
     )
     
@@ -247,6 +266,12 @@ Exemplos:
         action='store_true',
         help='Pula download e usa arquivo CSV existente'
     )
+
+    parser.add_argument(
+        '--skip-download-if-downloaded-today-after-noon',
+        action='store_true',
+        help='Pula download se o CSV já foi atualizado hoje após 12:00'
+    )
     
     args = parser.parse_args()
     
@@ -260,8 +285,12 @@ Exemplos:
     print_header()
     
     try:
+        effective_skip_download = args.skip_download
+        if (not effective_skip_download) and args.skip_download_if_downloaded_today_after_noon:
+            effective_skip_download = was_downloaded_today_after_noon(DATABASE_CSV)
+
         results = run_pipeline(
-            skip_download=args.skip_download,
+            skip_download=effective_skip_download,
             download_only=args.download_only,
             clean_only=args.clean_only,
             ligas_only=args.ligas_only,

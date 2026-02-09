@@ -46,36 +46,48 @@ class ResultMatcher:
         self._load_history()
     
     def _load_history(self):
-        """Carrega dados históricos."""
-        # Tenta CSV primeiro
+        """
+        Carrega dados históricos para matching.
+        SQLite (lol_history.db) é a fonte canônica quando existe: o pipeline do database_improved
+        importa o CSV para o DB, então o DB tende a ter todos os jogos (incluindo os mais recentes).
+        O CSV é usado apenas como fallback quando o DB não existir.
+        """
+        if HISTORY_DB.exists():
+            self._load_history_from_db()
+            if self.history_df is not None:
+                return
+            if HISTORY_CSV.exists():
+                print(f"   [AVISO] Fallback para CSV apos falha ao carregar SQLite")
         if HISTORY_CSV.exists():
             try:
-                print(f"[CARREGANDO] Carregando historico de: {HISTORY_CSV.name}")
+                print(f"[CARREGANDO] Carregando historico de: {HISTORY_CSV.name}" + (" (fallback)" if HISTORY_DB.exists() else ""))
                 self.history_df = pd.read_csv(HISTORY_CSV, low_memory=False)
-                # Converte data para datetime
                 if 'date' in self.history_df.columns:
                     self.history_df['date'] = pd.to_datetime(self.history_df['date'], errors='coerce')
                 print(f"   [OK] {len(self.history_df):,} jogos carregados")
             except Exception as e:
                 print(f"   [ERRO] Erro ao carregar CSV: {e}")
-        
-        # Fallback para SQLite
-        elif HISTORY_DB.exists():
-            try:
-                print(f"[CARREGANDO] Carregando historico de: {HISTORY_DB.name}")
-                conn = sqlite3.connect(HISTORY_DB)
-                self.history_df = pd.read_sql_query(
-                    "SELECT * FROM matchups ORDER BY date DESC",
-                    conn
-                )
-                conn.close()
-                if 'date' in self.history_df.columns:
-                    self.history_df['date'] = pd.to_datetime(self.history_df['date'], errors='coerce')
-                print(f"   [OK] {len(self.history_df):,} jogos carregados")
-            except Exception as e:
-                print(f"   [ERRO] Erro ao carregar SQLite: {e}")
         else:
             print(f"[AVISO] Nenhum arquivo de historico encontrado!")
+            print(f"   Esperados: {HISTORY_CSV} ou {HISTORY_DB}")
+    
+    def _load_history_from_db(self):
+        """Carrega histórico a partir do SQLite (lol_history.db)."""
+        if not HISTORY_DB.exists():
+            return
+        try:
+            print(f"[CARREGANDO] Carregando historico de: {HISTORY_DB.name}")
+            conn = sqlite3.connect(HISTORY_DB)
+            self.history_df = pd.read_sql_query(
+                "SELECT * FROM matchups ORDER BY date DESC",
+                conn
+            )
+            conn.close()
+            if 'date' in self.history_df.columns:
+                self.history_df['date'] = pd.to_datetime(self.history_df['date'], errors='coerce')
+            print(f"   [OK] {len(self.history_df):,} jogos carregados")
+        except Exception as e:
+            print(f"   [ERRO] Erro ao carregar SQLite: {e}")
     
     def match_game(self, bet: Dict) -> Optional[Dict]:
         """
@@ -104,27 +116,60 @@ class ResultMatcher:
         except:
             return None
         
-        # Filtra por liga
-        league_matches = self.history_df[
-            self.history_df['league'].str.upper() == league_norm.upper()
-        ].copy()
+        # Filtra por liga (defensivo: trim + casefold)
+        league_col = self.history_df['league'].fillna('').astype(str).str.strip().str.upper()
+        league_matches = self.history_df[league_col == league_norm.strip().upper()].copy()
         
         if len(league_matches) == 0:
             return None
         
         # Filtra por times (considera ambas as ordens: t1 vs t2 e t2 vs t1)
+        t1_col = league_matches['t1'].fillna('').astype(str).str.strip().str.upper()
+        t2_col = league_matches['t2'].fillna('').astype(str).str.strip().str.upper()
+        a = team1_norm.strip().upper()
+        b = team2_norm.strip().upper()
         team_matches = league_matches[
-            (
-                (league_matches['t1'].str.upper() == team1_norm.upper()) &
-                (league_matches['t2'].str.upper() == team2_norm.upper())
-            ) | (
-                (league_matches['t1'].str.upper() == team2_norm.upper()) &
-                (league_matches['t2'].str.upper() == team1_norm.upper())
-            )
+            ((t1_col == a) & (t2_col == b)) | ((t1_col == b) & (t2_col == a))
         ].copy()
         
         if len(team_matches) == 0:
             return None
+        
+        # Filtra por mapa se a aposta tiver mapa definido
+        # No histórico, a coluna 'game' representa o mapa
+        bet_map = bet.get('mapa')
+        if bet_map is not None:
+            # Verifica se a coluna 'game' existe no histórico
+            if 'game' in team_matches.columns:
+                # Filtra apenas mapas que correspondem ao mapa da aposta
+                # (defensivo: histórico pode ter game como str/float)
+                try:
+                    bet_map_num = int(bet_map)
+                except Exception:
+                    bet_map_num = None
+
+                if bet_map_num is not None:
+                    game_num = pd.to_numeric(team_matches['game'], errors='coerce')
+                    filtered = team_matches[game_num == bet_map_num].copy()
+                else:
+                    filtered = team_matches.iloc[0:0].copy()
+
+                # Fallback: compara como string (para casos como "1" vs 1)
+                if len(filtered) == 0:
+                    filtered = team_matches[
+                        team_matches['game'].fillna('').astype(str).str.strip() == str(bet_map).strip()
+                    ].copy()
+
+                team_matches = filtered
+                
+                if len(team_matches) == 0:
+                    # Se não encontrou com o mapa específico, retorna None
+                    # Isso garante que só encontramos resultados do mapa correto
+                    return None
+            else:
+                # Se a coluna 'game' não existe, não podemos filtrar por mapa
+                # Mantém comportamento antigo (aceita qualquer mapa)
+                pass
         
         # Filtra por data (com tolerância)
         tolerance = timedelta(hours=DATE_TOLERANCE_HOURS)
@@ -134,10 +179,7 @@ class ResultMatcher:
         ].copy()
         
         if len(date_matches) == 0:
-            # Tenta sem filtro de data (pode ser que a data esteja muito diferente)
-            date_matches = team_matches.copy()
-        
-        if len(date_matches) == 0:
+            # Sem match dentro da tolerância: evita falso-positivo com jogo antigo/errado
             return None
         
         # Ordena por proximidade da data
@@ -164,7 +206,8 @@ class ResultMatcher:
                 'league': best_match.get('league'),
                 't1': best_match.get('t1'),
                 't2': best_match.get('t2'),
-                'date': best_match.get('date')
+                'date': best_match.get('date'),
+                'game': best_match.get('game')  # Mapa do histórico
             }
         }
     

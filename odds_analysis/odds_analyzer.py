@@ -20,13 +20,13 @@ from config import (
     MIN_GAMES_FOR_ANALYSIS,
     VALUE_THRESHOLD,
     MATCH_DATE_TOLERANCE_DAYS,
+    ML_CONFIDENCE_THRESHOLD,
 )
 from normalizer import get_normalizer
 from metodos_analise import METODO_PROBABILIDADE_EMPIRICA, METODO_ML
 
 # Caminho para o modelo ML
-ML_MODELS_DIR = Path(__file__).parent.parent / "machine_learning" / "models"
-ML_MODELS_DIR_2025 = Path(__file__).parent.parent / "machine_learning" / "modelo_2025" / "models"
+ML_MODELS_DIR_2026 = Path(__file__).parent.parent / "machine_learning" / "modelo_2026" / "models"
 
 # Configuração de logging
 LOG_DIR = Path(__file__).parent / "logs"
@@ -120,6 +120,7 @@ class OddsAnalyzer:
         self.ml_champion_impacts = None
         self.ml_league_stats = None
         self.ml_feature_columns = None
+        self.ml_z_calibration = None  # z-score calibrado (v2)
         self.ml_available = False
         
         if use_ml_model:
@@ -154,49 +155,51 @@ class OddsAnalyzer:
             print(f"   Procurando em: {HISTORY_CSV} ou {HISTORY_DB}")
     
     def _load_ml_model(self):
-        """Carrega modelo de ML 2025 (prioridade)."""
-        # Prioriza modelo 2025
-        models_dir = ML_MODELS_DIR_2025
-        
-        if not models_dir.exists():
-            print(f"{Colors.YELLOW}Diretorio do modelo 2025 nao encontrado: {models_dir}{Colors.RESET}")
-            logger.warning(f"Diretório do modelo 2025 não encontrado: {models_dir}")
+        """Carrega modelo de ML 2026."""
+        if not ML_MODELS_DIR_2026.exists():
+            print(f"{Colors.YELLOW}Pasta do modelo ML 2026 nao encontrada{Colors.RESET}")
+            logger.warning("Pasta do modelo ML 2026 nao encontrada")
             return
-        
-        model_file = models_dir / "model.pkl"
-        scaler_file = models_dir / "scaler.pkl"
-        champion_impacts_file = models_dir / "champion_impacts.pkl"
-        league_stats_file = models_dir / "league_stats.pkl"
-        feature_columns_file = models_dir / "feature_columns.pkl"
-        
-        required_files = [model_file, scaler_file, champion_impacts_file, 
-                         league_stats_file, feature_columns_file]
-        missing_files = [f for f in required_files if not f.exists()]
-        
-        if missing_files:
-            print(f"{Colors.YELLOW}Arquivos do modelo 2025 faltando:{Colors.RESET}")
-            for f in missing_files:
-                print(f"   - {f.name}")
-            logger.warning(f"Arquivos do modelo 2025 faltando: {[f.name for f in missing_files]}")
+
+        required = ["model.pkl", "scaler.pkl", "champion_impacts.pkl",
+                    "league_stats.pkl", "feature_columns.pkl"]
+        missing = [f for f in required if not (ML_MODELS_DIR_2026 / f).exists()]
+        if missing:
+            print(f"{Colors.YELLOW}Modelo ML 2026 incompleto (faltando: {missing}){Colors.RESET}")
+            logger.warning(f"Modelo ML 2026 incompleto: {missing}")
             return
-        
+
+        models_dir = ML_MODELS_DIR_2026
+        model_year = "2026"
+
         try:
-            with open(model_file, "rb") as f:
+            with open(models_dir / "model.pkl", "rb") as f:
                 self.ml_model = pickle.load(f)
-            with open(scaler_file, "rb") as f:
+            with open(models_dir / "scaler.pkl", "rb") as f:
                 self.ml_scaler = pickle.load(f)
-            with open(champion_impacts_file, "rb") as f:
+            with open(models_dir / "champion_impacts.pkl", "rb") as f:
                 self.ml_champion_impacts = pickle.load(f)
-            with open(league_stats_file, "rb") as f:
+            with open(models_dir / "league_stats.pkl", "rb") as f:
                 self.ml_league_stats = pickle.load(f)
-            with open(feature_columns_file, "rb") as f:
+            with open(models_dir / "feature_columns.pkl", "rb") as f:
                 self.ml_feature_columns = pickle.load(f)
-            
+
+            # z-score calibrado (disponivel apenas no v2)
+            z_cal_path = models_dir / "z_calibration.pkl"
+            if z_cal_path.exists():
+                with open(z_cal_path, "rb") as f:
+                    self.ml_z_calibration = pickle.load(f)
+                print(f"{Colors.BRIGHT_GREEN}Modelo ML {model_year} carregado (z-score calibrado: "
+                      f"k={self.ml_z_calibration['sigmoid_k']}, "
+                      f"s={self.ml_z_calibration['adjust_strength']}){Colors.RESET}")
+            else:
+                self.ml_z_calibration = None
+                print(f"{Colors.BRIGHT_GREEN}Modelo ML {model_year} carregado com sucesso{Colors.RESET}")
+
             self.ml_available = True
-            print(f"{Colors.BRIGHT_GREEN}Modelo ML 2025 carregado com sucesso{Colors.RESET}")
         except Exception as e:
-            print(f"{Colors.BRIGHT_RED}Erro ao carregar modelo ML 2025: {e}{Colors.RESET}")
-            logger.error(f"Erro ao carregar modelo ML 2025: {e}", exc_info=True)
+            print(f"{Colors.BRIGHT_RED}Erro ao carregar modelo ML {model_year}: {e}{Colors.RESET}")
+            logger.error(f"Erro ao carregar modelo ML {model_year}: {e}", exc_info=True)
     
     def game_exists_in_history(self, team1: str, team2: str, league: str, start_time: Optional[str] = None) -> bool:
         """
@@ -371,11 +374,18 @@ class OddsAnalyzer:
         # Pega impactos dos campeões
         league_impacts = self.ml_champion_impacts.get(league, {})
         
-        # Normaliza nomes dos campeões
+        # Normaliza nomes dos campeões (case-insensitive, remove espaços extras)
         def normalize_champ(champ):
             if not champ:
                 return ''
-            return str(champ).strip()
+            # Converte para string, remove espaços extras, e normaliza case
+            champ_str = str(champ).strip()
+            # Remove múltiplos espaços
+            champ_str = ' '.join(champ_str.split())
+            return champ_str
+        
+        # Lista para coletar campeões não encontrados (para debug)
+        missing_champions = []
         
         # Função para buscar impacto e logar se não encontrar
         def get_champion_impact(champ_name: str, role: str, team: str) -> float:
@@ -383,12 +393,35 @@ class OddsAnalyzer:
             if not champ_norm:
                 return 0.0
             
-            # Verifica se campeão está no dicionário
-            if champ_norm not in league_impacts:
-                logger.warning(f"Campeão não encontrado no modelo ML - Liga: '{league}', Campeão: '{champ_norm}', Role: {role}, Time: {team}")
-                return 0.0
+            # Verifica se campeão está no dicionário (case-insensitive)
+            champ_found = False
+            champ_impact = 0.0
             
-            return league_impacts.get(champ_norm, 0.0)
+            # Primeiro tenta match exato
+            if champ_norm in league_impacts:
+                champ_found = True
+                champ_impact = league_impacts.get(champ_norm, 0.0)
+            else:
+                # Tenta match case-insensitive
+                champ_lower = champ_norm.lower()
+                for champ_key, impact_val in league_impacts.items():
+                    if champ_key.lower() == champ_lower:
+                        champ_found = True
+                        champ_impact = impact_val
+                        # Loga que encontrou com case diferente
+                        logger.info(f"Campeão encontrado com case diferente - Original: '{champ_norm}', Modelo: '{champ_key}'")
+                        break
+            
+            if not champ_found:
+                missing_champions.append({
+                    'champion': champ_norm,
+                    'role': role,
+                    'team': team,
+                    'league': league
+                })
+                logger.warning(f"Campeão não encontrado no modelo ML - Liga: '{league}', Campeão: '{champ_norm}', Role: {role}, Time: {team}")
+            
+            return champ_impact
         
         # Impactos do Time 1
         top_t1_impact = get_champion_impact(game_data.get('top_t1', ''), 'top', 't1')
@@ -448,6 +481,10 @@ class OddsAnalyzer:
         # Cria array na ordem exata das feature_columns
         features = np.array([feature_dict.get(col, 0.0) for col in self.ml_feature_columns])
         
+        # Loga campeões não encontrados se houver
+        if missing_champions:
+            logger.warning(f"Total de {len(missing_champions)} campeão(ões) não encontrado(s) no modelo para liga '{league}': {missing_champions}")
+        
         return features.reshape(1, -1)
     
     def _predict_ml(self, game_data: Dict, betting_line: float) -> Optional[Dict]:
@@ -473,22 +510,35 @@ class OddsAnalyzer:
             # Normaliza features
             X_scaled = self.ml_scaler.transform(X)
             
-            # Predição
+            # Predição base (OVER/UNDER média da liga)
             prob_over_mean = self.ml_model.predict_proba(X_scaled)[0, 1]
+            
+            # Confidence threshold: só retorna predição se o modelo estiver confiante
+            max_prob = max(prob_over_mean, 1 - prob_over_mean)
+            if max_prob < ML_CONFIDENCE_THRESHOLD:
+                return None  # Modelo não confiante o suficiente (prob entre ~0.35 e ~0.65)
             
             # Ajusta probabilidade para a linha específica
             league = game_data.get('league')
             league_mean = self.ml_league_stats.get(league, {}).get('mean', 0.0)
             league_std = self.ml_league_stats.get(league, {}).get('std', 1.0)
             
+            # Usa parâmetros calibrados (v2) ou fallback heurístico (v1)
+            if self.ml_z_calibration:
+                sigmoid_k = self.ml_z_calibration.get('sigmoid_k', 0.5)
+                adjust_strength = self.ml_z_calibration.get('adjust_strength', 0.3)
+            else:
+                sigmoid_k = 0.5
+                adjust_strength = 0.3
+            
             if league_std > 0:
                 z_score = (betting_line - league_mean) / league_std
-                adjustment = 1 / (1 + np.exp(-z_score * 0.5))
+                adjustment = 1 / (1 + np.exp(-z_score * sigmoid_k))
                 
                 if betting_line > league_mean:
-                    prob_over_line = prob_over_mean * (1 - adjustment * 0.3)
+                    prob_over_line = prob_over_mean * (1 - adjustment * adjust_strength)
                 else:
-                    prob_over_line = prob_over_mean + (1 - prob_over_mean) * adjustment * 0.3
+                    prob_over_line = prob_over_mean + (1 - prob_over_mean) * adjustment * adjust_strength
                 
                 prob_over_line = np.clip(prob_over_line, 0.0, 1.0)
             else:
@@ -506,7 +556,9 @@ class OddsAnalyzer:
                 'confidence': 'High' if prob_over_line >= 0.70 or prob_over_line <= 0.30 else 'Medium'
             }
         except Exception as e:
-            print(f"{Colors.YELLOW}Erro ao fazer predição ML: {e}{Colors.RESET}")
+            error_msg = f"Erro ao fazer predição ML: {e}"
+            print(f"{Colors.YELLOW}{error_msg}{Colors.RESET}")
+            logger.error(f"Erro ao fazer predição ML - Liga: {game_data.get('league')}, Linha: {betting_line}, Erro: {e}", exc_info=True)
             return None
     
     def get_upcoming_games(self, league_filter: Optional[str] = None, exact_match: bool = False) -> List[Dict]:
@@ -837,7 +889,7 @@ class OddsAnalyzer:
             'implied_probability': implied_prob,
             'estimated_real_probability': real_prob,
             'expected_value': ev,
-            'value': ev > VALUE_THRESHOLD,
+            'value': ev >= VALUE_THRESHOLD,
             'edge': ev * 100  # Edge em porcentagem
         }
     
@@ -981,7 +1033,7 @@ class OddsAnalyzer:
                 # Valor existe se: prob_histórica > prob_implícita (1/odd)
                 # Isso é equivalente a: prob_histórica × odd > 1, ou seja, EV > 0
                 # Verifica se há valor: prob histórica maior que prob implícita E EV acima do threshold
-                has_value_empirical = (empirical_prob > implied_prob) and (ev > VALUE_THRESHOLD)
+                has_value_empirical = (empirical_prob > implied_prob) and (ev >= VALUE_THRESHOLD)
                 
                 # Inicializa variáveis ML
                 ml_prediction = None

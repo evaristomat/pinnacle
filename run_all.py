@@ -401,7 +401,7 @@ def main():
         if BETS_TRACKER.exists():
             update_cmd = [
                 sys.executable, "main.py", "update",
-                "--db", "bets", "--include-pending", "--min-hours", "24", "--summary"
+                "--db", "bets", "--include-pending", "--summary"
             ]
             if args.dry_run:
                 update_cmd.append("--dry-run")

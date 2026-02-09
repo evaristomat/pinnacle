@@ -665,6 +665,50 @@ def save_games_and_markets(games: List[Dict]) -> Dict[str, int]:
                         stats['new_markets'] += 1
                     else:
                         stats['existing_markets'] += 1
+        
+        # Total Dragons (dragões elementais)
+        for period, period_data in markets.get('total_dragons', {}).items():
+            mapa = int(period)
+            for line_value_str, line_data in period_data.items():
+                try:
+                    line_value = float(line_value_str)
+                except:
+                    continue
+                is_alt = line_data.get('is_alternate', False)
+                if 'over' in line_data:
+                    if insert_market(matchup_id, 'total_dragons', mapa, line_value, 'over',
+                                   line_data['over']['decimal'], is_alt):
+                        stats['new_markets'] += 1
+                    else:
+                        stats['existing_markets'] += 1
+                if 'under' in line_data:
+                    if insert_market(matchup_id, 'total_dragons', mapa, line_value, 'under',
+                                   line_data['under']['decimal'], is_alt):
+                        stats['new_markets'] += 1
+                    else:
+                        stats['existing_markets'] += 1
+        
+        # Total Towers (torres)
+        for period, period_data in markets.get('total_towers', {}).items():
+            mapa = int(period)
+            for line_value_str, line_data in period_data.items():
+                try:
+                    line_value = float(line_value_str)
+                except:
+                    continue
+                is_alt = line_data.get('is_alternate', False)
+                if 'over' in line_data:
+                    if insert_market(matchup_id, 'total_towers', mapa, line_value, 'over',
+                                   line_data['over']['decimal'], is_alt):
+                        stats['new_markets'] += 1
+                    else:
+                        stats['existing_markets'] += 1
+                if 'under' in line_data:
+                    if insert_market(matchup_id, 'total_towers', mapa, line_value, 'under',
+                                   line_data['under']['decimal'], is_alt):
+                        stats['new_markets'] += 1
+                    else:
+                        stats['existing_markets'] += 1
     
     return stats
 
@@ -698,7 +742,9 @@ def get_all_games() -> List[Dict]:
             'total_kill_home': {},
             'total_kill_away': {},
             'handicap_kills': {},
-            'total_kills': {}
+            'total_kills': {},
+            'total_dragons': {},
+            'total_towers': {}
         }
         
         for market_row in markets_rows:
@@ -731,7 +777,7 @@ def get_all_games() -> List[Dict]:
                     'decimal': odd_decimal
                 }
             
-            elif market_type in ['total_map', 'total_kill_home', 'total_kill_away', 'total_kills']:
+            elif market_type in ['total_map', 'total_kill_home', 'total_kill_away', 'total_kills', 'total_dragons', 'total_towers']:
                 if mapa_str not in markets[market_type]:
                     markets[market_type][mapa_str] = {}
                 line_str = str(line_value)

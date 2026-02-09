@@ -10,6 +10,7 @@ import sys
 import re
 import json
 import subprocess
+import importlib.util
 from pathlib import Path
 from datetime import datetime, timedelta, timezone
 from typing import Optional
@@ -870,6 +871,7 @@ def _render_draft_ml_bets_table(bet_rows: list[dict], key_prefix: str = "draft_m
                                 st.rerun()
                     else:
                         st.warning("Dados da aposta não encontrados.")
+    return None
 
 
 # ═══════════════════════════════════════════════════════════════
@@ -979,28 +981,52 @@ with tab_dash:
         _d_df = _apply_method_filter_df(_d_df, method_filter)
         _d_stats = summary_stats(_d_df)
 
-        # KPI row
-        render_kpi_row([
-            {"label": "ROI", "value": f"{_d_stats['roi']:+.1f}%"},
-            {"label": "Lucro (u)", "value": f"{_d_stats['lucro']:+.2f}"},
-            {"label": "Winrate", "value": f"{_d_stats['wr']:.1f}%"},
-            {"label": "Total", "value": _d_stats["n"]},
-            {"label": "Vitórias", "value": _d_stats["w"]},
-            {"label": "Derrotas", "value": _d_stats["l"]},
-        ])
+        # ── KPIs principais ──
+        col_roi, col_lucro, col_wr, col_wl = st.columns(4)
+        with col_roi:
+            st.metric("ROI", f"{_d_stats['roi']:+.1f}%")
+        with col_lucro:
+            st.metric("Lucro", f"{_d_stats['lucro']:+.2f} u")
+        with col_wr:
+            st.metric("Winrate", f"{_d_stats['wr']:.1f}%")
+        with col_wl:
+            st.metric("Apostas", f"{_d_stats['n']}", delta=f"{_d_stats['w']}W / {_d_stats['l']}L", delta_color="off")
 
-        # Method breakdown
+        # ── Breakdown por método (tabela limpa) ──
         if not _d_df.empty and method_filter == "Todos":
             _df_ml = _d_df[_d_df["metodo"] == "ML"]
             _df_emp = _d_df[_d_df["metodo"] == "Empírico"]
             _s_ml = summary_stats(_df_ml)
             _s_emp = summary_stats(_df_emp)
-            render_kpi_row([
-                {"label": "ML ROI", "value": f"{_s_ml['roi']:+.1f}%"},
-                {"label": "ML N", "value": _s_ml["n"]},
-                {"label": "Empírico ROI", "value": f"{_s_emp['roi']:+.1f}%"},
-                {"label": "Empírico N", "value": _s_emp["n"]},
+            _method_comp = pd.DataFrame([
+                {
+                    "Método": "Empírico",
+                    "N": _s_emp["n"],
+                    "W/L": f"{_s_emp['w']}/{_s_emp['l']}",
+                    "WR%": _s_emp["wr"],
+                    "Lucro (u)": _s_emp["lucro"],
+                    "ROI%": _s_emp["roi"],
+                },
+                {
+                    "Método": "ML",
+                    "N": _s_ml["n"],
+                    "W/L": f"{_s_ml['w']}/{_s_ml['l']}",
+                    "WR%": _s_ml["wr"],
+                    "Lucro (u)": _s_ml["lucro"],
+                    "ROI%": _s_ml["roi"],
+                },
             ])
+            st.dataframe(
+                _method_comp,
+                use_container_width=True,
+                hide_index=True,
+                column_config={
+                    "N": st.column_config.NumberColumn(format="%d"),
+                    "WR%": st.column_config.NumberColumn(format="%.1f"),
+                    "Lucro (u)": st.column_config.NumberColumn(format="%+.2f"),
+                    "ROI%": st.column_config.NumberColumn(format="%+.1f"),
+                },
+            )
 
         st.divider()
 
@@ -1031,18 +1057,29 @@ with tab_dash:
 
         # Last 10 resolved
         if not _d_df.empty:
-            st.subheader("Últimas 10 apostas resolvidas")
-            _d_last = _d_df.sort_values("game_date", ascending=False).head(10)
+            st.subheader("Ultimas apostas resolvidas")
+            _d_last = _d_df.sort_values("game_date", ascending=False).head(10).copy()
+            # Build Mercado column (side + line)
+            _d_last["Mercado"] = _d_last.apply(
+                lambda r: f"{r['side']} {r['line_value']}" if pd.notna(r.get("line_value")) else r["side"],
+                axis=1,
+            )
+            # Build Jogo column
+            _d_last["Jogo"] = _d_last.apply(
+                lambda r: f"{r['home_team']} vs {r['away_team']}" if r.get("home_team") else "",
+                axis=1,
+            )
+            _display_cols = ["game_date_day", "league_name", "Jogo", "Mercado", "odd_decimal", "status", "lucro_u", "metodo"]
+            _display_cols = [c for c in _display_cols if c in _d_last.columns]
             st.dataframe(
-                _d_last[["game_date", "league_name", "side", "odd_decimal", "status", "lucro_u", "metodo"]].rename(
+                _d_last[_display_cols].rename(
                     columns={
-                        "game_date": "Data",
+                        "game_date_day": "Data",
                         "league_name": "Liga",
-                        "side": "Side",
                         "odd_decimal": "Odd",
                         "status": "Resultado",
                         "lucro_u": "P/L (u)",
-                        "metodo": "Método",
+                        "metodo": "Metodo",
                     }
                 ),
                 use_container_width=True,
@@ -1135,6 +1172,33 @@ with tab_draft:
         "Selecione um jogo, preencha os campeões e rode o modelo. "
         "Convergência empírica + ML = aposta boa."
     )
+
+    # Model info
+    try:
+        _az = _get_analyzer()
+        _ml_ok = getattr(_az, "ml_available", False)
+        _z_cal = getattr(_az, "ml_z_calibration", None) or {}
+        if _ml_ok:
+            _sk = _z_cal.get("sigmoid_k", "N/A")
+            _as = _z_cal.get("adjust_strength", "N/A")
+            try:
+                _cfg_s = importlib.util.spec_from_file_location(
+                    "oa_cfg_ml", ROOT / "odds_analysis" / "config.py"
+                )
+                _cfg_m = importlib.util.module_from_spec(_cfg_s)
+                _cfg_s.loader.exec_module(_cfg_m)
+                _mlt = getattr(_cfg_m, "ML_CONFIDENCE_THRESHOLD", 0.65)
+            except Exception:
+                _mlt = 0.65
+            st.info(
+                f"**Modelo ML 2026** — Split temporal · "
+                f"Threshold: **{_mlt:.0%}** · "
+                f"Z-score calibrado (k={_sk}, s={_as})"
+            )
+        else:
+            st.warning("Modelo ML não disponível.")
+    except Exception:
+        pass
 
     games_today, games_tomorrow = _games_today_tomorrow()
     games_for_picker = (games_today or []) + (games_tomorrow or [])
@@ -1457,7 +1521,7 @@ with tab_draft:
                     seen.add(key)
                     ml_res = _run_ml_with_draft(draft_data, float(line_val))
                     if ml_res is None:
-                        st.warning(f"ML sem resultado para linha {line_val}.")
+                        st.caption(f"⚠ ML: confiança < threshold para linha {line_val} (ignorado)")
                     ml_pred = (ml_res.get("prediction") or "").upper() if ml_res else ""
                     ml_by_line[float(line_val)] = {
                         "ml_pred": ml_pred,
@@ -1510,9 +1574,10 @@ with tab_draft:
                     st.markdown("**ML por linha**")
                     df_ml = pd.DataFrame([{
                         "Linha": line,
-                        "ML pred": info.get("ml_pred", ""),
+                        "ML pred": info.get("ml_pred") or "—",
                         "P(OVER)": info.get("ml_prob_over"),
                         "P(UNDER)": info.get("ml_prob_under"),
+                        "Status": "✅ Confiante" if info.get("ml_pred") else "⚠ Abaixo do threshold",
                     } for line, info in ml_by_line.items()])
                     st.dataframe(df_ml.sort_values("Linha"), use_container_width=True, hide_index=True,
                                  column_config={
@@ -1575,14 +1640,14 @@ with tab_draft:
             if good_bet_rows:
                 st.session_state["draft_ml_bet_rows"] = list(good_bet_rows)
                 st.subheader(f"Apostas boas (EV ≥ {EV_MIN_APP*100:.0f}%)")
-                _render_draft_ml_bets_table(good_bet_rows)
+                _ = _render_draft_ml_bets_table(good_bet_rows)
             else:
                 st.session_state["draft_ml_bet_rows"] = []
                 st.info(f"Nenhuma aposta com EV ≥ {EV_MIN_APP*100:.0f}% e dados empíricos.")
         elif st.session_state.get("draft_ml_bet_rows"):
             good_bet_rows = st.session_state["draft_ml_bet_rows"]
             st.subheader(f"Apostas boas (EV ≥ {EV_MIN_APP*100:.0f}%)")
-            _render_draft_ml_bets_table(good_bet_rows)
+            _ = _render_draft_ml_bets_table(good_bet_rows)
 
 
 # ───────────────────────────────────────────────────────────────
@@ -1725,142 +1790,166 @@ with tab_perf:
 
             # ── Empírico vs ML comparison ──
             if method_filter == "Todos":
-                st.subheader("Empírico vs ML")
+                st.subheader("Empirico vs ML")
                 _p_emp = _p_df[_p_df["metodo"] == "Empírico"]
                 _p_ml = _p_df[_p_df["metodo"] == "ML"]
                 _se = summary_stats(_p_emp)
                 _sm = summary_stats(_p_ml)
 
-                col_emp, col_ml = st.columns(2)
-                with col_emp:
-                    st.markdown("**Empírico**")
-                    render_kpi_row([
-                        {"label": "N", "value": _se["n"]},
-                        {"label": "WR%", "value": f"{_se['wr']:.1f}"},
-                        {"label": "ROI%", "value": f"{_se['roi']:+.2f}"},
-                    ])
-                    render_kpi_row([
-                        {"label": "Lucro", "value": f"{_se['lucro']:+.2f}u"},
-                        {"label": "Avg Odd (W)", "value": f"{_se['avg_odd_w']:.2f}" if _se["avg_odd_w"] else "—"},
-                    ])
-                with col_ml:
-                    st.markdown("**ML**")
-                    render_kpi_row([
-                        {"label": "N", "value": _sm["n"]},
-                        {"label": "WR%", "value": f"{_sm['wr']:.1f}"},
-                        {"label": "ROI%", "value": f"{_sm['roi']:+.2f}"},
-                    ])
-                    render_kpi_row([
-                        {"label": "Lucro", "value": f"{_sm['lucro']:+.2f}u"},
-                        {"label": "Avg Odd (W)", "value": f"{_sm['avg_odd_w']:.2f}" if _sm["avg_odd_w"] else "—"},
-                    ])
+                _comp_df = pd.DataFrame({
+                    "Metrica": ["Apostas", "Vitorias", "Derrotas", "Winrate", "Lucro (u)", "ROI%", "Odd media (W)"],
+                    "Empirico": [
+                        _se["n"], _se["w"], _se["l"],
+                        f"{_se['wr']:.1f}%",
+                        f"{_se['lucro']:+.2f}",
+                        f"{_se['roi']:+.1f}%",
+                        f"{_se['avg_odd_w']:.2f}" if _se["avg_odd_w"] else "—",
+                    ],
+                    "ML": [
+                        _sm["n"], _sm["w"], _sm["l"],
+                        f"{_sm['wr']:.1f}%",
+                        f"{_sm['lucro']:+.2f}",
+                        f"{_sm['roi']:+.1f}%",
+                        f"{_sm['avg_odd_w']:.2f}" if _sm["avg_odd_w"] else "—",
+                    ],
+                })
+                st.dataframe(_comp_df, use_container_width=True, hide_index=True)
+
+                # P/L comparison side by side
+                _col_pl_e, _col_pl_m = st.columns(2)
+                with _col_pl_e:
+                    st.caption("P/L Empirico")
+                    render_pl_curve(build_pl_curve(_p_emp))
+                with _col_pl_m:
+                    st.caption("P/L ML")
+                    render_pl_curve(build_pl_curve(_p_ml))
 
                 st.divider()
 
             # ── Over vs Under ──
             st.subheader("Over vs Under")
-            so = agg_stats(_p_df, "side")
-            so = so[so["side"].isin(["OVER", "UNDER"])].copy()
-            if not so.empty:
-                col_t, col_c = st.columns([1, 1])
-                with col_t:
-                    st.dataframe(
-                        so[["side", "N", "W", "L", "WR%", "Lucro(u)", "ROI%", "AvgOdd(W)"]],
-                        use_container_width=True, hide_index=True,
-                        column_config={
-                            "side": st.column_config.TextColumn("Side"),
-                            "N": st.column_config.NumberColumn(format="%d"),
-                            "WR%": st.column_config.NumberColumn(format="%.1f"),
-                            "Lucro(u)": st.column_config.NumberColumn(format="%+.2f"),
-                            "ROI%": st.column_config.NumberColumn(format="%.2f"),
-                            "AvgOdd(W)": st.column_config.NumberColumn(format="%.2f"),
-                        },
-                    )
-                with col_c:
-                    st.bar_chart(so.set_index("side")[["ROI%"]])
+            _ou_tab_all, _ou_tab_emp, _ou_tab_ml = st.tabs(["Geral", "Empirico", "ML"])
+            for _ou_tab, _ou_label, _ou_subset in [
+                (_ou_tab_all, "Geral", _p_df),
+                (_ou_tab_emp, "Empirico", _p_df[_p_df["metodo"] == "Empírico"]),
+                (_ou_tab_ml, "ML", _p_df[_p_df["metodo"] == "ML"]),
+            ]:
+                with _ou_tab:
+                    _ou_agg = agg_stats(_ou_subset, "side")
+                    _ou_agg = _ou_agg[_ou_agg["side"].isin(["OVER", "UNDER"])].copy() if not _ou_agg.empty else _ou_agg
+                    if _ou_agg.empty:
+                        st.caption("Sem dados.")
+                    else:
+                        _ou_c1, _ou_c2 = st.columns([1, 1])
+                        with _ou_c1:
+                            st.dataframe(
+                                _ou_agg[["side", "N", "W", "L", "WR%", "Lucro(u)", "ROI%", "AvgOdd(W)"]],
+                                use_container_width=True, hide_index=True,
+                                column_config={
+                                    "side": st.column_config.TextColumn("Side"),
+                                    "N": st.column_config.NumberColumn(format="%d"),
+                                    "WR%": st.column_config.NumberColumn(format="%.1f"),
+                                    "Lucro(u)": st.column_config.NumberColumn(format="%+.2f"),
+                                    "ROI%": st.column_config.NumberColumn(format="%.2f"),
+                                    "AvgOdd(W)": st.column_config.NumberColumn(format="%.2f"),
+                                },
+                            )
+                        with _ou_c2:
+                            st.bar_chart(_ou_agg.set_index("side")[["ROI%"]])
 
             st.divider()
 
             # ── Por liga ──
             st.subheader("Por liga")
-            sl = agg_stats(_p_df, "league_name")
-            sl = sl[sl["league_name"] != "—"].copy() if not sl.empty else sl
-            if not sl.empty:
-                st.dataframe(
-                    sl[["league_name", "N", "W", "L", "WR%", "Lucro(u)", "ROI%", "AvgOdd(W)"]],
-                    use_container_width=True, hide_index=True,
-                    column_config={
-                        "league_name": st.column_config.TextColumn("Liga"),
-                        "N": st.column_config.NumberColumn(format="%d"),
-                        "WR%": st.column_config.NumberColumn(format="%.1f"),
-                        "Lucro(u)": st.column_config.NumberColumn(format="%+.2f"),
-                        "ROI%": st.column_config.NumberColumn(format="%.2f"),
-                        "AvgOdd(W)": st.column_config.NumberColumn(format="%.2f"),
-                    },
-                )
+            _lg_tab_all, _lg_tab_emp, _lg_tab_ml = st.tabs(["Geral", "Empirico", "ML"])
+            for _lg_tab, _lg_label, _lg_subset in [
+                (_lg_tab_all, "Geral", _p_df),
+                (_lg_tab_emp, "Empirico", _p_df[_p_df["metodo"] == "Empírico"]),
+                (_lg_tab_ml, "ML", _p_df[_p_df["metodo"] == "ML"]),
+            ]:
+                with _lg_tab:
+                    _lg_agg = agg_stats(_lg_subset, "league_name")
+                    _lg_agg = _lg_agg[_lg_agg["league_name"] != "—"].copy() if not _lg_agg.empty else _lg_agg
+                    if _lg_agg.empty:
+                        st.caption("Sem dados.")
+                    else:
+                        st.dataframe(
+                            _lg_agg[["league_name", "N", "W", "L", "WR%", "Lucro(u)", "ROI%", "AvgOdd(W)"]],
+                            use_container_width=True, hide_index=True,
+                            column_config={
+                                "league_name": st.column_config.TextColumn("Liga"),
+                                "N": st.column_config.NumberColumn(format="%d"),
+                                "WR%": st.column_config.NumberColumn(format="%.1f"),
+                                "Lucro(u)": st.column_config.NumberColumn(format="%+.2f"),
+                                "ROI%": st.column_config.NumberColumn(format="%.2f"),
+                                "AvgOdd(W)": st.column_config.NumberColumn(format="%.2f"),
+                            },
+                        )
 
             st.divider()
 
             # ── Por faixa de odds ──
             st.subheader("Por faixa de odds")
-            sb = agg_stats(_p_df, "odds_bucket")
-            order = odds_bucket_order()
-            sb["_ord"] = sb["odds_bucket"].apply(lambda x: order.index(x) if x in order else 999)
-            sb = sb.sort_values("_ord").drop(columns=["_ord"])
-            if not sb.empty:
-                col_t2, col_c2 = st.columns([1, 1])
-                with col_t2:
-                    st.dataframe(
-                        sb[["odds_bucket", "N", "W", "L", "WR%", "Lucro(u)", "ROI%", "AvgOdd(W)"]],
-                        use_container_width=True, hide_index=True,
-                        column_config={
-                            "odds_bucket": st.column_config.TextColumn("Faixa"),
-                            "N": st.column_config.NumberColumn(format="%d"),
-                            "WR%": st.column_config.NumberColumn(format="%.1f"),
-                            "Lucro(u)": st.column_config.NumberColumn(format="%+.2f"),
-                            "ROI%": st.column_config.NumberColumn(format="%.2f"),
-                            "AvgOdd(W)": st.column_config.NumberColumn(format="%.2f"),
-                        },
-                    )
-                with col_c2:
-                    st.bar_chart(sb.set_index("odds_bucket")[["ROI%"]])
+            _ob_tab_all, _ob_tab_emp, _ob_tab_ml = st.tabs(["Geral", "Empirico", "ML"])
+            _ob_order = odds_bucket_order()
+            for _ob_tab, _ob_label, _ob_subset in [
+                (_ob_tab_all, "Geral", _p_df),
+                (_ob_tab_emp, "Empirico", _p_df[_p_df["metodo"] == "Empírico"]),
+                (_ob_tab_ml, "ML", _p_df[_p_df["metodo"] == "ML"]),
+            ]:
+                with _ob_tab:
+                    _ob_agg = agg_stats(_ob_subset, "odds_bucket")
+                    if not _ob_agg.empty:
+                        _ob_agg["_ord"] = _ob_agg["odds_bucket"].apply(
+                            lambda x: _ob_order.index(x) if x in _ob_order else 999
+                        )
+                        _ob_agg = _ob_agg.sort_values("_ord").drop(columns=["_ord"])
+                        _ob_c1, _ob_c2 = st.columns([1, 1])
+                        with _ob_c1:
+                            st.dataframe(
+                                _ob_agg[["odds_bucket", "N", "W", "L", "WR%", "Lucro(u)", "ROI%", "AvgOdd(W)"]],
+                                use_container_width=True, hide_index=True,
+                                column_config={
+                                    "odds_bucket": st.column_config.TextColumn("Faixa"),
+                                    "N": st.column_config.NumberColumn(format="%d"),
+                                    "WR%": st.column_config.NumberColumn(format="%.1f"),
+                                    "Lucro(u)": st.column_config.NumberColumn(format="%+.2f"),
+                                    "ROI%": st.column_config.NumberColumn(format="%.2f"),
+                                    "AvgOdd(W)": st.column_config.NumberColumn(format="%.2f"),
+                                },
+                            )
+                        with _ob_c2:
+                            st.bar_chart(_ob_agg.set_index("odds_bucket")[["ROI%"]])
+                    else:
+                        st.caption("Sem dados.")
 
             st.divider()
 
-            # ── Por método e por mapa ──
-            col_mtd, col_map = st.columns(2)
-            with col_mtd:
-                st.subheader("Por método")
-                sm = agg_stats(_p_df, "metodo")
-                if not sm.empty:
-                    st.dataframe(
-                        sm[["metodo", "N", "W", "L", "WR%", "Lucro(u)", "ROI%", "AvgOdd(W)"]],
-                        use_container_width=True, hide_index=True,
-                        column_config={
-                            "metodo": st.column_config.TextColumn("Método"),
-                            "N": st.column_config.NumberColumn(format="%d"),
-                            "WR%": st.column_config.NumberColumn(format="%.1f"),
-                            "Lucro(u)": st.column_config.NumberColumn(format="%+.2f"),
-                            "ROI%": st.column_config.NumberColumn(format="%.2f"),
-                            "AvgOdd(W)": st.column_config.NumberColumn(format="%.2f"),
-                        },
-                    )
-            with col_map:
-                st.subheader("Por mapa")
-                sp = agg_stats(_p_df, "mapa_label")
-                if not sp.empty:
-                    st.dataframe(
-                        sp[["mapa_label", "N", "W", "L", "WR%", "Lucro(u)", "ROI%", "AvgOdd(W)"]],
-                        use_container_width=True, hide_index=True,
-                        column_config={
-                            "mapa_label": st.column_config.TextColumn("Mapa"),
-                            "N": st.column_config.NumberColumn(format="%d"),
-                            "WR%": st.column_config.NumberColumn(format="%.1f"),
-                            "Lucro(u)": st.column_config.NumberColumn(format="%+.2f"),
-                            "ROI%": st.column_config.NumberColumn(format="%.2f"),
-                            "AvgOdd(W)": st.column_config.NumberColumn(format="%.2f"),
-                        },
-                    )
+            # ── Por mapa ──
+            st.subheader("Por mapa")
+            _mp_tab_all, _mp_tab_emp, _mp_tab_ml = st.tabs(["Geral", "Empirico", "ML"])
+            for _mp_tab, _mp_label, _mp_subset in [
+                (_mp_tab_all, "Geral", _p_df),
+                (_mp_tab_emp, "Empirico", _p_df[_p_df["metodo"] == "Empírico"]),
+                (_mp_tab_ml, "ML", _p_df[_p_df["metodo"] == "ML"]),
+            ]:
+                with _mp_tab:
+                    _mp_agg = agg_stats(_mp_subset, "mapa_label")
+                    if not _mp_agg.empty:
+                        st.dataframe(
+                            _mp_agg[["mapa_label", "N", "W", "L", "WR%", "Lucro(u)", "ROI%", "AvgOdd(W)"]],
+                            use_container_width=True, hide_index=True,
+                            column_config={
+                                "mapa_label": st.column_config.TextColumn("Mapa"),
+                                "N": st.column_config.NumberColumn(format="%d"),
+                                "WR%": st.column_config.NumberColumn(format="%.1f"),
+                                "Lucro(u)": st.column_config.NumberColumn(format="%+.2f"),
+                                "ROI%": st.column_config.NumberColumn(format="%.2f"),
+                                "AvgOdd(W)": st.column_config.NumberColumn(format="%.2f"),
+                            },
+                        )
+                    else:
+                        st.caption("Sem dados.")
 
             # ── Cenários (Top N por jogo+mapa) ──
             with st.expander("📊 Cenários (Top N por jogo+mapa)", expanded=False):
@@ -1905,10 +1994,12 @@ with tab_perf:
                 )
 
             # ── Best/worst league ──
-            if not sl.empty and len(sl) >= 2:
+            _bw_lg = agg_stats(_p_df, "league_name")
+            _bw_lg = _bw_lg[_bw_lg["league_name"] != "—"].copy() if not _bw_lg.empty else _bw_lg
+            if not _bw_lg.empty and len(_bw_lg) >= 2:
                 st.divider()
-                best = sl.loc[sl["ROI%"].idxmax()]
-                worst = sl.loc[sl["ROI%"].idxmin()]
+                best = _bw_lg.loc[_bw_lg["ROI%"].idxmax()]
+                worst = _bw_lg.loc[_bw_lg["ROI%"].idxmin()]
                 b1, b2 = st.columns(2)
                 with b1:
                     st.metric("Melhor liga (ROI%)", f"{best['league_name']}", f"{best['ROI%']:+.2f}%")
