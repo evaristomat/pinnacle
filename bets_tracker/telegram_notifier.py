@@ -25,6 +25,9 @@ TELEGRAM_API = f"https://api.telegram.org/bot{BOT_TOKEN}"
 # Controle de habilitação
 ENABLED = bool(BOT_TOKEN and CHAT_ID)
 
+# Separador visual
+SEP = "────────────────────────────────"
+
 
 def is_enabled() -> bool:
     """Retorna True se o Telegram está configurado."""
@@ -107,8 +110,8 @@ def _escape_html(text: str) -> str:
 
 
 def _format_ev(ev: float) -> str:
-    """Formata EV como porcentagem."""
-    return f"{ev * 100:.1f}%"
+    """Formata EV como porcentagem com sinal."""
+    return f"+{ev * 100:.1f}%"
 
 
 def _format_odd(odd: float) -> str:
@@ -119,33 +122,33 @@ def _format_odd(odd: float) -> str:
 def _format_method(metodo: str) -> str:
     """Formata nome do método."""
     if metodo == "probabilidade_empirica":
-        return "Empirico"
+        return "Empírico"
     elif metodo in ("ml", "machinelearning"):
         return "ML"
     return metodo
 
 
 def _format_side(side: str) -> str:
-    """Formata side com emoji."""
-    if side.lower() == "over":
-        return "OVER"
-    elif side.lower() == "under":
-        return "UNDER"
+    """Formata side."""
     return side.upper()
 
 
-def _format_market(market_type: str) -> str:
-    """Formata tipo de mercado."""
+def _format_market_label(market_type: str, side: str, line_value) -> str:
+    """Formata label do mercado completo (ex: OVER KILLS 27.5)."""
+    side_str = side.upper()
+    line_str = f" {line_value}" if line_value is not None else ""
+
     mapping = {
-        "total_kills": "Total Kills",
-        "total_kill_home": "Kills Home",
-        "total_kill_away": "Kills Away",
+        "total_kills": "KILLS",
+        "total_kill_home": "KILLS HOME",
+        "total_kill_away": "KILLS AWAY",
     }
-    return mapping.get(market_type, market_type)
+    market_label = mapping.get(market_type, market_type.upper())
+    return f"{side_str} {market_label}{line_str}"
 
 
 def _format_date(date_str: str) -> str:
-    """Formata data para exibição."""
+    """Formata data para exibição dd/mm às HH:MM."""
     if not date_str:
         return "?"
     try:
@@ -154,9 +157,17 @@ def _format_date(date_str: str) -> str:
             dt = datetime.fromisoformat(dt_clean)
         else:
             dt = datetime.strptime(dt_clean[:19], "%Y-%m-%d %H:%M:%S")
-        return dt.strftime("%d/%m %H:%M")
+        return dt.strftime("%d/%m às %H:%M")
     except Exception:
         return date_str[:10]
+
+
+def _calc_fair_odd(implied_prob: float = None, empirical_prob: float = None) -> Optional[float]:
+    """Calcula fair odd a partir da probabilidade empírica."""
+    prob = empirical_prob or implied_prob
+    if prob and prob > 0:
+        return 1.0 / prob
+    return None
 
 
 # ============================================================================
@@ -181,13 +192,6 @@ def notify_new_bets(bets: List[Dict], stats: Dict = None) -> bool:
     n_emp = sum(1 for b in bets if b.get("metodo") == "probabilidade_empirica")
     n_ml = sum(1 for b in bets if b.get("metodo") in ("ml", "machinelearning"))
 
-    # Header
-    lines = [
-        f"<b>NEW VALUE BETS ({n})</b>",
-        f"Empirico: {n_emp} | ML: {n_ml}",
-        "",
-    ]
-
     # Agrupa por jogo (matchup_id)
     games = {}
     for bet in bets:
@@ -202,42 +206,77 @@ def notify_new_bets(bets: List[Dict], stats: Dict = None) -> bool:
             }
         games[mid]["bets"].append(bet)
 
+    # Envia uma mensagem por jogo para ficar mais limpo
+    messages_sent = 0
     for mid, game in games.items():
         home = _escape_html(game["home"])
         away = _escape_html(game["away"])
         league = _escape_html(game["league"])
         date_str = _format_date(game["date"])
 
-        lines.append(f"<b>{home} vs {away}</b>")
-        lines.append(f"{league} | {date_str}")
+        lines = [
+            f"🎯 <b>JOGO — {home} vs {away}</b>",
+            f"📅 {date_str}",
+            f"🏆 {league}",
+            SEP,
+        ]
 
+        # Agrupa bets por mapa
+        bets_by_map = {}
         for bet in game["bets"]:
-            side = _format_side(bet.get("side", ""))
-            line_val = bet.get("line_value")
-            line_str = f" {line_val}" if line_val is not None else ""
-            odd = _format_odd(bet.get("odd_decimal", 0))
-            ev = _format_ev(bet.get("expected_value", 0))
-            method = _format_method(bet.get("metodo", ""))
-            market = _format_market(bet.get("market_type", ""))
             mapa = bet.get("mapa")
-            mapa_str = f"M{mapa}" if mapa else ""
+            if mapa not in bets_by_map:
+                bets_by_map[mapa] = []
+            bets_by_map[mapa].append(bet)
 
-            lines.append(
-                f"  {side}{line_str} @ <b>{odd}</b> | EV {ev} | {method} | {market} {mapa_str}"
-            )
+        for mapa in sorted(bets_by_map.keys(), key=lambda x: x if x is not None else 99):
+            map_bets = bets_by_map[mapa]
+            mapa_label = f"MAP {mapa}" if mapa else "MATCH"
 
-        lines.append("")
+            for bet in map_bets:
+                method = _format_method(bet.get("metodo", ""))
+                market_label = _format_market_label(
+                    bet.get("market_type", ""),
+                    bet.get("side", ""),
+                    bet.get("line_value"),
+                )
+                odd = _format_odd(bet.get("odd_decimal", 0))
+                ev = _format_ev(bet.get("expected_value", 0))
 
-    # Footer com stats
-    if stats:
-        lines.append(
-            f"Jogos: {stats.get('games_analyzed', 0)} | "
-            f"Encontradas: {stats.get('bets_found', 0)} | "
-            f"Salvas: {stats.get('bets_saved', 0)}"
+                # Calcula fair odd
+                fair_odd = _calc_fair_odd(
+                    empirical_prob=bet.get("empirical_prob"),
+                )
+                fair_str = f" → Fair: {fair_odd:.2f}" if fair_odd else ""
+
+                # Historico
+                hist_games = bet.get("historical_games")
+                hist_str = f" ({hist_games} jogos)" if hist_games else ""
+
+                lines.append("")
+                lines.append(f"<b>{mapa_label}</b>")
+                lines.append(f"🔬 Método: {method}{hist_str}")
+                lines.append(f"✅ <b>{market_label}</b>")
+                lines.append(f"💰 Odds: <b>{odd}</b>{fair_str}")
+                lines.append(f"📊 EV: <b>{ev}</b>")
+
+        text = "\n".join(lines).strip()
+        if _send_message(text):
+            messages_sent += 1
+
+    # Mensagem de resumo se muitos jogos
+    if len(games) > 1 and stats:
+        summary = (
+            f"📋 <b>RESUMO DA COLETA</b>\n"
+            f"{SEP}\n"
+            f"🎮 Jogos analisados: {stats.get('games_analyzed', 0)}\n"
+            f"🎯 Bets encontradas: {stats.get('bets_found', 0)} "
+            f"(🔬 {n_emp} Emp | 🤖 {n_ml} ML)\n"
+            f"💾 Salvas: {stats.get('bets_saved', 0)}"
         )
+        _send_message(summary)
 
-    text = "\n".join(lines).strip()
-    return _send_message(text)
+    return messages_sent > 0
 
 
 # ============================================================================
@@ -266,59 +305,69 @@ def notify_results_updated(results: List[Dict], roi_stats: Dict = None) -> bool:
 
     # Header
     lines = [
-        f"<b>RESULTS UPDATE ({n})</b>",
-        f"Won: {len(wins)} | Lost: {len(losses)}" + (f" | Void: {len(voids)}" if voids else ""),
+        f"📊 <b>RESULTADOS ATUALIZADOS ({n})</b>",
+        SEP,
+        f"✅ Wins: {len(wins)} | ❌ Losses: {len(losses)}"
+        + (f" | ⚪ Void: {len(voids)}" if voids else ""),
         "",
     ]
 
     # Wins
     if wins:
-        lines.append("<b>WON</b>")
+        lines.append("✅ <b>WON</b>")
+        lines.append("")
         for r in wins:
             bet = r["bet"]
             home = _escape_html(bet.get("home_team", "?"))
             away = _escape_html(bet.get("away_team", "?"))
             league = _escape_html(bet.get("league_name", "?"))
-            side = _format_side(bet.get("side", ""))
-            line_val = bet.get("line_value")
-            line_str = f" {line_val}" if line_val is not None else ""
-            odd = _format_odd(bet.get("odd_decimal", 0))
-            result_val = r.get("result_value")
-            result_str = f" (Real: {result_val})" if result_val is not None else ""
-            profit = bet.get("odd_decimal", 0) - 1
             method = _format_method(bet.get("metodo", ""))
             mapa = bet.get("mapa")
-            mapa_str = f" M{mapa}" if mapa else ""
+            mapa_str = f" — Map {mapa}" if mapa else ""
 
-            lines.append(f"  {home} vs {away} | {league}{mapa_str}")
-            lines.append(
-                f"  {side}{line_str} @ <b>{odd}</b> | +{profit:.2f}u | {method}{result_str}"
+            market_label = _format_market_label(
+                bet.get("market_type", ""),
+                bet.get("side", ""),
+                bet.get("line_value"),
             )
-        lines.append("")
+            odd = _format_odd(bet.get("odd_decimal", 0))
+            profit = bet.get("odd_decimal", 0) - 1
+            result_val = r.get("result_value")
+            result_str = f" (Real: {result_val})" if result_val is not None else ""
+
+            lines.append(f"🎯 {home} vs {away}{mapa_str}")
+            lines.append(f"🏆 {league} | 🔬 {method}")
+            lines.append(f"✅ {market_label} @ <b>{odd}</b>")
+            lines.append(f"💰 <b>+{profit:.2f}u</b>{result_str}")
+            lines.append("")
 
     # Losses
     if losses:
-        lines.append("<b>LOST</b>")
+        lines.append("❌ <b>LOST</b>")
+        lines.append("")
         for r in losses:
             bet = r["bet"]
             home = _escape_html(bet.get("home_team", "?"))
             away = _escape_html(bet.get("away_team", "?"))
             league = _escape_html(bet.get("league_name", "?"))
-            side = _format_side(bet.get("side", ""))
-            line_val = bet.get("line_value")
-            line_str = f" {line_val}" if line_val is not None else ""
+            method = _format_method(bet.get("metodo", ""))
+            mapa = bet.get("mapa")
+            mapa_str = f" — Map {mapa}" if mapa else ""
+
+            market_label = _format_market_label(
+                bet.get("market_type", ""),
+                bet.get("side", ""),
+                bet.get("line_value"),
+            )
             odd = _format_odd(bet.get("odd_decimal", 0))
             result_val = r.get("result_value")
             result_str = f" (Real: {result_val})" if result_val is not None else ""
-            method = _format_method(bet.get("metodo", ""))
-            mapa = bet.get("mapa")
-            mapa_str = f" M{mapa}" if mapa else ""
 
-            lines.append(f"  {home} vs {away} | {league}{mapa_str}")
-            lines.append(
-                f"  {side}{line_str} @ <b>{odd}</b> | -1.00u | {method}{result_str}"
-            )
-        lines.append("")
+            lines.append(f"🎯 {home} vs {away}{mapa_str}")
+            lines.append(f"🏆 {league} | 🔬 {method}")
+            lines.append(f"❌ {market_label} @ <b>{odd}</b>")
+            lines.append(f"💸 <b>-1.00u</b>{result_str}")
+            lines.append("")
 
     # ROI summary
     if roi_stats and roi_stats.get("total_resolved", 0) > 0:
@@ -329,14 +378,14 @@ def notify_results_updated(results: List[Dict], roi_stats: Dict = None) -> bool:
         ret = roi.get("return_pct", 0)
         lucro = roi.get("lucro", 0)
 
+        profit_emoji = "📈" if lucro >= 0 else "📉"
         profit_symbol = "+" if lucro >= 0 else ""
         ret_symbol = "+" if ret >= 0 else ""
 
-        lines.append("<b>ROI GERAL</b>")
-        lines.append(
-            f"  {total_r} resolvidas | {w} wins ({wr:.1f}%) | "
-            f"{ret_symbol}{ret:.1f}% | {profit_symbol}{lucro:.2f}u"
-        )
+        lines.append(SEP)
+        lines.append(f"{profit_emoji} <b>ROI GERAL</b>")
+        lines.append(f"📋 {total_r} resolvidas | {w} wins ({wr:.1f}%)")
+        lines.append(f"💰 Return: <b>{ret_symbol}{ret:.1f}%</b> | Lucro: <b>{profit_symbol}{lucro:.2f}u</b>")
 
     text = "\n".join(lines).strip()
     return _send_message(text)
@@ -353,9 +402,9 @@ def send_test_message() -> bool:
         return False
 
     text = (
-        "<b>Pinnacle Bot - Teste</b>\n\n"
-        f"Bot configurado e funcionando.\n"
-        f"Data: {datetime.now().strftime('%d/%m/%Y %H:%M:%S')}"
+        "🤖 <b>Pinnacle Bot — Teste</b>\n\n"
+        f"✅ Bot configurado e funcionando.\n"
+        f"📅 {datetime.now().strftime('%d/%m/%Y %H:%M:%S')}"
     )
     success = _send_message(text)
     if success:
