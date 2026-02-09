@@ -120,18 +120,35 @@ def _games_today_tomorrow():
 
 
 def _champions_from_history():
-    """Lista de campeões únicos em lol_history (compositions)."""
-    if not HISTORY_DB.exists():
-        return []
-    conn = sqlite3.connect(HISTORY_DB)
-    cur = conn.cursor()
-    cur.execute("SELECT top, jung, mid, adc, sup FROM compositions")
-    champs = set()
-    for row in cur.fetchall():
-        for c in row:
-            if c and str(c).strip():
-                champs.add(str(c).strip())
-    conn.close()
+    """Lista de campeões únicos em lol_history (compositions), com fallback para champions.json."""
+    champs: set[str] = set()
+
+    # Fonte 1: banco lol_history.db (local)
+    if HISTORY_DB.exists():
+        try:
+            conn = sqlite3.connect(HISTORY_DB)
+            cur = conn.cursor()
+            cur.execute("SELECT top, jung, mid, adc, sup FROM compositions")
+            for row in cur.fetchall():
+                for c in row:
+                    if c and str(c).strip():
+                        champs.add(str(c).strip())
+            conn.close()
+        except Exception:
+            pass
+
+    # Fonte 2 (fallback): champions.json (sempre no repo)
+    if not champs:
+        _json_path = ROOT / "champions.json"
+        if _json_path.exists():
+            try:
+                with open(_json_path, encoding="utf-8") as f:
+                    data = json.load(f)
+                if isinstance(data, list):
+                    champs = {str(c).strip() for c in data if c}
+            except Exception:
+                pass
+
     return sorted(champs)
 
 
@@ -1206,7 +1223,10 @@ with tab_draft:
     games_today, games_tomorrow = _games_today_tomorrow()
     games_for_picker = (games_today or []) + (games_tomorrow or [])
     champs = _champions_from_history()
-    empty = [""] + (champs or ["Nenhum campeão"])
+    # Inclui campeões extras vindos da API (preenchidos pelo botão "Preencher campeões")
+    extra = st.session_state.get("_draft_extra_champs", [])
+    all_champs = sorted(set(champs) | set(extra)) if champs or extra else []
+    empty = [""] + (all_champs or ["Nenhum campeão"])
 
     # ── Container 1: Game selection ──
     with st.container(border=True):
@@ -1371,7 +1391,29 @@ with tab_draft:
                             st.dataframe(df_preview, width="stretch", hide_index=True)
 
                             if do_fill:
-                                opts = empty
+                                # Coleta todos os nomes do draft da API
+                                api_champs: list[str] = []
+                                for role in ["top", "jung", "mid", "adc", "sup"]:
+                                    for td in (t1_draft, t2_draft):
+                                        raw = td.get(role, "")
+                                        if raw and str(raw).strip():
+                                            api_champs.append(str(raw).strip())
+                                            mapped = LOL_CHAMPION_ID_MAP.get(str(raw).strip())
+                                            if mapped:
+                                                api_champs.append(mapped)
+
+                                # Adiciona ao options os campeões da API que não existem
+                                opts = list(empty)
+                                for ac in api_champs:
+                                    if ac not in opts:
+                                        opts.append(ac)
+                                opts.sort(key=lambda x: (x == "", x))
+
+                                # Salva options expandidas para o rerun
+                                st.session_state["_draft_extra_champs"] = sorted(
+                                    set(api_champs) - set(empty)
+                                )
+
                                 for role in ["top", "jung", "mid", "adc", "sup"]:
                                     st.session_state[f"{role}_t1"] = _match_champ_to_options(t1_draft.get(role, ""), opts)
                                     st.session_state[f"{role}_t2"] = _match_champ_to_options(t2_draft.get(role, ""), opts)
