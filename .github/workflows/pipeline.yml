@@ -2,9 +2,12 @@ name: Pinnacle Pipeline
 
 on:
   schedule:
-    # Roda 3x ao dia: 10:00, 16:00, 22:00 UTC
-    # Ajustar conforme horarios dos jogos de LoL
-    - cron: '0 10,16,22 * * *'
+    # 13:00 UTC - Pipeline completo COM download do historico
+    # (CSV e atualizado ~meio-dia, entao baixamos logo apos)
+    - cron: '0 13 * * *'
+    # 10:00 e 22:00 UTC - Pipeline SEM download do historico
+    # (usa dados em cache, so coleta odds + value bets)
+    - cron: '0 10,22 * * *'
   workflow_dispatch:
     # Permite execucao manual com opcoes
     inputs:
@@ -64,10 +67,29 @@ jobs:
             pinnacle-data-
 
       # ------------------------------------------------------------------
+      # Determine if this is the history-download run (13:00 UTC)
+      # ------------------------------------------------------------------
+      - name: Check if history download run
+        id: check_schedule
+        run: |
+          HOUR=$(date -u +%H)
+          if [ "$HOUR" = "13" ]; then
+            echo "skip_history=false" >> $GITHUB_OUTPUT
+            echo "Pipeline completo COM download do historico (13:00 UTC)"
+          else
+            echo "skip_history=true" >> $GITHUB_OUTPUT
+            echo "Pipeline SEM download do historico ($HOUR:00 UTC)"
+          fi
+
+      # ------------------------------------------------------------------
       # Run the pipeline
       # ------------------------------------------------------------------
-      - name: Run full pipeline
-        if: ${{ github.event_name == 'schedule' || (github.event.inputs.only_step == '' && github.event.inputs.skip_history == 'false') }}
+
+      # Schedule: 13:00 UTC - pipeline completo com historico
+      - name: Run full pipeline (with history download)
+        if: >-
+          github.event_name == 'schedule'
+          && steps.check_schedule.outputs.skip_history == 'false'
         env:
           PINNACLE_SIG: ${{ secrets.PINNACLE_SIG }}
           PINNACLE_APT: ${{ secrets.PINNACLE_APT }}
@@ -80,8 +102,11 @@ jobs:
           PINNACLE_EV_MIN_APP: ${{ secrets.PINNACLE_EV_MIN_APP }}
         run: python run_all.py
 
-      - name: Run pipeline (skip history)
-        if: ${{ github.event.inputs.skip_history == 'true' && github.event.inputs.only_step == '' }}
+      # Schedule: 10:00 / 22:00 UTC - pipeline sem historico
+      - name: Run pipeline (skip history, use cache)
+        if: >-
+          github.event_name == 'schedule'
+          && steps.check_schedule.outputs.skip_history == 'true'
         env:
           PINNACLE_SIG: ${{ secrets.PINNACLE_SIG }}
           PINNACLE_APT: ${{ secrets.PINNACLE_APT }}
@@ -94,8 +119,47 @@ jobs:
           PINNACLE_EV_MIN_APP: ${{ secrets.PINNACLE_EV_MIN_APP }}
         run: python run_all.py --skip-history
 
-      - name: Run single step
-        if: ${{ github.event.inputs.only_step != '' }}
+      # Manual: pipeline completo
+      - name: Run full pipeline (manual)
+        if: >-
+          github.event_name == 'workflow_dispatch'
+          && github.event.inputs.only_step == ''
+          && github.event.inputs.skip_history == 'false'
+        env:
+          PINNACLE_SIG: ${{ secrets.PINNACLE_SIG }}
+          PINNACLE_APT: ${{ secrets.PINNACLE_APT }}
+          PINNACLE_PCTAG: ${{ secrets.PINNACLE_PCTAG }}
+          PINNACLE_API_KEY: ${{ secrets.PINNACLE_API_KEY }}
+          PINNACLE_DEVICE_UUID: ${{ secrets.PINNACLE_DEVICE_UUID }}
+          PINNACLE_DIRECTUS_TOKEN: ${{ secrets.PINNACLE_DIRECTUS_TOKEN }}
+          PINNACLE_DPVXZ: ${{ secrets.PINNACLE_DPVXZ }}
+          PINNACLE_EV_MIN_STORE: ${{ secrets.PINNACLE_EV_MIN_STORE }}
+          PINNACLE_EV_MIN_APP: ${{ secrets.PINNACLE_EV_MIN_APP }}
+        run: python run_all.py
+
+      # Manual: skip history
+      - name: Run pipeline without history (manual)
+        if: >-
+          github.event_name == 'workflow_dispatch'
+          && github.event.inputs.only_step == ''
+          && github.event.inputs.skip_history == 'true'
+        env:
+          PINNACLE_SIG: ${{ secrets.PINNACLE_SIG }}
+          PINNACLE_APT: ${{ secrets.PINNACLE_APT }}
+          PINNACLE_PCTAG: ${{ secrets.PINNACLE_PCTAG }}
+          PINNACLE_API_KEY: ${{ secrets.PINNACLE_API_KEY }}
+          PINNACLE_DEVICE_UUID: ${{ secrets.PINNACLE_DEVICE_UUID }}
+          PINNACLE_DIRECTUS_TOKEN: ${{ secrets.PINNACLE_DIRECTUS_TOKEN }}
+          PINNACLE_DPVXZ: ${{ secrets.PINNACLE_DPVXZ }}
+          PINNACLE_EV_MIN_STORE: ${{ secrets.PINNACLE_EV_MIN_STORE }}
+          PINNACLE_EV_MIN_APP: ${{ secrets.PINNACLE_EV_MIN_APP }}
+        run: python run_all.py --skip-history
+
+      # Manual: etapa especifica
+      - name: Run single step (manual)
+        if: >-
+          github.event_name == 'workflow_dispatch'
+          && github.event.inputs.only_step != ''
         env:
           PINNACLE_SIG: ${{ secrets.PINNACLE_SIG }}
           PINNACLE_APT: ${{ secrets.PINNACLE_APT }}
@@ -144,6 +208,7 @@ jobs:
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "- **Run:** #${{ github.run_number }}" >> $GITHUB_STEP_SUMMARY
           echo "- **Trigger:** ${{ github.event_name }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **History download:** ${{ steps.check_schedule.outputs.skip_history == 'false' && 'Yes' || 'No (cached)' }}" >> $GITHUB_STEP_SUMMARY
           echo "- **Date:** $(date -u '+%Y-%m-%d %H:%M:%S UTC')" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "### Database files" >> $GITHUB_STEP_SUMMARY
