@@ -45,7 +45,7 @@ from bets_database import (
 from update_results import ResultsUpdater
 
 # Config (bets_tracker)
-from config import PINNACLE_DB, BETS_DB, USER_BETS_DB, HISTORY_DB
+from config import PINNACLE_DB, BETS_DB, USER_BETS_DB, HISTORY_DB, IS_CLOUD
 
 # Estatísticas resolvidas EV15+
 from stats_resolved import (
@@ -593,7 +593,7 @@ def render_pl_curve(df_curve: pd.DataFrame):
     ).encode(y="y:Q")
     st.altair_chart(
         (line + points + zero).properties(height=350).interactive(),
-        use_container_width=True,
+        width="stretch",
     )
 
 
@@ -638,14 +638,14 @@ def _render_action_btn(row, idx, *, source, key_prefix, already_placed_keys, sho
         st.caption("✅")
     elif status_val == "pending" and show_mark:
         if st.button("✓", key=f"{key_prefix}mk_{idx}", help="Marcar como feita",
-                      use_container_width=True, type="secondary"):
+                      width="stretch", type="secondary"):
             ok = (_add_model_bet_to_user_db(int(row["id"])) if source == "model"
                   else mark_bet_placed(int(row["id"]), db_path=USER_BETS_DB))
             if ok:
                 st.rerun()
     elif status_val == "feita" and show_remove:
         if st.button("✗", key=f"{key_prefix}rm_{idx}", help="Remover",
-                      use_container_width=True, type="secondary"):
+                      width="stretch", type="secondary"):
             if unmark_bet_placed(int(row["id"]), db_path=USER_BETS_DB):
                 st.rerun()
     else:
@@ -846,7 +846,7 @@ def _render_draft_ml_bets_table(bet_rows: list[dict], key_prefix: str = "draft_m
                 st.caption("✅")
             else:
                 if st.button("✓", key=f"{key_prefix}mark_{i}", help="Marcar como feita",
-                              use_container_width=True, type="secondary"):
+                              width="stretch", type="secondary"):
                     bet_data = st.session_state.get("draft_ml_bet_rows")
                     if bet_data and i < len(bet_data):
                         bd = bet_data[i]
@@ -928,31 +928,34 @@ with st.sidebar:
 
     st.divider()
 
-    # Pipeline button
-    if st.button("🔄 Atualizar Pipeline", use_container_width=True, type="primary"):
-        with st.spinner("Rodando run_all.py..."):
-            try:
-                _pipe_result = subprocess.run(
-                    [sys.executable, str(ROOT / "run_all.py")],
-                    cwd=str(ROOT),
-                    capture_output=True,
-                    text=True,
-                    timeout=300,
-                )
-                if _pipe_result.returncode == 0:
-                    st.success("Pipeline concluído!")
-                else:
-                    st.error(f"Pipeline falhou (exit {_pipe_result.returncode})")
-                    with st.expander("Output"):
-                        if _pipe_result.stdout:
-                            st.code(_pipe_result.stdout[-2000:])
-                        if _pipe_result.stderr:
-                            st.code(_pipe_result.stderr[-2000:])
-            except subprocess.TimeoutExpired:
-                st.error("Pipeline excedeu timeout de 5 min.")
-            except Exception as _pipe_err:
-                st.error(f"Erro ao rodar pipeline: {_pipe_err}")
-        st.rerun()
+    if IS_CLOUD:
+        st.caption("☁️ Modo Cloud (read-only)")
+    else:
+        # Pipeline button (apenas local)
+        if st.button("🔄 Atualizar Pipeline", width="stretch", type="primary"):
+            with st.spinner("Rodando run_all.py..."):
+                try:
+                    _pipe_result = subprocess.run(
+                        [sys.executable, str(ROOT / "run_all.py")],
+                        cwd=str(ROOT),
+                        capture_output=True,
+                        text=True,
+                        timeout=300,
+                    )
+                    if _pipe_result.returncode == 0:
+                        st.success("Pipeline concluído!")
+                    else:
+                        st.error(f"Pipeline falhou (exit {_pipe_result.returncode})")
+                        with st.expander("Output"):
+                            if _pipe_result.stdout:
+                                st.code(_pipe_result.stdout[-2000:])
+                            if _pipe_result.stderr:
+                                st.code(_pipe_result.stderr[-2000:])
+                except subprocess.TimeoutExpired:
+                    st.error("Pipeline excedeu timeout de 5 min.")
+                except Exception as _pipe_err:
+                    st.error(f"Erro ao rodar pipeline: {_pipe_err}")
+            st.rerun()
 
 
 # ═══════════════════════════════════════════════════════════════
@@ -1018,7 +1021,7 @@ with tab_dash:
             ])
             st.dataframe(
                 _method_comp,
-                use_container_width=True,
+                width="stretch",
                 hide_index=True,
                 column_config={
                     "N": st.column_config.NumberColumn(format="%d"),
@@ -1082,7 +1085,7 @@ with tab_dash:
                         "metodo": "Metodo",
                     }
                 ),
-                use_container_width=True,
+                width="stretch",
                 hide_index=True,
                 column_config={
                     "Odd": st.column_config.NumberColumn("Odd", format="%.2f"),
@@ -1286,7 +1289,7 @@ with tab_draft:
                     ls_rows.append({"Liga": league_ls, "Jogo": f"{t1_ls} vs {t2_ls}",
                                     "Horário": start_display, "Status": state})
                 if ls_rows:
-                    st.dataframe(pd.DataFrame(ls_rows), use_container_width=True, hide_index=True)
+                    st.dataframe(pd.DataFrame(ls_rows), width="stretch", hide_index=True)
                 else:
                     st.info("Nenhum jogo encontrado.")
             except Exception as e:
@@ -1307,9 +1310,9 @@ with tab_draft:
             map_choice = st.selectbox("Mapa ao vivo", [1, 2, 3, 4, 5], index=0, key="ls_map_choice")
             col_a, col_b = st.columns(2)
             with col_a:
-                do_fetch = st.button("🔄 Buscar draft", type="secondary", use_container_width=True)
+                do_fetch = st.button("🔄 Buscar draft", type="secondary", width="stretch")
             with col_b:
-                do_fill = st.button("✅ Preencher campeões", type="primary", use_container_width=True)
+                do_fill = st.button("✅ Preencher campeões", type="primary", width="stretch")
 
             if do_fetch or do_fill:
                 try:
@@ -1410,7 +1413,7 @@ with tab_draft:
     with st.container(border=True):
         st.markdown("**🔬 Resultados**")
 
-        run_ml = st.button("▶ Rodar Modelo (empírico + ML)", type="primary", use_container_width=True)
+        run_ml = st.button("▶ Rodar Modelo (empírico + ML)", type="primary", width="stretch")
         results = []
         value_bets = []
         draft_data = {}
@@ -1562,7 +1565,7 @@ with tab_draft:
                         "EV%": float(vb.get("expected_value") or 0) * 100,
                     } for vb in value_bets_ev])
                     st.dataframe(df_emp_ev.sort_values("EV%", ascending=False),
-                                 use_container_width=True, hide_index=True,
+                                 width="stretch", hide_index=True,
                                  column_config={
                                      "Linha": st.column_config.NumberColumn(format="%.1f"),
                                      "Odd": st.column_config.NumberColumn(format="%.2f"),
@@ -1579,7 +1582,7 @@ with tab_draft:
                         "P(UNDER)": info.get("ml_prob_under"),
                         "Status": "✅ Confiante" if info.get("ml_pred") else "⚠ Abaixo do threshold",
                     } for line, info in ml_by_line.items()])
-                    st.dataframe(df_ml.sort_values("Linha"), use_container_width=True, hide_index=True,
+                    st.dataframe(df_ml.sort_values("Linha"), width="stretch", hide_index=True,
                                  column_config={
                                      "P(OVER)": st.column_config.NumberColumn(format="%.3f"),
                                      "P(UNDER)": st.column_config.NumberColumn(format="%.3f"),
@@ -1607,7 +1610,7 @@ with tab_draft:
                             } for r in converged])
                             st.dataframe(
                                 df_conv.sort_values("EV%", ascending=False),
-                                use_container_width=True, hide_index=True,
+                                width="stretch", hide_index=True,
                                 column_config={
                                     "Linha": st.column_config.NumberColumn(format="%.1f"),
                                     "Odd": st.column_config.NumberColumn(format="%.2f"),
@@ -1628,7 +1631,7 @@ with tab_draft:
                                     "EV%": (r.get("ev") * 100) if r.get("ev") else None,
                                     "ML": r.get("ml_pred"),
                                 } for r in diverged])
-                                st.dataframe(df_div, use_container_width=True, hide_index=True)
+                                st.dataframe(df_div, width="stretch", hide_index=True)
 
         # ── Good bets table (always shown if available) ──
         if results and value_bets and matchup_id_sel is not None:
@@ -1663,7 +1666,7 @@ with tab_minhas:
         # ── Sub-tab: Aguardando ──
         with sub_aguard:
             # Update results button (prominent)
-            if st.button("🔄 Atualizar Resultados", type="primary", use_container_width=False):
+            if st.button("🔄 Atualizar Resultados", type="primary", width="content"):
                 with st.spinner("Atualizando resultados..."):
                     try:
                         updater = ResultsUpdater(db_path=USER_BETS_DB)
@@ -1799,21 +1802,21 @@ with tab_perf:
                 _comp_df = pd.DataFrame({
                     "Metrica": ["Apostas", "Vitorias", "Derrotas", "Winrate", "Lucro (u)", "ROI%", "Odd media (W)"],
                     "Empirico": [
-                        _se["n"], _se["w"], _se["l"],
+                        str(_se["n"]), str(_se["w"]), str(_se["l"]),
                         f"{_se['wr']:.1f}%",
                         f"{_se['lucro']:+.2f}",
                         f"{_se['roi']:+.1f}%",
                         f"{_se['avg_odd_w']:.2f}" if _se["avg_odd_w"] else "—",
                     ],
                     "ML": [
-                        _sm["n"], _sm["w"], _sm["l"],
+                        str(_sm["n"]), str(_sm["w"]), str(_sm["l"]),
                         f"{_sm['wr']:.1f}%",
                         f"{_sm['lucro']:+.2f}",
                         f"{_sm['roi']:+.1f}%",
                         f"{_sm['avg_odd_w']:.2f}" if _sm["avg_odd_w"] else "—",
                     ],
                 })
-                st.dataframe(_comp_df, use_container_width=True, hide_index=True)
+                st.dataframe(_comp_df, width="stretch", hide_index=True)
 
                 # P/L comparison side by side
                 _col_pl_e, _col_pl_m = st.columns(2)
@@ -1844,7 +1847,7 @@ with tab_perf:
                         with _ou_c1:
                             st.dataframe(
                                 _ou_agg[["side", "N", "W", "L", "WR%", "Lucro(u)", "ROI%", "AvgOdd(W)"]],
-                                use_container_width=True, hide_index=True,
+                                width="stretch", hide_index=True,
                                 column_config={
                                     "side": st.column_config.TextColumn("Side"),
                                     "N": st.column_config.NumberColumn(format="%d"),
@@ -1875,7 +1878,7 @@ with tab_perf:
                     else:
                         st.dataframe(
                             _lg_agg[["league_name", "N", "W", "L", "WR%", "Lucro(u)", "ROI%", "AvgOdd(W)"]],
-                            use_container_width=True, hide_index=True,
+                            width="stretch", hide_index=True,
                             column_config={
                                 "league_name": st.column_config.TextColumn("Liga"),
                                 "N": st.column_config.NumberColumn(format="%d"),
@@ -1908,7 +1911,7 @@ with tab_perf:
                         with _ob_c1:
                             st.dataframe(
                                 _ob_agg[["odds_bucket", "N", "W", "L", "WR%", "Lucro(u)", "ROI%", "AvgOdd(W)"]],
-                                use_container_width=True, hide_index=True,
+                                width="stretch", hide_index=True,
                                 column_config={
                                     "odds_bucket": st.column_config.TextColumn("Faixa"),
                                     "N": st.column_config.NumberColumn(format="%d"),
@@ -1938,7 +1941,7 @@ with tab_perf:
                     if not _mp_agg.empty:
                         st.dataframe(
                             _mp_agg[["mapa_label", "N", "W", "L", "WR%", "Lucro(u)", "ROI%", "AvgOdd(W)"]],
-                            use_container_width=True, hide_index=True,
+                            width="stretch", hide_index=True,
                             column_config={
                                 "mapa_label": st.column_config.TextColumn("Mapa"),
                                 "N": st.column_config.NumberColumn(format="%d"),
@@ -1984,7 +1987,7 @@ with tab_perf:
                         })
                 df_scen = pd.DataFrame(scenarios)
                 st.dataframe(
-                    df_scen, use_container_width=True, hide_index=True,
+                    df_scen, width="stretch", hide_index=True,
                     column_config={
                         "N": st.column_config.NumberColumn(format="%d"),
                         "WR%": st.column_config.NumberColumn(format="%.1f"),

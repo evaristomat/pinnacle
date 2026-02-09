@@ -9,6 +9,9 @@ __pycache__/
 # Databases (dados locais, nao commitar)
 *.db
 *.db-journal
+# Exceções: DBs necessários para deploy no Streamlit Cloud
+!pinnacle_data.db
+!bets_tracker/bets.db
 
 # Dados gerados
 league_of_legends_data.json
@@ -35,3 +38,7 @@ database_improved/data_transformed.csv
 # IDE
 .vscode/
 .idea/
+
+# Cache Python (nao commitar)
+__pycache__/
+*.pyc

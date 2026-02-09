@@ -11,6 +11,9 @@ __pycache__/
 # Dados e modelos (gerados)
 data/
 models/
+# Exceção: modelos treinados necessários para deploy
+!modelo_2026/models/
+!modelo_2026/models/*.pkl
 
 # Ambiente virtual
 venv/
