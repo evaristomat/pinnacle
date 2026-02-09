@@ -32,6 +32,20 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 30
 
+    # Env vars compartilhadas por todos os steps
+    env:
+      PINNACLE_SIG: ${{ secrets.PINNACLE_SIG }}
+      PINNACLE_APT: ${{ secrets.PINNACLE_APT }}
+      PINNACLE_PCTAG: ${{ secrets.PINNACLE_PCTAG }}
+      PINNACLE_API_KEY: ${{ secrets.PINNACLE_API_KEY }}
+      PINNACLE_DEVICE_UUID: ${{ secrets.PINNACLE_DEVICE_UUID }}
+      PINNACLE_DIRECTUS_TOKEN: ${{ secrets.PINNACLE_DIRECTUS_TOKEN }}
+      PINNACLE_DPVXZ: ${{ secrets.PINNACLE_DPVXZ }}
+      PINNACLE_EV_MIN_STORE: ${{ secrets.PINNACLE_EV_MIN_STORE }}
+      PINNACLE_EV_MIN_APP: ${{ secrets.PINNACLE_EV_MIN_APP }}
+      TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+      TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+
     steps:
       # ------------------------------------------------------------------
       # Setup
@@ -90,16 +104,6 @@ jobs:
         if: >-
           github.event_name == 'schedule'
           && steps.check_schedule.outputs.skip_history == 'false'
-        env:
-          PINNACLE_SIG: ${{ secrets.PINNACLE_SIG }}
-          PINNACLE_APT: ${{ secrets.PINNACLE_APT }}
-          PINNACLE_PCTAG: ${{ secrets.PINNACLE_PCTAG }}
-          PINNACLE_API_KEY: ${{ secrets.PINNACLE_API_KEY }}
-          PINNACLE_DEVICE_UUID: ${{ secrets.PINNACLE_DEVICE_UUID }}
-          PINNACLE_DIRECTUS_TOKEN: ${{ secrets.PINNACLE_DIRECTUS_TOKEN }}
-          PINNACLE_DPVXZ: ${{ secrets.PINNACLE_DPVXZ }}
-          PINNACLE_EV_MIN_STORE: ${{ secrets.PINNACLE_EV_MIN_STORE }}
-          PINNACLE_EV_MIN_APP: ${{ secrets.PINNACLE_EV_MIN_APP }}
         run: python run_all.py
 
       # Schedule: 10:00 / 22:00 UTC - pipeline sem historico
@@ -107,16 +111,6 @@ jobs:
         if: >-
           github.event_name == 'schedule'
           && steps.check_schedule.outputs.skip_history == 'true'
-        env:
-          PINNACLE_SIG: ${{ secrets.PINNACLE_SIG }}
-          PINNACLE_APT: ${{ secrets.PINNACLE_APT }}
-          PINNACLE_PCTAG: ${{ secrets.PINNACLE_PCTAG }}
-          PINNACLE_API_KEY: ${{ secrets.PINNACLE_API_KEY }}
-          PINNACLE_DEVICE_UUID: ${{ secrets.PINNACLE_DEVICE_UUID }}
-          PINNACLE_DIRECTUS_TOKEN: ${{ secrets.PINNACLE_DIRECTUS_TOKEN }}
-          PINNACLE_DPVXZ: ${{ secrets.PINNACLE_DPVXZ }}
-          PINNACLE_EV_MIN_STORE: ${{ secrets.PINNACLE_EV_MIN_STORE }}
-          PINNACLE_EV_MIN_APP: ${{ secrets.PINNACLE_EV_MIN_APP }}
         run: python run_all.py --skip-history
 
       # Manual: pipeline completo
@@ -125,16 +119,6 @@ jobs:
           github.event_name == 'workflow_dispatch'
           && github.event.inputs.only_step == ''
           && github.event.inputs.skip_history == 'false'
-        env:
-          PINNACLE_SIG: ${{ secrets.PINNACLE_SIG }}
-          PINNACLE_APT: ${{ secrets.PINNACLE_APT }}
-          PINNACLE_PCTAG: ${{ secrets.PINNACLE_PCTAG }}
-          PINNACLE_API_KEY: ${{ secrets.PINNACLE_API_KEY }}
-          PINNACLE_DEVICE_UUID: ${{ secrets.PINNACLE_DEVICE_UUID }}
-          PINNACLE_DIRECTUS_TOKEN: ${{ secrets.PINNACLE_DIRECTUS_TOKEN }}
-          PINNACLE_DPVXZ: ${{ secrets.PINNACLE_DPVXZ }}
-          PINNACLE_EV_MIN_STORE: ${{ secrets.PINNACLE_EV_MIN_STORE }}
-          PINNACLE_EV_MIN_APP: ${{ secrets.PINNACLE_EV_MIN_APP }}
         run: python run_all.py
 
       # Manual: skip history
@@ -143,16 +127,6 @@ jobs:
           github.event_name == 'workflow_dispatch'
           && github.event.inputs.only_step == ''
           && github.event.inputs.skip_history == 'true'
-        env:
-          PINNACLE_SIG: ${{ secrets.PINNACLE_SIG }}
-          PINNACLE_APT: ${{ secrets.PINNACLE_APT }}
-          PINNACLE_PCTAG: ${{ secrets.PINNACLE_PCTAG }}
-          PINNACLE_API_KEY: ${{ secrets.PINNACLE_API_KEY }}
-          PINNACLE_DEVICE_UUID: ${{ secrets.PINNACLE_DEVICE_UUID }}
-          PINNACLE_DIRECTUS_TOKEN: ${{ secrets.PINNACLE_DIRECTUS_TOKEN }}
-          PINNACLE_DPVXZ: ${{ secrets.PINNACLE_DPVXZ }}
-          PINNACLE_EV_MIN_STORE: ${{ secrets.PINNACLE_EV_MIN_STORE }}
-          PINNACLE_EV_MIN_APP: ${{ secrets.PINNACLE_EV_MIN_APP }}
         run: python run_all.py --skip-history
 
       # Manual: etapa especifica
@@ -160,16 +134,6 @@ jobs:
         if: >-
           github.event_name == 'workflow_dispatch'
           && github.event.inputs.only_step != ''
-        env:
-          PINNACLE_SIG: ${{ secrets.PINNACLE_SIG }}
-          PINNACLE_APT: ${{ secrets.PINNACLE_APT }}
-          PINNACLE_PCTAG: ${{ secrets.PINNACLE_PCTAG }}
-          PINNACLE_API_KEY: ${{ secrets.PINNACLE_API_KEY }}
-          PINNACLE_DEVICE_UUID: ${{ secrets.PINNACLE_DEVICE_UUID }}
-          PINNACLE_DIRECTUS_TOKEN: ${{ secrets.PINNACLE_DIRECTUS_TOKEN }}
-          PINNACLE_DPVXZ: ${{ secrets.PINNACLE_DPVXZ }}
-          PINNACLE_EV_MIN_STORE: ${{ secrets.PINNACLE_EV_MIN_STORE }}
-          PINNACLE_EV_MIN_APP: ${{ secrets.PINNACLE_EV_MIN_APP }}
         run: python run_all.py --only ${{ github.event.inputs.only_step }}
 
       # ------------------------------------------------------------------

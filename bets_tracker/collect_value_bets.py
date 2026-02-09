@@ -25,6 +25,7 @@ if sys.platform == 'win32':
 # IMPORTANTE: Importa módulos locais PRIMEIRO (antes de adicionar odds_analysis ao path)
 from bets_database import init_database, save_bet, get_bet_stats, get_processed_matchup_ids
 from config import PINNACLE_DB, MAX_BETS_PER_MAP
+from telegram_notifier import notify_new_bets, is_enabled as telegram_enabled
 
 # Agora adiciona odds_analysis ao path e importa
 PROJECT_ROOT = Path(__file__).parent.parent
@@ -528,6 +529,7 @@ class ValueBetsCollector:
         
         saved = 0
         duplicates = 0
+        saved_bets = []  # Bets realmente salvas (novas)
         for bet in filtered_bets:
             try:
                 bet_id = save_bet(bet)
@@ -535,6 +537,7 @@ class ValueBetsCollector:
                     duplicates += 1
                 else:
                     saved += 1
+                    saved_bets.append(bet)
                     self.stats['bets_saved'] += 1
             except Exception as e:
                 print(f"   [ERRO] Erro ao salvar aposta: {e}")
@@ -543,6 +546,16 @@ class ValueBetsCollector:
         print(f"   [OK] {saved} apostas salvas")
         if duplicates > 0:
             print(f"   [INFO] {duplicates} apostas ja existiam (duplicatas ignoradas)")
+        
+        # Notifica via Telegram apenas as bets novas (salvas com sucesso)
+        if saved_bets and telegram_enabled():
+            print(f"   [TELEGRAM] Enviando notificacao de {len(saved_bets)} novas apostas...")
+            success = notify_new_bets(saved_bets, self.stats)
+            if success:
+                print(f"   [TELEGRAM] Notificacao enviada!")
+            else:
+                print(f"   [TELEGRAM] Falha ao enviar notificacao")
+        
         return saved
     
     def print_stats(self):

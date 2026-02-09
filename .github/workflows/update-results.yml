@@ -13,6 +13,20 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
 
+    # Env vars compartilhadas por todos os steps
+    env:
+      PINNACLE_SIG: ${{ secrets.PINNACLE_SIG }}
+      PINNACLE_APT: ${{ secrets.PINNACLE_APT }}
+      PINNACLE_PCTAG: ${{ secrets.PINNACLE_PCTAG }}
+      PINNACLE_API_KEY: ${{ secrets.PINNACLE_API_KEY }}
+      PINNACLE_DEVICE_UUID: ${{ secrets.PINNACLE_DEVICE_UUID }}
+      PINNACLE_DIRECTUS_TOKEN: ${{ secrets.PINNACLE_DIRECTUS_TOKEN }}
+      PINNACLE_DPVXZ: ${{ secrets.PINNACLE_DPVXZ }}
+      PINNACLE_EV_MIN_STORE: ${{ secrets.PINNACLE_EV_MIN_STORE }}
+      PINNACLE_EV_MIN_APP: ${{ secrets.PINNACLE_EV_MIN_APP }}
+      TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+      TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+
     steps:
       # ------------------------------------------------------------------
       # Setup
@@ -63,16 +77,6 @@ jobs:
       # Step 4 only: Update bet results (uses cached historical data)
       # ------------------------------------------------------------------
       - name: Update bet results
-        env:
-          PINNACLE_SIG: ${{ secrets.PINNACLE_SIG }}
-          PINNACLE_APT: ${{ secrets.PINNACLE_APT }}
-          PINNACLE_PCTAG: ${{ secrets.PINNACLE_PCTAG }}
-          PINNACLE_API_KEY: ${{ secrets.PINNACLE_API_KEY }}
-          PINNACLE_DEVICE_UUID: ${{ secrets.PINNACLE_DEVICE_UUID }}
-          PINNACLE_DIRECTUS_TOKEN: ${{ secrets.PINNACLE_DIRECTUS_TOKEN }}
-          PINNACLE_DPVXZ: ${{ secrets.PINNACLE_DPVXZ }}
-          PINNACLE_EV_MIN_STORE: ${{ secrets.PINNACLE_EV_MIN_STORE }}
-          PINNACLE_EV_MIN_APP: ${{ secrets.PINNACLE_EV_MIN_APP }}
         run: python run_all.py --only 4
 
       # ------------------------------------------------------------------

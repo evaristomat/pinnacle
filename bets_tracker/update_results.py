@@ -17,6 +17,7 @@ from bets_database import (
 )
 from result_matcher import ResultMatcher
 from config import BETS_DB, USER_BETS_DB
+from telegram_notifier import notify_results_updated, is_enabled as telegram_enabled
 
 
 def _log_old_pending_bets(db_path: Path, days: int = 2) -> None:
@@ -140,6 +141,7 @@ class ResultsUpdater:
         print("[COMPARANDO] Comparando com historico para encontrar resultados...\n")
         
         updated_preview: List[Tuple[int, str, float]] = []
+        resolved_for_telegram: List[Dict] = []  # Para notificação Telegram
 
         for i, bet in enumerate(pending_bets, 1):
             bet_id = bet['id']
@@ -180,6 +182,14 @@ class ResultsUpdater:
                     if not summary:
                         print(f"   [SALVO] Atualizado no banco")
                     self.stats['updated'] += 1
+                    
+                    # Coleta para notificação Telegram
+                    if status in ('won', 'lost'):
+                        resolved_for_telegram.append({
+                            'bet': bet,
+                            'status': status,
+                            'result_value': result_value,
+                        })
                 else:
                     if not summary:
                         print(f"   [DRY RUN] Seria atualizado: {status} com {result_value}")
@@ -202,6 +212,20 @@ class ResultsUpdater:
                 print("\n[AMOSTRA] primeiras 10 atualizações:")
                 for bid, st, rv in sample:
                     print(f"  - bet_id={bid} -> {st} (result={rv})")
+
+        # Notifica via Telegram os resultados atualizados
+        if resolved_for_telegram and telegram_enabled():
+            print(f"\n[TELEGRAM] Enviando notificacao de {len(resolved_for_telegram)} resultados...")
+            # Busca ROI atualizado para incluir no resumo
+            try:
+                roi_stats = get_bet_stats(db_path=self.db_path).get('roi', {})
+            except Exception:
+                roi_stats = None
+            success = notify_results_updated(resolved_for_telegram, roi_stats)
+            if success:
+                print(f"[TELEGRAM] Notificacao enviada!")
+            else:
+                print(f"[TELEGRAM] Falha ao enviar notificacao")
 
         _log_old_pending_bets(self.db_path, days=2)
         return self.stats
