@@ -2,12 +2,10 @@ name: Pinnacle Pipeline
 
 on:
   schedule:
-    # 13:00 UTC - Pipeline completo COM download do historico
-    # (CSV e atualizado ~meio-dia, entao baixamos logo apos)
-    - cron: '0 13 * * *'
-    # 10:00 e 22:00 UTC - Pipeline SEM download do historico
-    # (usa dados em cache, so coleta odds + value bets)
-    - cron: '0 10,22 * * *'
+    # A cada 4 horas: 01, 05, 09, 13, 17, 21 UTC
+    # 13:00 UTC = pipeline completo COM download do historico
+    # Demais horarios = pipeline SEM download (so coleta odds + value bets)
+    - cron: '0 1,5,9,13,17,21 * * *'
   workflow_dispatch:
     # Permite execucao manual com opcoes
     inputs:
