@@ -1,14 +1,17 @@
 """
 Configurações para análise de valor nas odds
 """
+import os
 from pathlib import Path
 
 # Diretórios
 BASE_DIR = Path(__file__).parent
 PROJECT_ROOT = BASE_DIR.parent
 
-# Bancos de dados
-PINNACLE_DB = PROJECT_ROOT / "pinnacle_data.db"
+# Banco Pinnacle: respeita PINNACLE_ESPORT para não misturar LoL com Dota (bets_dota)
+_esport = os.getenv("PINNACLE_ESPORT", "lol").lower()
+PINNACLE_DB = PROJECT_ROOT / "pinnacle_dota.db" if _esport == "dota2" else PROJECT_ROOT / "pinnacle_data.db"
+
 HISTORY_DB = PROJECT_ROOT / "database_improved" / "lol_history.db"
 HISTORY_CSV = PROJECT_ROOT / "database_improved" / "data_transformed.csv"
 

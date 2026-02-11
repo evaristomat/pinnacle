@@ -1,0 +1,910 @@
+{
+  "extraction_info": {
+    "timestamp": "2026-02-10T15:26:19.852674",
+    "source": "database",
+    "total_games": 2,
+    "database_stats": {
+      "total_games": 2,
+      "total_markets": 154,
+      "games_with_markets": 2,
+      "total_teams": 4,
+      "total_leagues": 2
+    }
+  },
+  "jogos": [
+    {
+      "matchup_id": 1623902926,
+      "league": "DreamLeague Divisão 2",
+      "home_team": "AVULUS",
+      "away_team": "1W",
+      "start_time": "2026-02-10T15:45:00",
+      "status": "scheduled",
+      "markets": {
+        "moneyline": {
+          "0": {
+            "away": {
+              "decimal": 1.52
+            },
+            "home": {
+              "decimal": 2.45
+            }
+          },
+          "1": {
+            "away": {
+              "decimal": 1.62
+            },
+            "home": {
+              "decimal": 2.24
+            }
+          },
+          "2": {
+            "away": {
+              "decimal": 1.62
+            },
+            "home": {
+              "decimal": 2.24
+            }
+          }
+        },
+        "handicap_map": {
+          "0": {
+            "-1.5": {
+              "is_alternate": true,
+              "away": {
+                "spread": 1.5,
+                "decimal": 1.14
+              },
+              "home": {
+                "spread": -1.5,
+                "decimal": 4.58
+              }
+            },
+            "1.5": {
+              "is_alternate": false,
+              "away": {
+                "spread": -1.5,
+                "decimal": 2.5
+              },
+              "home": {
+                "spread": 1.5,
+                "decimal": 1.5
+              }
+            }
+          }
+        },
+        "total_map": {
+          "0": {
+            "2.5": {
+              "line": 2.5,
+              "is_alternate": false,
+              "over": {
+                "decimal": 1.94
+              },
+              "under": {
+                "decimal": 1.8
+              }
+            }
+          }
+        },
+        "total_kill_home": {},
+        "total_kill_away": {},
+        "handicap_kills": {
+          "1": {
+            "-10.5": {
+              "is_alternate": true,
+              "away": {
+                "spread": -10.5,
+                "decimal": 2.11
+              }
+            },
+            "-9.5": {
+              "is_alternate": true,
+              "away": {
+                "spread": -9.5,
+                "decimal": 2.03
+              }
+            },
+            "-8.5": {
+              "is_alternate": true,
+              "away": {
+                "spread": -8.5,
+                "decimal": 1.93
+              }
+            },
+            "-7.5": {
+              "is_alternate": false,
+              "away": {
+                "spread": -7.5,
+                "decimal": 1.82
+              }
+            },
+            "-6.5": {
+              "is_alternate": true,
+              "away": {
+                "spread": -6.5,
+                "decimal": 1.78
+              }
+            },
+            "-5.5": {
+              "is_alternate": true,
+              "away": {
+                "spread": -5.5,
+                "decimal": 1.72
+              }
+            },
+            "-4.5": {
+              "is_alternate": true,
+              "away": {
+                "spread": -4.5,
+                "decimal": 1.67
+              }
+            },
+            "4.5": {
+              "is_alternate": true,
+              "home": {
+                "spread": 4.5,
+                "decimal": 2.07
+              }
+            },
+            "5.5": {
+              "is_alternate": true,
+              "home": {
+                "spread": 5.5,
+                "decimal": 1.99
+              }
+            },
+            "6.5": {
+              "is_alternate": true,
+              "home": {
+                "spread": 6.5,
+                "decimal": 1.92
+              }
+            },
+            "7.5": {
+              "is_alternate": false,
+              "home": {
+                "spread": 7.5,
+                "decimal": 1.88
+              }
+            },
+            "8.5": {
+              "is_alternate": true,
+              "home": {
+                "spread": 8.5,
+                "decimal": 1.77
+              }
+            },
+            "9.5": {
+              "is_alternate": true,
+              "home": {
+                "spread": 9.5,
+                "decimal": 1.69
+              }
+            },
+            "10.5": {
+              "is_alternate": true,
+              "home": {
+                "spread": 10.5,
+                "decimal": 1.61
+              }
+            }
+          },
+          "2": {
+            "-11.5": {
+              "is_alternate": true,
+              "away": {
+                "spread": -11.5,
+                "decimal": 2.2
+              }
+            },
+            "-10.5": {
+              "is_alternate": true,
+              "away": {
+                "spread": -10.5,
+                "decimal": 2.1
+              }
+            },
+            "-9.5": {
+              "is_alternate": true,
+              "away": {
+                "spread": -9.5,
+                "decimal": 2.0
+              }
+            },
+            "-8.5": {
+              "is_alternate": false,
+              "away": {
+                "spread": -8.5,
+                "decimal": 1.91
+              }
+            },
+            "-7.5": {
+              "is_alternate": false,
+              "away": {
+                "spread": -7.5,
+                "decimal": 1.81
+              }
+            },
+            "-6.5": {
+              "is_alternate": true,
+              "away": {
+                "spread": -6.5,
+                "decimal": 1.77
+              }
+            },
+            "-5.5": {
+              "is_alternate": true,
+              "away": {
+                "spread": -5.5,
+                "decimal": 1.71
+              }
+            },
+            "-4.5": {
+              "is_alternate": true,
+              "away": {
+                "spread": -4.5,
+                "decimal": 1.67
+              }
+            },
+            "4.5": {
+              "is_alternate": true,
+              "home": {
+                "spread": 4.5,
+                "decimal": 2.05
+              }
+            },
+            "5.5": {
+              "is_alternate": true,
+              "home": {
+                "spread": 5.5,
+                "decimal": 2.0
+              }
+            },
+            "6.5": {
+              "is_alternate": true,
+              "home": {
+                "spread": 6.5,
+                "decimal": 1.93
+              }
+            },
+            "7.5": {
+              "is_alternate": false,
+              "home": {
+                "spread": 7.5,
+                "decimal": 1.88
+              }
+            },
+            "8.5": {
+              "is_alternate": false,
+              "home": {
+                "spread": 8.5,
+                "decimal": 1.79
+              }
+            },
+            "9.5": {
+              "is_alternate": true,
+              "home": {
+                "spread": 9.5,
+                "decimal": 1.71
+              }
+            },
+            "10.5": {
+              "is_alternate": true,
+              "home": {
+                "spread": 10.5,
+                "decimal": 1.63
+              }
+            },
+            "11.5": {
+              "is_alternate": true,
+              "home": {
+                "spread": 11.5,
+                "decimal": 1.57
+              }
+            }
+          }
+        },
+        "total_kills": {
+          "1": {
+            "41.5": {
+              "line": 41.5,
+              "is_alternate": true,
+              "over": {
+                "decimal": 1.54
+              },
+              "under": {
+                "decimal": 2.26
+              }
+            },
+            "42.5": {
+              "line": 42.5,
+              "is_alternate": true,
+              "over": {
+                "decimal": 1.63
+              },
+              "under": {
+                "decimal": 2.12
+              }
+            },
+            "43.5": {
+              "line": 43.5,
+              "is_alternate": true,
+              "over": {
+                "decimal": 1.72
+              },
+              "under": {
+                "decimal": 1.98
+              }
+            },
+            "44.5": {
+              "line": 44.5,
+              "is_alternate": false,
+              "over": {
+                "decimal": 1.83
+              },
+              "under": {
+                "decimal": 1.86
+              }
+            },
+            "45.5": {
+              "line": 45.5,
+              "is_alternate": true,
+              "over": {
+                "decimal": 1.95
+              },
+              "under": {
+                "decimal": 1.75
+              }
+            },
+            "46.5": {
+              "line": 46.5,
+              "is_alternate": true,
+              "over": {
+                "decimal": 2.08
+              },
+              "under": {
+                "decimal": 1.66
+              }
+            },
+            "47.5": {
+              "line": 47.5,
+              "is_alternate": true,
+              "over": {
+                "decimal": 2.19
+              },
+              "under": {
+                "decimal": 1.58
+              }
+            }
+          },
+          "2": {
+            "43.5": {
+              "line": 43.5,
+              "is_alternate": true,
+              "over": {
+                "decimal": 1.55
+              },
+              "under": {
+                "decimal": 2.24
+              }
+            },
+            "44.5": {
+              "line": 44.5,
+              "is_alternate": true,
+              "over": {
+                "decimal": 1.64
+              },
+              "under": {
+                "decimal": 2.1
+              }
+            },
+            "45.5": {
+              "line": 45.5,
+              "is_alternate": true,
+              "over": {
+                "decimal": 1.74
+              },
+              "under": {
+                "decimal": 1.97
+              }
+            },
+            "46.5": {
+              "line": 46.5,
+              "is_alternate": false,
+              "over": {
+                "decimal": 1.84
+              },
+              "under": {
+                "decimal": 1.85
+              }
+            },
+            "47.5": {
+              "line": 47.5,
+              "is_alternate": true,
+              "over": {
+                "decimal": 1.95
+              },
+              "under": {
+                "decimal": 1.75
+              }
+            },
+            "48.5": {
+              "line": 48.5,
+              "is_alternate": true,
+              "over": {
+                "decimal": 2.07
+              },
+              "under": {
+                "decimal": 1.67
+              }
+            },
+            "49.5": {
+              "line": 49.5,
+              "is_alternate": true,
+              "over": {
+                "decimal": 2.17
+              },
+              "under": {
+                "decimal": 1.59
+              }
+            }
+          }
+        },
+        "total_dragons": {},
+        "total_towers": {}
+      }
+    },
+    {
+      "matchup_id": 1623874538,
+      "league": "European Pro League",
+      "home_team": "Valinor",
+      "away_team": "L1ga",
+      "start_time": "2026-02-10T15:45:00",
+      "status": "scheduled",
+      "markets": {
+        "moneyline": {
+          "0": {
+            "away": {
+              "decimal": 1.25
+            },
+            "home": {
+              "decimal": 3.62
+            }
+          },
+          "1": {
+            "away": {
+              "decimal": 1.38
+            },
+            "home": {
+              "decimal": 2.9
+            }
+          },
+          "2": {
+            "away": {
+              "decimal": 1.38
+            },
+            "home": {
+              "decimal": 2.9
+            }
+          }
+        },
+        "handicap_map": {
+          "0": {
+            "-1.5": {
+              "is_alternate": true,
+              "away": {
+                "spread": 1.5,
+                "decimal": 1.07
+              },
+              "home": {
+                "spread": -1.5,
+                "decimal": 6.17
+              }
+            },
+            "1.5": {
+              "is_alternate": false,
+              "away": {
+                "spread": -1.5,
+                "decimal": 1.96
+              },
+              "home": {
+                "spread": 1.5,
+                "decimal": 1.81
+              }
+            }
+          }
+        },
+        "total_map": {
+          "0": {
+            "2.5": {
+              "line": 2.5,
+              "is_alternate": false,
+              "over": {
+                "decimal": 2.18
+              },
+              "under": {
+                "decimal": 1.63
+              }
+            }
+          }
+        },
+        "total_kill_home": {},
+        "total_kill_away": {},
+        "handicap_kills": {
+          "1": {
+            "-14.5": {
+              "is_alternate": true,
+              "away": {
+                "spread": -14.5,
+                "decimal": 2.28
+              }
+            },
+            "-13.5": {
+              "is_alternate": true,
+              "away": {
+                "spread": -13.5,
+                "decimal": 2.14
+              }
+            },
+            "-12.5": {
+              "is_alternate": true,
+              "away": {
+                "spread": -12.5,
+                "decimal": 2.02
+              }
+            },
+            "-11.5": {
+              "is_alternate": false,
+              "away": {
+                "spread": -11.5,
+                "decimal": 1.93
+              }
+            },
+            "-10.5": {
+              "is_alternate": false,
+              "away": {
+                "spread": -10.5,
+                "decimal": 1.81
+              }
+            },
+            "-9.5": {
+              "is_alternate": true,
+              "away": {
+                "spread": -9.5,
+                "decimal": 1.74
+              }
+            },
+            "-8.5": {
+              "is_alternate": true,
+              "away": {
+                "spread": -8.5,
+                "decimal": 1.66
+              }
+            },
+            "-7.5": {
+              "is_alternate": true,
+              "away": {
+                "spread": -7.5,
+                "decimal": 1.62
+              }
+            },
+            "7.5": {
+              "is_alternate": true,
+              "home": {
+                "spread": 7.5,
+                "decimal": 2.16
+              }
+            },
+            "8.5": {
+              "is_alternate": true,
+              "home": {
+                "spread": 8.5,
+                "decimal": 2.1
+              }
+            },
+            "9.5": {
+              "is_alternate": true,
+              "home": {
+                "spread": 9.5,
+                "decimal": 2.03
+              }
+            },
+            "10.5": {
+              "is_alternate": false,
+              "home": {
+                "spread": 10.5,
+                "decimal": 1.93
+              }
+            },
+            "11.5": {
+              "is_alternate": false,
+              "home": {
+                "spread": 11.5,
+                "decimal": 1.82
+              }
+            },
+            "12.5": {
+              "is_alternate": true,
+              "home": {
+                "spread": 12.5,
+                "decimal": 1.74
+              }
+            },
+            "13.5": {
+              "is_alternate": true,
+              "home": {
+                "spread": 13.5,
+                "decimal": 1.65
+              }
+            },
+            "14.5": {
+              "is_alternate": true,
+              "home": {
+                "spread": 14.5,
+                "decimal": 1.56
+              }
+            }
+          },
+          "2": {
+            "-13.5": {
+              "is_alternate": true,
+              "away": {
+                "spread": -13.5,
+                "decimal": 2.19
+              }
+            },
+            "-12.5": {
+              "is_alternate": true,
+              "away": {
+                "spread": -12.5,
+                "decimal": 2.03
+              }
+            },
+            "-11.5": {
+              "is_alternate": true,
+              "away": {
+                "spread": -11.5,
+                "decimal": 1.93
+              }
+            },
+            "-10.5": {
+              "is_alternate": false,
+              "away": {
+                "spread": -10.5,
+                "decimal": 1.86
+              }
+            },
+            "-9.5": {
+              "is_alternate": true,
+              "away": {
+                "spread": -9.5,
+                "decimal": 1.75
+              }
+            },
+            "-8.5": {
+              "is_alternate": true,
+              "away": {
+                "spread": -8.5,
+                "decimal": 1.68
+              }
+            },
+            "-7.5": {
+              "is_alternate": true,
+              "away": {
+                "spread": -7.5,
+                "decimal": 1.62
+              }
+            },
+            "7.5": {
+              "is_alternate": true,
+              "home": {
+                "spread": 7.5,
+                "decimal": 2.15
+              }
+            },
+            "8.5": {
+              "is_alternate": true,
+              "home": {
+                "spread": 8.5,
+                "decimal": 2.1
+              }
+            },
+            "9.5": {
+              "is_alternate": true,
+              "home": {
+                "spread": 9.5,
+                "decimal": 2.01
+              }
+            },
+            "10.5": {
+              "is_alternate": false,
+              "home": {
+                "spread": 10.5,
+                "decimal": 1.88
+              }
+            },
+            "11.5": {
+              "is_alternate": true,
+              "home": {
+                "spread": 11.5,
+                "decimal": 1.82
+              }
+            },
+            "12.5": {
+              "is_alternate": true,
+              "home": {
+                "spread": 12.5,
+                "decimal": 1.73
+              }
+            },
+            "13.5": {
+              "is_alternate": true,
+              "home": {
+                "spread": 13.5,
+                "decimal": 1.64
+              }
+            }
+          }
+        },
+        "total_kills": {
+          "1": {
+            "46.5": {
+              "line": 46.5,
+              "is_alternate": true,
+              "over": {
+                "decimal": 1.57
+              },
+              "under": {
+                "decimal": 2.26
+              }
+            },
+            "47.5": {
+              "line": 47.5,
+              "is_alternate": true,
+              "over": {
+                "decimal": 1.66
+              },
+              "under": {
+                "decimal": 2.13
+              }
+            },
+            "48.5": {
+              "line": 48.5,
+              "is_alternate": true,
+              "over": {
+                "decimal": 1.75
+              },
+              "under": {
+                "decimal": 2.01
+              }
+            },
+            "49.5": {
+              "line": 49.5,
+              "is_alternate": false,
+              "over": {
+                "decimal": 1.81
+              },
+              "under": {
+                "decimal": 1.93
+              }
+            },
+            "50.5": {
+              "line": 50.5,
+              "is_alternate": false,
+              "over": {
+                "decimal": 1.97
+              },
+              "under": {
+                "decimal": 1.77
+              }
+            },
+            "51.5": {
+              "line": 51.5,
+              "is_alternate": true,
+              "over": {
+                "decimal": 2.07
+              },
+              "under": {
+                "decimal": 1.7
+              }
+            },
+            "52.5": {
+              "line": 52.5,
+              "is_alternate": true,
+              "over": {
+                "decimal": 2.17
+              },
+              "under": {
+                "decimal": 1.62
+              }
+            },
+            "53.5": {
+              "line": 53.5,
+              "is_alternate": true,
+              "over": {
+                "decimal": 2.22
+              },
+              "under": {
+                "decimal": 1.6
+              }
+            }
+          },
+          "2": {
+            "48.5": {
+              "line": 48.5,
+              "is_alternate": true,
+              "over": {
+                "decimal": 1.59
+              },
+              "under": {
+                "decimal": 2.24
+              }
+            },
+            "49.5": {
+              "line": 49.5,
+              "is_alternate": true,
+              "over": {
+                "decimal": 1.67
+              },
+              "under": {
+                "decimal": 2.12
+              }
+            },
+            "50.5": {
+              "line": 50.5,
+              "is_alternate": true,
+              "over": {
+                "decimal": 1.75
+              },
+              "under": {
+                "decimal": 2.0
+              }
+            },
+            "51.5": {
+              "line": 51.5,
+              "is_alternate": false,
+              "over": {
+                "decimal": 1.84
+              },
+              "under": {
+                "decimal": 1.89
+              }
+            },
+            "52.5": {
+              "line": 52.5,
+              "is_alternate": true,
+              "over": {
+                "decimal": 1.94
+              },
+              "under": {
+                "decimal": 1.8
+              }
+            },
+            "53.5": {
+              "line": 53.5,
+              "is_alternate": true,
+              "over": {
+                "decimal": 2.05
+              },
+              "under": {
+                "decimal": 1.71
+              }
+            },
+            "54.5": {
+              "line": 54.5,
+              "is_alternate": true,
+              "over": {
+                "decimal": 2.16
+              },
+              "under": {
+                "decimal": 1.63
+              }
+            }
+          }
+        },
+        "total_dragons": {},
+        "total_towers": {}
+      }
+    }
+  ]
+}

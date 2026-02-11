@@ -15,10 +15,12 @@ Uso:
     python run_all.py --dry-run            # Modo seco (não salva)
 """
 import sys
+import os
 import subprocess
 import sqlite3
 import time
 import argparse
+import requests
 from pathlib import Path
 from datetime import datetime
 
@@ -32,6 +34,172 @@ RESET = "\033[0m"
 BOLD = "\033[1m"
 
 TOTAL_STEPS = 4
+
+# ============================================================================
+# TELEGRAM - Notificação de resumo do pipeline
+# ============================================================================
+
+TELEGRAM_BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN", "")
+TELEGRAM_CHAT_ID = os.getenv("TELEGRAM_CHAT_ID", "")
+TELEGRAM_ENABLED = bool(TELEGRAM_BOT_TOKEN and TELEGRAM_CHAT_ID)
+
+SEP_TELEGRAM = "────────────────────────────────"
+
+
+def send_telegram_message(text: str) -> bool:
+    """Envia mensagem via Telegram Bot API."""
+    if not TELEGRAM_ENABLED:
+        return False
+    try:
+        resp = requests.post(
+            f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/sendMessage",
+            json={
+                "chat_id": TELEGRAM_CHAT_ID,
+                "text": text,
+                "parse_mode": "HTML",
+                "disable_web_page_preview": True,
+            },
+            timeout=15,
+        )
+        return resp.status_code == 200
+    except Exception as e:
+        print(f"{YELLOW}   [TELEGRAM] Erro ao enviar: {e}{RESET}")
+        return False
+
+
+def notify_pipeline_summary(
+    results: dict,
+    results_time: dict,
+    pipeline_elapsed: float,
+    args,
+    bets_db: Path = None,
+):
+    """
+    Envia resumo do pipeline via Telegram.
+
+    Inclui: status de cada etapa, novos jogos/odds, bets encontradas, ROI.
+    """
+    if not TELEGRAM_ENABLED:
+        return
+
+    lines = [
+        f"🚀 <b>PIPELINE CONCLUÍDO</b>",
+        f"📅 {datetime.now().strftime('%d/%m/%Y %H:%M')}",
+        f"⏱ Tempo total: {pipeline_elapsed:.0f}s",
+        SEP_TELEGRAM,
+    ]
+
+    # Status de cada etapa
+    step_labels = {
+        'database_improved': ('1️⃣', 'Histórico'),
+        'pinnacle_collect':  ('2️⃣', 'Odds Pinnacle'),
+        'bets_collect':      ('3️⃣', 'Value Bets'),
+        'bets_update':       ('4️⃣', 'Resultados'),
+    }
+    step_to_num = {
+        'database_improved': 1,
+        'pinnacle_collect': 2,
+        'bets_collect': 3,
+        'bets_update': 4,
+    }
+
+    for step, success in results.items():
+        step_num = step_to_num.get(step, 0)
+        ran = should_run_step(step_num, args)
+        emoji, label = step_labels.get(step, ('❓', step))
+        elapsed = results_time.get(step, 0)
+        time_str = f" ({elapsed:.0f}s)" if elapsed > 0 else ""
+
+        if not ran:
+            lines.append(f"{emoji} {label}: ⏭ Pulada")
+        elif success:
+            lines.append(f"{emoji} {label}: ✅ OK{time_str}")
+        else:
+            lines.append(f"{emoji} {label}: ❌ Falha{time_str}")
+
+    # Estatísticas do banco de odds (pinnacle_data.db)
+    pinnacle_db = Path(__file__).parent / "pinnacle_data.db"
+    if pinnacle_db.exists():
+        try:
+            conn = sqlite3.connect(pinnacle_db)
+            cursor = conn.cursor()
+            cursor.execute("SELECT COUNT(*) FROM games")
+            total_games = cursor.fetchone()[0]
+            cursor.execute("SELECT COUNT(*) FROM markets")
+            total_markets = cursor.fetchone()[0]
+            conn.close()
+            lines.append("")
+            lines.append(f"📊 <b>Banco Pinnacle:</b> {total_games} jogos | {total_markets} markets")
+        except Exception:
+            pass
+
+    # Estatísticas do banco de bets
+    if bets_db and bets_db.exists():
+        try:
+            conn = sqlite3.connect(bets_db)
+            cursor = conn.cursor()
+
+            # Total e por status
+            cursor.execute("SELECT COUNT(*) FROM bets")
+            total = cursor.fetchone()[0]
+
+            cursor.execute("SELECT status, COUNT(*) FROM bets GROUP BY status")
+            by_status = {row[0]: row[1] for row in cursor.fetchall()}
+
+            pending = by_status.get('pending', 0)
+            won = by_status.get('won', 0)
+            lost = by_status.get('lost', 0)
+
+            # ROI
+            cursor.execute("""
+                SELECT
+                    COUNT(*) as total_resolved,
+                    SUM(CASE WHEN status = 'won' THEN 1 ELSE 0 END) as wins,
+                    SUM(CASE WHEN status = 'won' THEN odd_decimal - 1 ELSE -1 END) as lucro
+                FROM bets
+                WHERE status IN ('won', 'lost')
+            """)
+            roi_row = cursor.fetchone()
+            conn.close()
+
+            lines.append(f"🎯 <b>Bets:</b> {total} total | {pending} pending | {won}W-{lost}L")
+
+            if roi_row and roi_row[0] and roi_row[0] > 0:
+                total_resolved = roi_row[0]
+                wins = roi_row[1] or 0
+                lucro = roi_row[2] or 0
+                win_rate = (wins / total_resolved * 100) if total_resolved > 0 else 0
+                roi_pct = (lucro / total_resolved * 100) if total_resolved > 0 else 0
+
+                profit_emoji = "📈" if lucro >= 0 else "📉"
+                profit_sign = "+" if lucro >= 0 else ""
+                roi_sign = "+" if roi_pct >= 0 else ""
+
+                lines.append(
+                    f"{profit_emoji} <b>ROI:</b> {roi_sign}{roi_pct:.1f}% | "
+                    f"Lucro: {profit_sign}{lucro:.2f}u | "
+                    f"WR: {win_rate:.0f}% ({total_resolved})"
+                )
+        except Exception:
+            pass
+
+    # Status final
+    critical_steps = {'pinnacle_collect': 2, 'bets_collect': 3}
+    critical_failed = [
+        step for step, step_num in critical_steps.items()
+        if should_run_step(step_num, args) and not results.get(step)
+    ]
+    if critical_failed:
+        lines.append("")
+        lines.append("⚠️ <b>Pipeline com falhas críticas!</b>")
+
+    text = "\n".join(lines)
+    success = send_telegram_message(text)
+    if success:
+        print(f"{GREEN}   [TELEGRAM] Resumo do pipeline enviado!{RESET}")
+    else:
+        if TELEGRAM_ENABLED:
+            print(f"{YELLOW}   [TELEGRAM] Falha ao enviar resumo{RESET}")
 
 
 def print_header(text: str):
@@ -220,6 +388,75 @@ def print_bets_stats(bets_db: Path, title: str = "Estatísticas do Banco de Apos
         print(f"{YELLOW}   [AVISO] Erro ao verificar banco: {e}{RESET}")
 
 
+def compute_run_summary(pipeline_start_ts: float, base_dir: Path, bets_tracker: Path) -> dict:
+    """
+    Calcula se houve odds novas (jogos/markets) e apostas novas nesta execução.
+
+    Usa o campo created_at dos bancos pinnacle_data.db e bets_tracker/bets.db
+    comparando com o horário de início do pipeline.
+    """
+    summary = {
+        "new_games": 0,
+        "new_markets": 0,
+        "new_bets": 0,
+    }
+
+    # Converte o timestamp de início para formatos usados nos bancos
+    try:
+        start_dt = datetime.fromtimestamp(pipeline_start_ts)
+    except Exception:
+        start_dt = datetime.now()
+
+    # SQLite do pinnacle_data.db usa CURRENT_TIMESTAMP (YYYY-MM-DD HH:MM:SS)
+    start_db_str = start_dt.strftime("%Y-%m-%d %H:%M:%S")
+    # bets.db usa datetime.now().isoformat()
+    start_bets_str = start_dt.isoformat(timespec="seconds")
+
+    # ---- Odds (pinnacle_data.db) ----
+    pinnacle_db = base_dir / "pinnacle_data.db"
+    if pinnacle_db.exists():
+        try:
+            conn = sqlite3.connect(pinnacle_db)
+            cursor = conn.cursor()
+
+            # Novos jogos
+            cursor.execute(
+                "SELECT COUNT(*) FROM games WHERE created_at >= ?",
+                (start_db_str,),
+            )
+            summary["new_games"] = int(cursor.fetchone()[0] or 0)
+
+            # Novos markets
+            cursor.execute(
+                "SELECT COUNT(*) FROM markets WHERE created_at >= ?",
+                (start_db_str,),
+            )
+            summary["new_markets"] = int(cursor.fetchone()[0] or 0)
+
+            conn.close()
+        except Exception as e:
+            print(f"{YELLOW}   [AVISO] Erro ao calcular resumo de odds: {e}{RESET}")
+
+    # ---- Apostas (bets_tracker/bets.db) ----
+    bets_db = bets_tracker / "bets.db"
+    if bets_db.exists():
+        try:
+            conn = sqlite3.connect(bets_db)
+            cursor = conn.cursor()
+
+            cursor.execute(
+                "SELECT COUNT(*) FROM bets WHERE created_at >= ?",
+                (start_bets_str,),
+            )
+            summary["new_bets"] = int(cursor.fetchone()[0] or 0)
+
+            conn.close()
+        except Exception as e:
+            print(f"{YELLOW}   [AVISO] Erro ao calcular resumo de apostas: {e}{RESET}")
+
+    return summary
+
+
 def parse_args():
     """Configura e retorna argumentos CLI."""
     parser = argparse.ArgumentParser(
@@ -265,8 +502,12 @@ def should_run_step(step_num: int, args) -> bool:
 
 
 def main():
-    """Função principal."""
+    """Função principal. Sempre usa LoL (pinnacle_data.db + bets.db)."""
     args = parse_args()
+
+    # Força uso de LoL: não usar bancos do Dota mesmo que PINNACLE_ESPORT esteja setado
+    os.environ.pop("PINNACLE_ESPORT", None)
+    os.environ.pop("PINNACLE_DB_PATH", None)
 
     # Configura encoding para Windows
     if sys.platform == 'win32':
@@ -452,6 +693,22 @@ def main():
 
     print(f"\n   {BOLD}Tempo total:{RESET} {pipeline_elapsed:.1f}s")
 
+    # Resumo de novos dados desta execução (odds e apostas)
+    run_summary = compute_run_summary(pipeline_start, BASE_DIR, BETS_TRACKER)
+    print(f"\n{BOLD}Novos dados nesta execução:{RESET}")
+    if run_summary["new_games"] or run_summary["new_markets"]:
+        print(
+            f"   Odds: {run_summary['new_games']} jogos novos, "
+            f"{run_summary['new_markets']} markets novos"
+        )
+    else:
+        print("   Odds: nenhuma odd nova (nenhum jogo/market novo criado)")
+
+    if run_summary["new_bets"]:
+        print(f"   Apostas: {run_summary['new_bets']} apostas novas salvas no bets.db")
+    else:
+        print("   Apostas: nenhuma aposta nova salva")
+
     # Estatísticas detalhadas via results_analysis.py
     if BETS_TRACKER.exists():
         bets_db = BETS_TRACKER / "bets.db"
@@ -466,6 +723,16 @@ def main():
             )
         else:
             print(f"\n{YELLOW}   [AVISO] Banco de apostas não encontrado para análise{RESET}")
+
+    # Notificação Telegram com resumo do pipeline
+    bets_db = BETS_TRACKER / "bets.db"
+    notify_pipeline_summary(
+        results=results,
+        results_time=results_time,
+        pipeline_elapsed=pipeline_elapsed,
+        args=args,
+        bets_db=bets_db if bets_db.exists() else None,
+    )
 
     # Exit code baseado em etapas críticas
     critical_steps = {'pinnacle_collect': 2, 'bets_collect': 3}

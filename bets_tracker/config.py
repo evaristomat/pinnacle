@@ -14,8 +14,21 @@ PROJECT_ROOT = BASE_DIR.parent
 IS_CLOUD = bool(os.getenv("STREAMLIT_SHARING_MODE")) or Path("/mount/src").exists()
 
 # Bancos de dados (read-only no Cloud, ok)
-PINNACLE_DB = PROJECT_ROOT / "pinnacle_data.db"
-BETS_DB = BASE_DIR / "bets.db"
+# Dota 2: bancos separados para não misturar com LoL
+PINNACLE_DOTA_DB = PROJECT_ROOT / "pinnacle_dota.db"
+BETS_DOTA_DB = BASE_DIR / "bets_dota.db"
+# Banco de resultados Dota (OpenDota + match Pinnacle)
+DOTA_RESULTS_DB = BASE_DIR / "dota_results.db"
+
+# Escolha de esport: lol (padrão) ou dota2. Define qual par PINNACLE_DB / BETS_DB usar.
+_ESPORT = os.getenv("PINNACLE_ESPORT", "lol").lower()
+if _ESPORT == "dota2":
+    PINNACLE_DB = PINNACLE_DOTA_DB
+    BETS_DB = BETS_DOTA_DB
+else:
+    PINNACLE_DB = PROJECT_ROOT / "pinnacle_data.db"
+    BETS_DB = BASE_DIR / "bets.db"
+
 HISTORY_CSV = PROJECT_ROOT / "database_improved" / "data_transformed.csv"
 HISTORY_DB = PROJECT_ROOT / "database_improved" / "lol_history.db"
 

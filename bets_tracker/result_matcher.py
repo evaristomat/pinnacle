@@ -1,6 +1,9 @@
 """
-Sistema de matching de jogos entre Pinnacle e histórico para atualizar resultados
+Sistema de matching de jogos entre Pinnacle e histórico para atualizar resultados.
+LoL: usa lol_history.db / data_transformed.csv.
+Dota 2: usa OpenDota API (quando PINNACLE_ESPORT=dota2).
 """
+import os
 import sqlite3
 import pandas as pd
 from pathlib import Path
@@ -43,7 +46,10 @@ class ResultMatcher:
         self.normalizer = ResultNormalizer()
         self.history_df: Optional[pd.DataFrame] = None
         self.corrections = get_name_corrections()
-        self._load_history()
+        self.use_opendota = os.getenv("PINNACLE_ESPORT", "").lower() == "dota2"
+        self._opendota_cache: Optional[List[Dict]] = None
+        if not self.use_opendota:
+            self._load_history()
     
     def _load_history(self):
         """
@@ -89,9 +95,33 @@ class ResultMatcher:
         except Exception as e:
             print(f"   [ERRO] Erro ao carregar SQLite: {e}")
     
+    def _match_game_opendota(self, bet: Dict) -> Optional[Dict]:
+        """Match usando OpenDota API (Dota 2). Cache de partidas é carregado na primeira vez."""
+        try:
+            from opendota_client import load_pro_matches, find_match_for_bet
+        except ImportError:
+            print("   [AVISO] opendota_client não encontrado; instale requests para Dota 2.")
+            return None
+        if self._opendota_cache is None:
+            print("[CARREGANDO] Buscando partidas recentes na OpenDota API (Dota 2)...")
+            self._opendota_cache = load_pro_matches()
+            print(f"   [OK] {len(self._opendota_cache)} partidas carregadas")
+        result = find_match_for_bet(
+            league_name=bet.get("league_name", ""),
+            home_team=bet.get("home_team", ""),
+            away_team=bet.get("away_team", ""),
+            game_date=bet.get("game_date", ""),
+            mapa=bet.get("mapa"),
+            matches_cache=self._opendota_cache,
+        )
+        if result is None or result.get("confidence", 0) < MIN_CONFIDENCE_SCORE:
+            return None
+        return result
+    
     def match_game(self, bet: Dict) -> Optional[Dict]:
         """
         Tenta fazer match de uma aposta com um jogo do histórico.
+        LoL: histórico local (lol_history.db / CSV). Dota 2: OpenDota API.
         
         Args:
             bet: Dicionário com dados da aposta
@@ -99,6 +129,8 @@ class ResultMatcher:
         Returns:
             Dicionário com resultado do jogo ou None se não encontrado
         """
+        if self.use_opendota:
+            return self._match_game_opendota(bet)
         if self.history_df is None or len(self.history_df) == 0:
             return None
         

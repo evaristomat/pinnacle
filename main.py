@@ -2,6 +2,7 @@
 Sistema Integrado de Coleta e Processamento de Dados Pinnacle
 Busca dados da API, processa, salva no banco e atualiza JSON único
 """
+import argparse
 import os
 import requests
 import json
@@ -26,10 +27,25 @@ from database import init_database, save_games_and_markets, get_database_stats, 
 # CONFIGURAÇÕES
 # ============================================================================
 
-LEAGUE_IDS = [
-    218181, 228009, 241160, 233800, 223983, 209234, 211515, 199353,
-    240984, 204030, 211390, 284474, 272187
-]
+# Esports suportados: gameCode (API nova) e leagueIds (fallback API antiga)
+ESPORTS_CONFIG = {
+    "lol": {
+        "name": "League of Legends",
+        "gameCode": "league-of-legends",
+        "leagueIds": [
+            218181, 228009, 241160, 233800, 223983, 209234, 211515, 199353,
+            240984, 204030, 211390, 284474, 272187
+        ],
+    },
+    "dota2": {
+        "name": "Dota 2",
+        "gameCode": "dota-2",
+        "leagueIds": [280472, 220253],
+    },
+}
+
+# Compatibilidade: LoL continua como padrão
+LEAGUE_IDS = ESPORTS_CONFIG["lol"]["leagueIds"]
 
 # Arquivos JSON únicos (sempre os mesmos, atualizados a cada execução)
 MARKETS_JSON_FILE = "pinnacle_markets.json"
@@ -87,7 +103,17 @@ def fetch_markets(league_id: int, headers: Dict) -> Optional[Dict]:
             "timestamp": datetime.now().isoformat(),
             "data": response.json()
         }
-    except Exception:
+    except requests.exceptions.HTTPError as e:
+        print(f"    [ERRO] Markets liga {league_id}: HTTP {e.response.status_code if e.response else '?'}")
+        return None
+    except requests.exceptions.ConnectionError as e:
+        print(f"    [ERRO] Markets liga {league_id}: Conexão recusada/bloqueada")
+        return None
+    except requests.exceptions.Timeout:
+        print(f"    [ERRO] Markets liga {league_id}: Timeout")
+        return None
+    except Exception as e:
+        print(f"    [ERRO] Markets liga {league_id}: {type(e).__name__}: {e}")
         return None
 
 def fetch_matchups(league_id: int, headers: Dict) -> Optional[Dict]:
@@ -103,17 +129,28 @@ def fetch_matchups(league_id: int, headers: Dict) -> Optional[Dict]:
             "timestamp": datetime.now().isoformat(),
             "data": response.json()
         }
-    except Exception:
+    except requests.exceptions.HTTPError as e:
+        print(f"    [ERRO] Matchups liga {league_id}: HTTP {e.response.status_code if e.response else '?'}")
+        return None
+    except requests.exceptions.ConnectionError as e:
+        print(f"    [ERRO] Matchups liga {league_id}: Conexão recusada/bloqueada")
+        return None
+    except requests.exceptions.Timeout:
+        print(f"    [ERRO] Matchups liga {league_id}: Timeout")
+        return None
+    except Exception as e:
+        print(f"    [ERRO] Matchups liga {league_id}: {type(e).__name__}: {e}")
         return None
 
-def get_new_api_headers() -> Dict:
-    """Retorna headers para a nova API"""
+def get_new_api_headers(esport_key: str = "lol") -> Dict:
+    """Retorna headers para a nova API. esport_key: 'lol' ou 'dota2'."""
+    game_code = ESPORTS_CONFIG.get(esport_key, ESPORTS_CONFIG["lol"])["gameCode"]
     return {
         "accept": "application/json, text/plain, */*",
         "accept-language": "pt-BR,pt;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6",
         "content-type": "application/json; charset=utf-8",
         "priority": "u=1, i",
-        "referer": "https://sports.pinnacle.bet.br/pt/standard/esports/games/league-of-legends",
+        "referer": f"https://sports.pinnacle.bet.br/pt/standard/esports/games/{game_code}",
         "sec-ch-ua": '"Not(A:Brand";v="8", "Chromium";v="144", "Microsoft Edge";v="144"',
         "sec-ch-ua-mobile": "?0",
         "sec-ch-ua-platform": '"Windows"',
@@ -124,12 +161,14 @@ def get_new_api_headers() -> Dict:
         "x-app-data": f"pctag={os.getenv('PINNACLE_PCTAG', '')};directusToken={os.getenv('PINNACLE_DIRECTUS_TOKEN', '')};dpVXz={os.getenv('PINNACLE_DPVXZ', '')}"
     }
 
-def fetch_new_api_data() -> Optional[Dict]:
+def fetch_new_api_data(esport_key: str = "lol") -> Optional[Dict]:
     """
     Busca todos os dados da nova API em uma única chamada.
-    Retorna dados completos de todas as ligas de League of Legends.
+    esport_key: 'lol' ou 'dota2'. Retorna dados completos das ligas do jogo.
     """
     try:
+        config = ESPORTS_CONFIG.get(esport_key, ESPORTS_CONFIG["lol"])
+        game_code = config["gameCode"]
         timestamp = int(time.time() * 1000)
         url = (
             f"https://sports.pinnacle.bet.br/sports-service/sv/euro/odds/matchups"
@@ -138,17 +177,18 @@ def fetch_new_api_data() -> Optional[Dict]:
             f"&version=0"
             f"&timeStamp={timestamp}"
             f"&language=pt"
-            f"&eSportCode=league-of-legends"
+            f"&eSportCode={game_code}"
             f"&periodNum=0%2C1%2C2%2C3%2C11%2C12%2C13"
             f"&locale=pt_BR"
             f"&_={timestamp}"
             f"&withCredentials=true"
         )
         
-        headers = get_new_api_headers()
+        headers = get_new_api_headers(esport_key)
         cookies = NEW_API_COOKIES
         
         response = requests.get(url, headers=headers, cookies=cookies, timeout=30)
+        print(f"  [INFO] Nova API status: HTTP {response.status_code}")
         response.raise_for_status()
         
         return {
@@ -157,27 +197,47 @@ def fetch_new_api_data() -> Optional[Dict]:
             "timestamp": datetime.now().isoformat(),
             "data": response.json()
         }
+    except requests.exceptions.HTTPError as e:
+        status = e.response.status_code if e.response else '?'
+        print(f"  [AVISO] Nova API: HTTP {status} (possível geo-restrição ou cookies expirados)")
+        return None
+    except requests.exceptions.ConnectionError:
+        print(f"  [AVISO] Nova API: Conexão recusada (possível geo-restrição)")
+        return None
+    except requests.exceptions.Timeout:
+        print(f"  [AVISO] Nova API: Timeout")
+        return None
     except Exception as e:
-        print(f"  [AVISO] Erro ao buscar nova API: {e}")
+        print(f"  [AVISO] Nova API: {type(e).__name__}: {e}")
         return None
 
-def fetch_all_data() -> Tuple[Union[List, None], Union[List, Dict, None]]:
+def fetch_all_data(esport_key: str = "lol") -> Tuple[Union[List, None], Union[List, Dict, None]]:
     """
     Busca todos os dados da API.
-    Tenta usar a nova API primeiro, com fallback para a API antiga.
+    esport_key: 'lol' ou 'dota2'. Tenta nova API primeiro, fallback para API antiga.
     Retorna: (markets_data, matchups_data) ou (None, new_api_response_dict)
     """
+    league_ids = ESPORTS_CONFIG.get(esport_key, ESPORTS_CONFIG["lol"])["leagueIds"]
     # Tenta usar nova API primeiro
     if USE_NEW_API:
         print("Tentando usar nova API...")
-        new_api_response = fetch_new_api_data()
+        new_api_response = fetch_new_api_data(esport_key)
         
         if new_api_response and new_api_response.get("data"):
-            print("  [OK] Nova API funcionou!")
-            # A nova API retorna dados em formato diferente
-            # Retornamos None para markets_data e o dict da nova API para matchups_data
-            # O processamento será feito em extract_game_data_from_new_api
-            return None, new_api_response
+            # Valida que a nova API realmente retornou dados úteis
+            data = new_api_response["data"]
+            leagues = data.get("leagues", [])
+            total_events = sum(len(lg.get("events", [])) for lg in leagues)
+            
+            if leagues and total_events > 0:
+                print(f"  [OK] Nova API funcionou! ({len(leagues)} ligas, {total_events} eventos)")
+                # A nova API retorna dados em formato diferente
+                # Retornamos None para markets_data e o dict da nova API para matchups_data
+                # O processamento será feito em extract_game_data_from_new_api
+                return None, new_api_response
+            else:
+                print(f"  [AVISO] Nova API retornou resposta mas sem dados úteis ({len(leagues)} ligas, {total_events} eventos)")
+                print("  [AVISO] Cookies podem estar expirados. Fazendo fallback para API antiga...")
     
     # Fallback para API antiga
     print("Usando API antiga (fallback)...")
@@ -185,17 +245,17 @@ def fetch_all_data() -> Tuple[Union[List, None], Union[List, Dict, None]]:
     all_markets_results = []
     all_matchups_results = []
     
-    print(f"Buscando dados de {len(LEAGUE_IDS)} ligas...")
+    print(f"Buscando dados de {len(league_ids)} ligas...")
     
     with ThreadPoolExecutor(max_workers=10) as executor:
         # Submete todas as tarefas
         markets_futures = {
             executor.submit(fetch_markets, league_id, headers): league_id 
-            for league_id in LEAGUE_IDS
+            for league_id in league_ids
         }
         matchups_futures = {
             executor.submit(fetch_matchups, league_id, headers): league_id 
-            for league_id in LEAGUE_IDS
+            for league_id in league_ids
         }
         
         # Processa resultados de markets
@@ -220,6 +280,17 @@ def fetch_all_data() -> Tuple[Union[List, None], Union[List, Dict, None]]:
             else:
                 print(f"    [ERRO] Falha ao obter matchups da liga {league_id}")
     
+    # Resumo da API antiga
+    markets_ok = len(all_markets_results)
+    matchups_ok = len(all_matchups_results)
+    markets_fail = len(league_ids) - markets_ok
+    matchups_fail = len(league_ids) - matchups_ok
+    print(f"\n  [RESUMO API ANTIGA] Markets: {markets_ok}/{len(league_ids)} OK ({markets_fail} falhas) | Matchups: {matchups_ok}/{len(league_ids)} OK ({matchups_fail} falhas)")
+    
+    if markets_ok == 0 and matchups_ok == 0:
+        print("  [ERRO] API antiga: TODAS as ligas falharam! Possível geo-restrição ou credenciais inválidas.")
+        print("  [ERRO] Verifique PINNACLE_API_KEY e PINNACLE_DEVICE_UUID, e se o runner tem acesso à API.")
+    
     # Combina todos os dados
     all_markets_data = []
     for result in all_markets_results:
@@ -233,15 +304,16 @@ def fetch_all_data() -> Tuple[Union[List, None], Union[List, Dict, None]]:
     
     return all_markets_data, all_matchups_data
 
-def save_api_data_to_json(markets_data: List, matchups_data: List):
-    """Salva dados da API em arquivos JSON únicos (atualizados, não criados novos)"""
+def save_api_data_to_json(markets_data: List, matchups_data: List, league_ids: Optional[List[int]] = None):
+    """Salva dados da API em arquivos JSON únicos (atualizados, não criados novos). league_ids opcional para metadata."""
+    ids = league_ids if league_ids is not None else LEAGUE_IDS
     # Estrutura para markets
     markets_json = {
         "request_info": {
             "timestamp": datetime.now().isoformat(),
-            "total_leagues": len(LEAGUE_IDS),
+            "total_leagues": len(ids),
             "total_markets": len(markets_data),
-            "league_ids": LEAGUE_IDS
+            "league_ids": ids
         },
         "response_data": markets_data
     }
@@ -250,9 +322,9 @@ def save_api_data_to_json(markets_data: List, matchups_data: List):
     matchups_json = {
         "request_info": {
             "timestamp": datetime.now().isoformat(),
-            "total_leagues": len(LEAGUE_IDS),
+            "total_leagues": len(ids),
             "total_matchups": len(matchups_data),
-            "league_ids": LEAGUE_IDS
+            "league_ids": ids
         },
         "response_data": matchups_data
     }
@@ -278,15 +350,14 @@ def convert_american_to_decimal(american_odds: int) -> float:
         return round((100 / abs(american_odds)) + 1, 2)
 
 def clean_league_name(league_name: str) -> str:
-    """Remove o prefixo 'League of Legends - ' do nome da liga"""
+    """Remove prefixos de jogo do nome da liga (ex: 'League of Legends - ', 'Dota 2 - ')"""
     if not league_name:
         return league_name
-    
-    prefix = "League of Legends - "
-    if league_name.startswith(prefix):
-        return league_name[len(prefix):].strip()
-    
-    return league_name.strip()
+    s = league_name.strip()
+    for prefix in ("League of Legends - ", "Dota 2 - "):
+        if s.startswith(prefix):
+            return s[len(prefix):].strip()
+    return s
 
 def parse_spread(spread_str: str) -> float:
     """Converte spread de string para float, mantendo o sinal original"""
@@ -972,8 +1043,9 @@ def process_and_save_to_database(games: List[Dict]) -> Dict[str, int]:
 # MÓDULO 4: JSON EXPORTER
 # ============================================================================
 
-def export_database_to_json():
-    """Exporta todos os dados do banco para JSON único (atualizado)"""
+def export_database_to_json(export_file: Optional[str] = None):
+    """Exporta todos os dados do banco para JSON único (atualizado). export_file: nome do arquivo (default: EXPORT_JSON_FILE)."""
+    out_file = export_file or EXPORT_JSON_FILE
     print("\nExportando banco de dados para JSON...")
     
     # Busca todos os jogos
@@ -992,10 +1064,10 @@ def export_database_to_json():
     }
     
     # Salva/atualiza arquivo único
-    with open(EXPORT_JSON_FILE, 'w', encoding='utf-8') as f:
+    with open(out_file, 'w', encoding='utf-8') as f:
         json.dump(extracted_data, f, indent=2, ensure_ascii=False)
     
-    print(f"  Dados exportados para: {EXPORT_JSON_FILE}")
+    print(f"  Dados exportados para: {out_file}")
 
 # ============================================================================
 # MÓDULO 5: MAIN ORCHESTRATOR
@@ -1003,18 +1075,29 @@ def export_database_to_json():
 
 def main():
     """Função principal que orquestra todo o processo"""
+    parser = argparse.ArgumentParser(description="Coleta odds Pinnacle (LoL ou Dota 2)")
+    parser.add_argument(
+        "--esport",
+        choices=["lol", "dota2"],
+        default="lol",
+        help="Esport a buscar: lol (League of Legends) ou dota2 (Dota 2). Default: lol",
+    )
+    args = parser.parse_args()
+    esport_key = args.esport
+    esport_name = ESPORTS_CONFIG[esport_key]["name"]
+
     # Configura encoding para Windows
     if sys.platform == 'win32':
         sys.stdout.reconfigure(encoding='utf-8')
     
     print("="*60)
-    print("SISTEMA INTEGRADO PINNACLE - League of Legends")
+    print(f"SISTEMA INTEGRADO PINNACLE - {esport_name}")
     print("="*60)
     
     try:
         # ETAPA 1: Buscar dados da API
         print("\n[ETAPA 1] Buscando dados da API...")
-        markets_data, matchups_data = fetch_all_data()
+        markets_data, matchups_data = fetch_all_data(esport_key)
         
         # Verifica se usou nova API ou antiga
         using_new_api = markets_data is None and isinstance(matchups_data, dict)
@@ -1047,7 +1130,7 @@ def main():
                 }, f, indent=2, ensure_ascii=False)
             print(f"  Dados da nova API salvos em: {MATCHUPS_JSON_FILE}")
         else:
-            save_api_data_to_json(markets_data, matchups_data)
+            save_api_data_to_json(markets_data, matchups_data, league_ids=ESPORTS_CONFIG[esport_key]["leagueIds"])
         
         # ETAPA 3: Processar e extrair dados dos jogos
         print("\n[ETAPA 3] Processando dados dos jogos...")
@@ -1070,7 +1153,7 @@ def main():
         
         # ETAPA 5: Exportar banco para JSON único
         print("\n[ETAPA 5] Exportando banco para JSON...")
-        export_database_to_json()
+        export_database_to_json(export_file="dota2_data.json" if esport_key == "dota2" else None)
         
         # ETAPA 6: Estatísticas finais
         print("\n[ETAPA 6] Estatísticas finais...")
@@ -1081,14 +1164,16 @@ def main():
         print(f"  [OK] Total de times: {db_stats['total_teams']}")
         print(f"  [OK] Total de ligas: {db_stats['total_leagues']}")
         
+        export_name = "dota2_data.json" if esport_key == "dota2" else EXPORT_JSON_FILE
+        db_name = "pinnacle_dota.db" if esport_key == "dota2" else "pinnacle_data.db"
         print("\n" + "="*60)
         print("PROCESSO CONCLUÍDO COM SUCESSO!")
         print("="*60)
         print(f"\nArquivos atualizados:")
         print(f"  - {MARKETS_JSON_FILE}")
         print(f"  - {MATCHUPS_JSON_FILE}")
-        print(f"  - {EXPORT_JSON_FILE}")
-        print(f"  - pinnacle_data.db")
+        print(f"  - {export_name}")
+        print(f"  - {db_name}")
         print("="*60)
         
     except Exception as e:

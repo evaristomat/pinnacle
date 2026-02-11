@@ -1,17 +1,2897 @@
 {
   "extraction_info": {
-    "timestamp": "2026-02-09T10:08:00.143368",
+    "timestamp": "2026-02-10T22:22:07.926102",
     "source": "database",
-    "total_games": 193,
+    "total_games": 205,
     "database_stats": {
-      "total_games": 193,
-      "total_markets": 6469,
-      "games_with_markets": 193,
-      "total_teams": 163,
+      "total_games": 205,
+      "total_markets": 7097,
+      "games_with_markets": 205,
+      "total_teams": 164,
       "total_leagues": 17
     }
   },
   "jogos": [
+    {
+      "matchup_id": 1623901428,
+      "league": "LFL",
+      "home_team": "Vitality.Bee",
+      "away_team": "French Flair",
+      "start_time": "2026-02-11T17:00:00",
+      "status": "scheduled",
+      "markets": {
+        "moneyline": {
+          "0": {
+            "away": {
+              "decimal": 1.28
+            },
+            "home": {
+              "decimal": 3.7
+            }
+          },
+          "1": {
+            "away": {
+              "decimal": 1.28
+            },
+            "home": {
+              "decimal": 3.7
+            }
+          }
+        },
+        "handicap_map": {},
+        "total_map": {},
+        "total_kill_home": {},
+        "total_kill_away": {},
+        "handicap_kills": {
+          "1": {
+            "-12.5": {
+              "is_alternate": true,
+              "away": {
+                "spread": -12.5,
+                "decimal": 2.55
+              }
+            },
+            "-11.5": {
+              "is_alternate": true,
+              "away": {
+                "spread": -11.5,
+                "decimal": 2.28
+              }
+            },
+            "-10.5": {
+              "is_alternate": true,
+              "away": {
+                "spread": -10.5,
+                "decimal": 2.03
+              }
+            },
+            "-9.5": {
+              "is_alternate": false,
+              "away": {
+                "spread": -9.5,
+                "decimal": 1.85
+              }
+            },
+            "-8.5": {
+              "is_alternate": true,
+              "away": {
+                "spread": -8.5,
+                "decimal": 1.7
+              }
+            },
+            "-7.5": {
+              "is_alternate": true,
+              "away": {
+                "spread": -7.5,
+                "decimal": 1.6
+              }
+            },
+            "-6.5": {
+              "is_alternate": true,
+              "away": {
+                "spread": -6.5,
+                "decimal": 1.5
+              }
+            },
+            "6.5": {
+              "is_alternate": true,
+              "home": {
+                "spread": 6.5,
+                "decimal": 2.38
+              }
+            },
+            "7.5": {
+              "is_alternate": true,
+              "home": {
+                "spread": 7.5,
+                "decimal": 2.21
+              }
+            },
+            "8.5": {
+              "is_alternate": true,
+              "home": {
+                "spread": 8.5,
+                "decimal": 2.05
+              }
+            },
+            "9.5": {
+              "is_alternate": false,
+              "home": {
+                "spread": 9.5,
+                "decimal": 1.88
+              }
+            },
+            "10.5": {
+              "is_alternate": true,
+              "home": {
+                "spread": 10.5,
+                "decimal": 1.71
+              }
+            },
+            "11.5": {
+              "is_alternate": true,
+              "home": {
+                "spread": 11.5,
+                "decimal": 1.57
+              }
+            },
+            "12.5": {
+              "is_alternate": true,
+              "home": {
+                "spread": 12.5,
+                "decimal": 1.43
+              }
+            }
+          }
+        },
+        "total_kills": {
+          "1": {
+            "27.5": {
+              "line": 27.5,
+              "is_alternate": true,
+              "over": {
+                "decimal": 1.43
+              },
+              "under": {
+                "decimal": 2.56
+              }
+            },
+            "28.5": {
+              "line": 28.5,
+              "is_alternate": true,
+              "over": {
+                "decimal": 1.54
+              },
+              "under": {
+                "decimal": 2.32
+              }
+            },
+            "29.5": {
+              "line": 29.5,
+              "is_alternate": true,
+              "over": {
+                "decimal": 1.68
+              },
+              "under": {
+                "decimal": 2.09
+              }
+            },
+            "30.5": {
+              "line": 30.5,
+              "is_alternate": false,
+              "over": {
+                "decimal": 1.82
+              },
+              "under": {
+                "decimal": 1.93
+              }
+            },
+            "31.5": {
+              "line": 31.5,
+              "is_alternate": true,
+              "over": {
+                "decimal": 1.97
+              },
+              "under": {
+                "decimal": 1.77
+              }
+            },
+            "32.5": {
+              "line": 32.5,
+              "is_alternate": true,
+              "over": {
+                "decimal": 2.15
+              },
+              "under": {
+                "decimal": 1.64
+              }
+            },
+            "33.5": {
+              "line": 33.5,
+              "is_alternate": true,
+              "over": {
+                "decimal": 2.32
+              },
+              "under": {
+                "decimal": 1.52
+              }
+            }
+          }
+        },
+        "total_dragons": {},
+        "total_towers": {}
+      }
+    },
+    {
+      "matchup_id": 1623902872,
+      "league": "LFL",
+      "home_team": "ZYB",
+      "away_team": "Joblife",
+      "start_time": "2026-02-11T16:00:00",
+      "status": "scheduled",
+      "markets": {
+        "moneyline": {
+          "0": {
+            "away": {
+              "decimal": 1.41
+            },
+            "home": {
+              "decimal": 2.96
+            }
+          },
+          "1": {
+            "away": {
+              "decimal": 1.41
+            },
+            "home": {
+              "decimal": 2.96
+            }
+          }
+        },
+        "handicap_map": {},
+        "total_map": {},
+        "total_kill_home": {},
+        "total_kill_away": {},
+        "handicap_kills": {
+          "1": {
+            "-11.5": {
+              "is_alternate": true,
+              "away": {
+                "spread": -11.5,
+                "decimal": 2.27
+              }
+            },
+            "-10.5": {
+              "is_alternate": true,
+              "away": {
+                "spread": -10.5,
+                "decimal": 2.1
+              }
+            },
+            "-9.5": {
+              "is_alternate": true,
+              "away": {
+                "spread": -9.5,
+                "decimal": 1.94
+              }
+            },
+            "-8.5": {
+              "is_alternate": false,
+              "away": {
+                "spread": -8.5,
+                "decimal": 1.83
+              }
+            },
+            "-7.5": {
+              "is_alternate": true,
+              "away": {
+                "spread": -7.5,
+                "decimal": 1.74
+              }
+            },
+            "-6.5": {
+              "is_alternate": true,
+              "away": {
+                "spread": -6.5,
+                "decimal": 1.65
+              }
+            },
+            "-5.5": {
+              "is_alternate": true,
+              "away": {
+                "spread": -5.5,
+                "decimal": 1.58
+              }
+            },
+            "5.5": {
+              "is_alternate": true,
+              "home": {
+                "spread": 5.5,
+                "decimal": 2.21
+              }
+            },
+            "6.5": {
+              "is_alternate": true,
+              "home": {
+                "spread": 6.5,
+                "decimal": 2.13
+              }
+            },
+            "7.5": {
+              "is_alternate": true,
+              "home": {
+                "spread": 7.5,
+                "decimal": 2.01
+              }
+            },
+            "8.5": {
+              "is_alternate": false,
+              "home": {
+                "spread": 8.5,
+                "decimal": 1.91
+              }
+            },
+            "9.5": {
+              "is_alternate": true,
+              "home": {
+                "spread": 9.5,
+                "decimal": 1.79
+              }
+            },
+            "10.5": {
+              "is_alternate": true,
+              "home": {
+                "spread": 10.5,
+                "decimal": 1.67
+              }
+            },
+            "11.5": {
+              "is_alternate": true,
+              "home": {
+                "spread": 11.5,
+                "decimal": 1.55
+              }
+            }
+          }
+        },
+        "total_kills": {
+          "1": {
+            "30.5": {
+              "line": 30.5,
+              "is_alternate": true,
+              "over": {
+                "decimal": 1.43
+              },
+              "under": {
+                "decimal": 2.53
+              }
+            },
+            "31.5": {
+              "line": 31.5,
+              "is_alternate": true,
+              "over": {
+                "decimal": 1.55
+              },
+              "under": {
+                "decimal": 2.32
+              }
+            },
+            "32.5": {
+              "line": 32.5,
+              "is_alternate": true,
+              "over": {
+                "decimal": 1.67
+              },
+              "under": {
+                "decimal": 2.1
+              }
+            },
+            "33.5": {
+              "line": 33.5,
+              "is_alternate": false,
+              "over": {
+                "decimal": 1.82
+              },
+              "under": {
+                "decimal": 1.93
+              }
+            },
+            "34.5": {
+              "line": 34.5,
+              "is_alternate": true,
+              "over": {
+                "decimal": 1.95
+              },
+              "under": {
+                "decimal": 1.77
+              }
+            },
+            "35.5": {
+              "line": 35.5,
+              "is_alternate": true,
+              "over": {
+                "decimal": 2.12
+              },
+              "under": {
+                "decimal": 1.65
+              }
+            },
+            "36.5": {
+              "line": 36.5,
+              "is_alternate": true,
+              "over": {
+                "decimal": 2.28
+              },
+              "under": {
+                "decimal": 1.54
+              }
+            }
+          }
+        },
+        "total_dragons": {},
+        "total_towers": {}
+      }
+    },
+    {
+      "matchup_id": 1623892718,
+      "league": "LFL",
+      "home_team": "Lille",
+      "away_team": "Galions",
+      "start_time": "2026-02-11T15:00:00",
+      "status": "scheduled",
+      "markets": {
+        "moneyline": {
+          "0": {
+            "away": {
+              "decimal": 1.22
+            },
+            "home": {
+              "decimal": 4.35
+            }
+          },
+          "1": {
+            "away": {
+              "decimal": 1.22
+            },
+            "home": {
+              "decimal": 4.35
+            }
+          }
+        },
+        "handicap_map": {},
+        "total_map": {},
+        "total_kill_home": {},
+        "total_kill_away": {},
+        "handicap_kills": {
+          "1": {
+            "-13.5": {
+              "is_alternate": true,
+              "away": {
+                "spread": -13.5,
+                "decimal": 2.82
+              }
+            },
+            "-12.5": {
+              "is_alternate": true,
+              "away": {
+                "spread": -12.5,
+                "decimal": 2.48
+              }
+            },
+            "-11.5": {
+              "is_alternate": true,
+              "away": {
+                "spread": -11.5,
+                "decimal": 2.17
+              }
+            },
+            "-10.5": {
+              "is_alternate": false,
+              "away": {
+                "spread": -10.5,
+                "decimal": 1.94
+              }
+            },
+            "-9.5": {
+              "is_alternate": true,
+              "away": {
+                "spread": -9.5,
+                "decimal": 1.75
+              }
+            },
+            "-8.5": {
+              "is_alternate": true,
+              "away": {
+                "spread": -8.5,
+                "decimal": 1.61
+              }
+            },
+            "-7.5": {
+              "is_alternate": true,
+              "away": {
+                "spread": -7.5,
+                "decimal": 1.48
+              }
+            },
+            "7.5": {
+              "is_alternate": true,
+              "home": {
+                "spread": 7.5,
+                "decimal": 2.41
+              }
+            },
+            "8.5": {
+              "is_alternate": true,
+              "home": {
+                "spread": 8.5,
+                "decimal": 2.19
+              }
+            },
+            "9.5": {
+              "is_alternate": true,
+              "home": {
+                "spread": 9.5,
+                "decimal": 1.99
+              }
+            },
+            "10.5": {
+              "is_alternate": false,
+              "home": {
+                "spread": 10.5,
+                "decimal": 1.81
+              }
+            },
+            "11.5": {
+              "is_alternate": true,
+              "home": {
+                "spread": 11.5,
+                "decimal": 1.62
+              }
+            },
+            "12.5": {
+              "is_alternate": true,
+              "home": {
+                "spread": 12.5,
+                "decimal": 1.48
+              }
+            },
+            "13.5": {
+              "is_alternate": true,
+              "home": {
+                "spread": 13.5,
+                "decimal": 1.35
+              }
+            }
+          }
+        },
+        "total_kills": {
+          "1": {
+            "27.5": {
+              "line": 27.5,
+              "is_alternate": true,
+              "over": {
+                "decimal": 1.45
+              },
+              "under": {
+                "decimal": 2.49
+              }
+            },
+            "28.5": {
+              "line": 28.5,
+              "is_alternate": true,
+              "over": {
+                "decimal": 1.57
+              },
+              "under": {
+                "decimal": 2.27
+              }
+            },
+            "29.5": {
+              "line": 29.5,
+              "is_alternate": true,
+              "over": {
+                "decimal": 1.7
+              },
+              "under": {
+                "decimal": 2.05
+              }
+            },
+            "30.5": {
+              "line": 30.5,
+              "is_alternate": false,
+              "over": {
+                "decimal": 1.86
+              },
+              "under": {
+                "decimal": 1.88
+              }
+            },
+            "31.5": {
+              "line": 31.5,
+              "is_alternate": true,
+              "over": {
+                "decimal": 2.03
+              },
+              "under": {
+                "decimal": 1.72
+              }
+            },
+            "32.5": {
+              "line": 32.5,
+              "is_alternate": true,
+              "over": {
+                "decimal": 2.23
+              },
+              "under": {
+                "decimal": 1.59
+              }
+            },
+            "33.5": {
+              "line": 33.5,
+              "is_alternate": true,
+              "over": {
+                "decimal": 2.43
+              },
+              "under": {
+                "decimal": 1.48
+              }
+            }
+          }
+        },
+        "total_dragons": {},
+        "total_towers": {}
+      }
+    },
+    {
+      "matchup_id": 1623892787,
+      "league": "LFL",
+      "home_team": "Solary",
+      "away_team": "TLN Pirates",
+      "start_time": "2026-02-11T14:00:00",
+      "status": "scheduled",
+      "markets": {
+        "moneyline": {
+          "0": {
+            "away": {
+              "decimal": 3.18
+            },
+            "home": {
+              "decimal": 1.36
+            }
+          },
+          "1": {
+            "away": {
+              "decimal": 3.18
+            },
+            "home": {
+              "decimal": 1.36
+            }
+          }
+        },
+        "handicap_map": {},
+        "total_map": {},
+        "total_kill_home": {},
+        "total_kill_away": {},
+        "handicap_kills": {
+          "1": {
+            "-12.5": {
+              "is_alternate": true,
+              "home": {
+                "spread": -12.5,
+                "decimal": 2.66
+              }
+            },
+            "-11.5": {
+              "is_alternate": true,
+              "home": {
+                "spread": -11.5,
+                "decimal": 2.38
+              }
+            },
+            "-10.5": {
+              "is_alternate": true,
+              "home": {
+                "spread": -10.5,
+                "decimal": 2.12
+              }
+            },
+            "-9.5": {
+              "is_alternate": false,
+              "home": {
+                "spread": -9.5,
+                "decimal": 1.93
+              }
+            },
+            "-8.5": {
+              "is_alternate": true,
+              "home": {
+                "spread": -8.5,
+                "decimal": 1.77
+              }
+            },
+            "-7.5": {
+              "is_alternate": true,
+              "home": {
+                "spread": -7.5,
+                "decimal": 1.65
+              }
+            },
+            "-6.5": {
+              "is_alternate": true,
+              "home": {
+                "spread": -6.5,
+                "decimal": 1.56
+              }
+            },
+            "6.5": {
+              "is_alternate": true,
+              "away": {
+                "spread": 6.5,
+                "decimal": 2.25
+              }
+            },
+            "7.5": {
+              "is_alternate": true,
+              "away": {
+                "spread": 7.5,
+                "decimal": 2.12
+              }
+            },
+            "8.5": {
+              "is_alternate": true,
+              "away": {
+                "spread": 8.5,
+                "decimal": 1.96
+              }
+            },
+            "9.5": {
+              "is_alternate": false,
+              "away": {
+                "spread": 9.5,
+                "decimal": 1.81
+              }
+            },
+            "10.5": {
+              "is_alternate": true,
+              "away": {
+                "spread": 10.5,
+                "decimal": 1.65
+              }
+            },
+            "11.5": {
+              "is_alternate": true,
+              "away": {
+                "spread": 11.5,
+                "decimal": 1.52
+              }
+            },
+            "12.5": {
+              "is_alternate": true,
+              "away": {
+                "spread": 12.5,
+                "decimal": 1.39
+              }
+            }
+          }
+        },
+        "total_kills": {
+          "1": {
+            "28.5": {
+              "line": 28.5,
+              "is_alternate": true,
+              "over": {
+                "decimal": 1.46
+              },
+              "under": {
+                "decimal": 2.46
+              }
+            },
+            "29.5": {
+              "line": 29.5,
+              "is_alternate": true,
+              "over": {
+                "decimal": 1.58
+              },
+              "under": {
+                "decimal": 2.25
+              }
+            },
+            "30.5": {
+              "line": 30.5,
+              "is_alternate": true,
+              "over": {
+                "decimal": 1.71
+              },
+              "under": {
+                "decimal": 2.04
+              }
+            },
+            "31.5": {
+              "line": 31.5,
+              "is_alternate": false,
+              "over": {
+                "decimal": 1.87
+              },
+              "under": {
+                "decimal": 1.87
+              }
+            },
+            "32.5": {
+              "line": 32.5,
+              "is_alternate": true,
+              "over": {
+                "decimal": 2.03
+              },
+              "under": {
+                "decimal": 1.71
+              }
+            },
+            "33.5": {
+              "line": 33.5,
+              "is_alternate": true,
+              "over": {
+                "decimal": 2.23
+              },
+              "under": {
+                "decimal": 1.59
+              }
+            },
+            "34.5": {
+              "line": 34.5,
+              "is_alternate": true,
+              "over": {
+                "decimal": 2.43
+              },
+              "under": {
+                "decimal": 1.47
+              }
+            }
+          }
+        },
+        "total_dragons": {},
+        "total_towers": {}
+      }
+    },
+    {
+      "matchup_id": 1623889195,
+      "league": "EBL",
+      "home_team": "SPIKE Syndicate",
+      "away_team": "Crvena Zvezda",
+      "start_time": "2026-02-11T14:00:00",
+      "status": "scheduled",
+      "markets": {
+        "moneyline": {
+          "0": {
+            "away": {
+              "decimal": 2.75
+            },
+            "home": {
+              "decimal": 1.35
+            }
+          },
+          "1": {
+            "away": {
+              "decimal": 2.43
+            },
+            "home": {
+              "decimal": 1.45
+            }
+          },
+          "2": {
+            "away": {
+              "decimal": 2.43
+            },
+            "home": {
+              "decimal": 1.45
+            }
+          },
+          "3": {
+            "away": {
+              "decimal": 2.32
+            },
+            "home": {
+              "decimal": 1.5
+            }
+          }
+        },
+        "handicap_map": {
+          "0": {
+            "-1.5": {
+              "is_alternate": false,
+              "away": {
+                "spread": 1.5,
+                "decimal": 1.59
+              },
+              "home": {
+                "spread": -1.5,
+                "decimal": 2.15
+              }
+            },
+            "1.5": {
+              "is_alternate": true,
+              "away": {
+                "spread": -1.5,
+                "decimal": 4.32
+              },
+              "home": {
+                "spread": 1.5,
+                "decimal": 1.09
+              }
+            }
+          }
+        },
+        "total_map": {
+          "0": {
+            "2.5": {
+              "line": 2.5,
+              "is_alternate": false,
+              "over": {
+                "decimal": 2.03
+              },
+              "under": {
+                "decimal": 1.67
+              }
+            }
+          }
+        },
+        "total_kill_home": {},
+        "total_kill_away": {},
+        "handicap_kills": {},
+        "total_kills": {},
+        "total_dragons": {},
+        "total_towers": {}
+      }
+    },
+    {
+      "matchup_id": 1623892681,
+      "league": "LFL",
+      "home_team": "BK ROG",
+      "away_team": "Skillcamp",
+      "start_time": "2026-02-11T13:00:00",
+      "status": "scheduled",
+      "markets": {
+        "moneyline": {
+          "0": {
+            "away": {
+              "decimal": 1.75
+            },
+            "home": {
+              "decimal": 2.11
+            }
+          },
+          "1": {
+            "away": {
+              "decimal": 1.75
+            },
+            "home": {
+              "decimal": 2.11
+            }
+          }
+        },
+        "handicap_map": {},
+        "total_map": {},
+        "total_kill_home": {},
+        "total_kill_away": {},
+        "handicap_kills": {
+          "1": {
+            "-7.5": {
+              "is_alternate": true,
+              "away": {
+                "spread": -7.5,
+                "decimal": 2.13
+              }
+            },
+            "-6.5": {
+              "is_alternate": true,
+              "away": {
+                "spread": -6.5,
+                "decimal": 2.02
+              }
+            },
+            "-5.5": {
+              "is_alternate": true,
+              "away": {
+                "spread": -5.5,
+                "decimal": 1.92
+              }
+            },
+            "-4.5": {
+              "is_alternate": false,
+              "away": {
+                "spread": -4.5,
+                "decimal": 1.85
+              }
+            },
+            "-3.5": {
+              "is_alternate": true,
+              "away": {
+                "spread": -3.5,
+                "decimal": 1.79
+              }
+            },
+            "-2.5": {
+              "is_alternate": true,
+              "away": {
+                "spread": -2.5,
+                "decimal": 1.75
+              }
+            },
+            "-1.5": {
+              "is_alternate": true,
+              "away": {
+                "spread": -1.5,
+                "decimal": 1.71
+              }
+            },
+            "1.5": {
+              "is_alternate": true,
+              "home": {
+                "spread": 1.5,
+                "decimal": 2.0
+              }
+            },
+            "2.5": {
+              "is_alternate": true,
+              "home": {
+                "spread": 2.5,
+                "decimal": 1.99
+              }
+            },
+            "3.5": {
+              "is_alternate": true,
+              "home": {
+                "spread": 3.5,
+                "decimal": 1.93
+              }
+            },
+            "4.5": {
+              "is_alternate": false,
+              "home": {
+                "spread": 4.5,
+                "decimal": 1.88
+              }
+            },
+            "5.5": {
+              "is_alternate": true,
+              "home": {
+                "spread": 5.5,
+                "decimal": 1.81
+              }
+            },
+            "6.5": {
+              "is_alternate": true,
+              "home": {
+                "spread": 6.5,
+                "decimal": 1.72
+              }
+            },
+            "7.5": {
+              "is_alternate": true,
+              "home": {
+                "spread": 7.5,
+                "decimal": 1.62
+              }
+            }
+          }
+        },
+        "total_kills": {
+          "1": {
+            "28.5": {
+              "line": 28.5,
+              "is_alternate": true,
+              "over": {
+                "decimal": 1.51
+              },
+              "under": {
+                "decimal": 2.34
+              }
+            },
+            "29.5": {
+              "line": 29.5,
+              "is_alternate": true,
+              "over": {
+                "decimal": 1.64
+              },
+              "under": {
+                "decimal": 2.14
+              }
+            },
+            "30.5": {
+              "line": 30.5,
+              "is_alternate": true,
+              "over": {
+                "decimal": 1.78
+              },
+              "under": {
+                "decimal": 1.95
+              }
+            },
+            "31.5": {
+              "line": 31.5,
+              "is_alternate": false,
+              "over": {
+                "decimal": 1.94
+              },
+              "under": {
+                "decimal": 1.8
+              }
+            },
+            "32.5": {
+              "line": 32.5,
+              "is_alternate": true,
+              "over": {
+                "decimal": 2.12
+              },
+              "under": {
+                "decimal": 1.66
+              }
+            },
+            "33.5": {
+              "line": 33.5,
+              "is_alternate": true,
+              "over": {
+                "decimal": 2.34
+              },
+              "under": {
+                "decimal": 1.53
+              }
+            },
+            "34.5": {
+              "line": 34.5,
+              "is_alternate": true,
+              "over": {
+                "decimal": 2.57
+              },
+              "under": {
+                "decimal": 1.42
+              }
+            }
+          }
+        },
+        "total_dragons": {},
+        "total_towers": {}
+      }
+    },
+    {
+      "matchup_id": 1623889181,
+      "league": "LIT",
+      "home_team": "GMBLERS",
+      "away_team": "Deacoy",
+      "start_time": "2026-02-11T13:00:00",
+      "status": "scheduled",
+      "markets": {
+        "moneyline": {
+          "0": {
+            "away": {
+              "decimal": 1.56
+            },
+            "home": {
+              "decimal": 2.32
+            }
+          },
+          "1": {
+            "away": {
+              "decimal": 1.67
+            },
+            "home": {
+              "decimal": 2.12
+            }
+          },
+          "2": {
+            "away": {
+              "decimal": 1.67
+            },
+            "home": {
+              "decimal": 2.12
+            }
+          },
+          "3": {
+            "away": {
+              "decimal": 1.67
+            },
+            "home": {
+              "decimal": 2.12
+            }
+          }
+        },
+        "handicap_map": {
+          "0": {
+            "-2.5": {
+              "is_alternate": true,
+              "away": {
+                "spread": 2.5,
+                "decimal": 1.06
+              },
+              "home": {
+                "spread": -2.5,
+                "decimal": 5.94
+              }
+            },
+            "-1.5": {
+              "is_alternate": true,
+              "away": {
+                "spread": 1.5,
+                "decimal": 1.24
+              },
+              "home": {
+                "spread": -1.5,
+                "decimal": 3.38
+              }
+            },
+            "1.5": {
+              "is_alternate": false,
+              "away": {
+                "spread": -1.5,
+                "decimal": 2.2
+              },
+              "home": {
+                "spread": 1.5,
+                "decimal": 1.62
+              }
+            },
+            "2.5": {
+              "is_alternate": true,
+              "away": {
+                "spread": -2.5,
+                "decimal": 3.92
+              },
+              "home": {
+                "spread": 2.5,
+                "decimal": 1.18
+              }
+            }
+          }
+        },
+        "total_map": {
+          "0": {
+            "3.5": {
+              "line": 3.5,
+              "is_alternate": true,
+              "over": {
+                "decimal": 1.3
+              },
+              "under": {
+                "decimal": 2.85
+              }
+            },
+            "4.5": {
+              "line": 4.5,
+              "is_alternate": false,
+              "over": {
+                "decimal": 2.51
+              },
+              "under": {
+                "decimal": 1.42
+              }
+            }
+          }
+        },
+        "total_kill_home": {},
+        "total_kill_away": {},
+        "handicap_kills": {},
+        "total_kills": {},
+        "total_dragons": {},
+        "total_towers": {}
+      }
+    },
+    {
+      "matchup_id": 1623889157,
+      "league": "HLL",
+      "home_team": "GOAL",
+      "away_team": "Paradox",
+      "start_time": "2026-02-11T12:00:00",
+      "status": "scheduled",
+      "markets": {
+        "moneyline": {
+          "1": {
+            "away": {
+              "decimal": 2.32
+            },
+            "home": {
+              "decimal": 1.5
+            }
+          },
+          "2": {
+            "away": {
+              "decimal": 2.32
+            },
+            "home": {
+              "decimal": 1.5
+            }
+          }
+        },
+        "handicap_map": {
+          "0": {
+            "-0.5": {
+              "is_alternate": false,
+              "away": {
+                "spread": 0.5,
+                "decimal": 1.53
+              },
+              "home": {
+                "spread": -0.5,
+                "decimal": 2.26
+              }
+            }
+          }
+        },
+        "total_map": {},
+        "total_kill_home": {},
+        "total_kill_away": {},
+        "handicap_kills": {},
+        "total_kills": {},
+        "total_dragons": {},
+        "total_towers": {}
+      }
+    },
+    {
+      "matchup_id": 1623927378,
+      "league": "LPL",
+      "home_team": "Team WE",
+      "away_team": "LNG",
+      "start_time": "2026-02-11T05:00:00",
+      "status": "scheduled",
+      "markets": {
+        "moneyline": {
+          "0": {
+            "away": {
+              "decimal": 1.44
+            },
+            "home": {
+              "decimal": 2.78
+            }
+          },
+          "1": {
+            "away": {
+              "decimal": 1.59
+            },
+            "home": {
+              "decimal": 2.37
+            }
+          },
+          "2": {
+            "away": {
+              "decimal": 1.59
+            },
+            "home": {
+              "decimal": 2.37
+            }
+          },
+          "3": {
+            "away": {
+              "decimal": 1.59
+            },
+            "home": {
+              "decimal": 2.37
+            }
+          }
+        },
+        "handicap_map": {
+          "0": {
+            "-2.5": {
+              "is_alternate": true,
+              "away": {
+                "spread": 2.5,
+                "decimal": 1.05
+              },
+              "home": {
+                "spread": -2.5,
+                "decimal": 7.77
+              }
+            },
+            "-1.5": {
+              "is_alternate": true,
+              "away": {
+                "spread": 1.5,
+                "decimal": 1.19
+              },
+              "home": {
+                "spread": -1.5,
+                "decimal": 4.12
+              }
+            },
+            "1.5": {
+              "is_alternate": false,
+              "away": {
+                "spread": -1.5,
+                "decimal": 2.0
+              },
+              "home": {
+                "spread": 1.5,
+                "decimal": 1.83
+              }
+            },
+            "2.5": {
+              "is_alternate": true,
+              "away": {
+                "spread": -2.5,
+                "decimal": 3.7
+              },
+              "home": {
+                "spread": 2.5,
+                "decimal": 1.24
+              }
+            }
+          }
+        },
+        "total_map": {
+          "0": {
+            "3.5": {
+              "line": 3.5,
+              "is_alternate": true,
+              "over": {
+                "decimal": 1.35
+              },
+              "under": {
+                "decimal": 2.91
+              }
+            },
+            "4.5": {
+              "line": 4.5,
+              "is_alternate": false,
+              "over": {
+                "decimal": 2.76
+              },
+              "under": {
+                "decimal": 1.43
+              }
+            }
+          }
+        },
+        "total_kill_home": {},
+        "total_kill_away": {},
+        "handicap_kills": {
+          "1": {
+            "-10.5": {
+              "is_alternate": true,
+              "away": {
+                "spread": -10.5,
+                "decimal": 2.82
+              }
+            },
+            "-9.5": {
+              "is_alternate": true,
+              "away": {
+                "spread": -9.5,
+                "decimal": 2.49
+              }
+            },
+            "-8.5": {
+              "is_alternate": true,
+              "away": {
+                "spread": -8.5,
+                "decimal": 2.25
+              }
+            },
+            "-7.5": {
+              "is_alternate": true,
+              "away": {
+                "spread": -7.5,
+                "decimal": 2.04
+              }
+            },
+            "-6.5": {
+              "is_alternate": false,
+              "away": {
+                "spread": -6.5,
+                "decimal": 1.9
+              }
+            },
+            "-5.5": {
+              "is_alternate": true,
+              "away": {
+                "spread": -5.5,
+                "decimal": 1.79
+              }
+            },
+            "-4.5": {
+              "is_alternate": true,
+              "away": {
+                "spread": -4.5,
+                "decimal": 1.72
+              }
+            },
+            "-3.5": {
+              "is_alternate": true,
+              "away": {
+                "spread": -3.5,
+                "decimal": 1.66
+              }
+            },
+            "-2.5": {
+              "is_alternate": true,
+              "away": {
+                "spread": -2.5,
+                "decimal": 1.62
+              }
+            },
+            "2.5": {
+              "is_alternate": true,
+              "home": {
+                "spread": 2.5,
+                "decimal": 2.12
+              }
+            },
+            "3.5": {
+              "is_alternate": true,
+              "home": {
+                "spread": 3.5,
+                "decimal": 2.08
+              }
+            },
+            "4.5": {
+              "is_alternate": true,
+              "home": {
+                "spread": 4.5,
+                "decimal": 2.03
+              }
+            },
+            "5.5": {
+              "is_alternate": true,
+              "home": {
+                "spread": 5.5,
+                "decimal": 1.93
+              }
+            },
+            "6.5": {
+              "is_alternate": false,
+              "home": {
+                "spread": 6.5,
+                "decimal": 1.83
+              }
+            },
+            "7.5": {
+              "is_alternate": true,
+              "home": {
+                "spread": 7.5,
+                "decimal": 1.71
+              }
+            },
+            "8.5": {
+              "is_alternate": true,
+              "home": {
+                "spread": 8.5,
+                "decimal": 1.58
+              }
+            },
+            "9.5": {
+              "is_alternate": true,
+              "home": {
+                "spread": 9.5,
+                "decimal": 1.45
+              }
+            },
+            "10.5": {
+              "is_alternate": true,
+              "home": {
+                "spread": 10.5,
+                "decimal": 1.34
+              }
+            }
+          },
+          "2": {
+            "-10.5": {
+              "is_alternate": true,
+              "away": {
+                "spread": -10.5,
+                "decimal": 2.82
+              }
+            },
+            "-9.5": {
+              "is_alternate": true,
+              "away": {
+                "spread": -9.5,
+                "decimal": 2.49
+              }
+            },
+            "-8.5": {
+              "is_alternate": true,
+              "away": {
+                "spread": -8.5,
+                "decimal": 2.25
+              }
+            },
+            "-7.5": {
+              "is_alternate": true,
+              "away": {
+                "spread": -7.5,
+                "decimal": 2.05
+              }
+            },
+            "-6.5": {
+              "is_alternate": false,
+              "away": {
+                "spread": -6.5,
+                "decimal": 1.9
+              }
+            },
+            "-5.5": {
+              "is_alternate": true,
+              "away": {
+                "spread": -5.5,
+                "decimal": 1.79
+              }
+            },
+            "-4.5": {
+              "is_alternate": true,
+              "away": {
+                "spread": -4.5,
+                "decimal": 1.72
+              }
+            },
+            "-3.5": {
+              "is_alternate": true,
+              "away": {
+                "spread": -3.5,
+                "decimal": 1.66
+              }
+            },
+            "-2.5": {
+              "is_alternate": true,
+              "away": {
+                "spread": -2.5,
+                "decimal": 1.61
+              }
+            },
+            "2.5": {
+              "is_alternate": true,
+              "home": {
+                "spread": 2.5,
+                "decimal": 2.13
+              }
+            },
+            "3.5": {
+              "is_alternate": true,
+              "home": {
+                "spread": 3.5,
+                "decimal": 2.08
+              }
+            },
+            "4.5": {
+              "is_alternate": true,
+              "home": {
+                "spread": 4.5,
+                "decimal": 2.03
+              }
+            },
+            "5.5": {
+              "is_alternate": true,
+              "home": {
+                "spread": 5.5,
+                "decimal": 1.93
+              }
+            },
+            "6.5": {
+              "is_alternate": false,
+              "home": {
+                "spread": 6.5,
+                "decimal": 1.83
+              }
+            },
+            "7.5": {
+              "is_alternate": true,
+              "home": {
+                "spread": 7.5,
+                "decimal": 1.7
+              }
+            },
+            "8.5": {
+              "is_alternate": true,
+              "home": {
+                "spread": 8.5,
+                "decimal": 1.58
+              }
+            },
+            "9.5": {
+              "is_alternate": true,
+              "home": {
+                "spread": 9.5,
+                "decimal": 1.45
+              }
+            },
+            "10.5": {
+              "is_alternate": true,
+              "home": {
+                "spread": 10.5,
+                "decimal": 1.34
+              }
+            }
+          },
+          "3": {
+            "-10.5": {
+              "is_alternate": true,
+              "away": {
+                "spread": -10.5,
+                "decimal": 2.82
+              }
+            },
+            "-9.5": {
+              "is_alternate": true,
+              "away": {
+                "spread": -9.5,
+                "decimal": 2.5
+              }
+            },
+            "-8.5": {
+              "is_alternate": true,
+              "away": {
+                "spread": -8.5,
+                "decimal": 2.25
+              }
+            },
+            "-7.5": {
+              "is_alternate": true,
+              "away": {
+                "spread": -7.5,
+                "decimal": 2.05
+              }
+            },
+            "-6.5": {
+              "is_alternate": false,
+              "away": {
+                "spread": -6.5,
+                "decimal": 1.91
+              }
+            },
+            "-5.5": {
+              "is_alternate": true,
+              "away": {
+                "spread": -5.5,
+                "decimal": 1.79
+              }
+            },
+            "-4.5": {
+              "is_alternate": true,
+              "away": {
+                "spread": -4.5,
+                "decimal": 1.72
+              }
+            },
+            "-3.5": {
+              "is_alternate": true,
+              "away": {
+                "spread": -3.5,
+                "decimal": 1.66
+              }
+            },
+            "-2.5": {
+              "is_alternate": true,
+              "away": {
+                "spread": -2.5,
+                "decimal": 1.62
+              }
+            },
+            "2.5": {
+              "is_alternate": true,
+              "home": {
+                "spread": 2.5,
+                "decimal": 2.13
+              }
+            },
+            "3.5": {
+              "is_alternate": true,
+              "home": {
+                "spread": 3.5,
+                "decimal": 2.08
+              }
+            },
+            "4.5": {
+              "is_alternate": true,
+              "home": {
+                "spread": 4.5,
+                "decimal": 2.03
+              }
+            },
+            "5.5": {
+              "is_alternate": true,
+              "home": {
+                "spread": 5.5,
+                "decimal": 1.93
+              }
+            },
+            "6.5": {
+              "is_alternate": false,
+              "home": {
+                "spread": 6.5,
+                "decimal": 1.83
+              }
+            },
+            "7.5": {
+              "is_alternate": true,
+              "home": {
+                "spread": 7.5,
+                "decimal": 1.7
+              }
+            },
+            "8.5": {
+              "is_alternate": true,
+              "home": {
+                "spread": 8.5,
+                "decimal": 1.58
+              }
+            },
+            "9.5": {
+              "is_alternate": true,
+              "home": {
+                "spread": 9.5,
+                "decimal": 1.45
+              }
+            },
+            "10.5": {
+              "is_alternate": true,
+              "home": {
+                "spread": 10.5,
+                "decimal": 1.34
+              }
+            }
+          }
+        },
+        "total_kills": {
+          "1": {
+            "26.5": {
+              "line": 26.5,
+              "is_alternate": true,
+              "over": {
+                "decimal": 1.5
+              },
+              "under": {
+                "decimal": 2.34
+              }
+            },
+            "27.5": {
+              "line": 27.5,
+              "is_alternate": true,
+              "over": {
+                "decimal": 1.63
+              },
+              "under": {
+                "decimal": 2.12
+              }
+            },
+            "28.5": {
+              "line": 28.5,
+              "is_alternate": true,
+              "over": {
+                "decimal": 1.79
+              },
+              "under": {
+                "decimal": 1.93
+              }
+            },
+            "29.5": {
+              "line": 29.5,
+              "is_alternate": true,
+              "over": {
+                "decimal": 1.97
+              },
+              "under": {
+                "decimal": 1.76
+              }
+            },
+            "30.5": {
+              "line": 30.5,
+              "is_alternate": false,
+              "over": {
+                "decimal": 2.18
+              },
+              "under": {
+                "decimal": 1.63
+              }
+            },
+            "31.5": {
+              "line": 31.5,
+              "is_alternate": true,
+              "over": {
+                "decimal": 2.36
+              },
+              "under": {
+                "decimal": 1.53
+              }
+            },
+            "32.5": {
+              "line": 32.5,
+              "is_alternate": true,
+              "over": {
+                "decimal": 2.56
+              },
+              "under": {
+                "decimal": 1.45
+              }
+            },
+            "33.5": {
+              "line": 33.5,
+              "is_alternate": true,
+              "over": {
+                "decimal": 2.75
+              },
+              "under": {
+                "decimal": 1.37
+              }
+            },
+            "34.5": {
+              "line": 34.5,
+              "is_alternate": true,
+              "over": {
+                "decimal": 2.97
+              },
+              "under": {
+                "decimal": 1.3
+              }
+            }
+          },
+          "2": {
+            "26.5": {
+              "line": 26.5,
+              "is_alternate": true,
+              "over": {
+                "decimal": 1.47
+              },
+              "under": {
+                "decimal": 2.43
+              }
+            },
+            "27.5": {
+              "line": 27.5,
+              "is_alternate": true,
+              "over": {
+                "decimal": 1.58
+              },
+              "under": {
+                "decimal": 2.21
+              }
+            },
+            "28.5": {
+              "line": 28.5,
+              "is_alternate": true,
+              "over": {
+                "decimal": 1.72
+              },
+              "under": {
+                "decimal": 2.02
+              }
+            },
+            "29.5": {
+              "line": 29.5,
+              "is_alternate": true,
+              "over": {
+                "decimal": 1.88
+              },
+              "under": {
+                "decimal": 1.84
+              }
+            },
+            "30.5": {
+              "line": 30.5,
+              "is_alternate": false,
+              "over": {
+                "decimal": 2.07
+              },
+              "under": {
+                "decimal": 1.7
+              }
+            },
+            "31.5": {
+              "line": 31.5,
+              "is_alternate": true,
+              "over": {
+                "decimal": 2.24
+              },
+              "under": {
+                "decimal": 1.59
+              }
+            },
+            "32.5": {
+              "line": 32.5,
+              "is_alternate": true,
+              "over": {
+                "decimal": 2.43
+              },
+              "under": {
+                "decimal": 1.5
+              }
+            },
+            "33.5": {
+              "line": 33.5,
+              "is_alternate": true,
+              "over": {
+                "decimal": 2.62
+              },
+              "under": {
+                "decimal": 1.41
+              }
+            },
+            "34.5": {
+              "line": 34.5,
+              "is_alternate": true,
+              "over": {
+                "decimal": 2.83
+              },
+              "under": {
+                "decimal": 1.33
+              }
+            }
+          },
+          "3": {
+            "26.5": {
+              "line": 26.5,
+              "is_alternate": true,
+              "over": {
+                "decimal": 1.45
+              },
+              "under": {
+                "decimal": 2.46
+              }
+            },
+            "27.5": {
+              "line": 27.5,
+              "is_alternate": true,
+              "over": {
+                "decimal": 1.56
+              },
+              "under": {
+                "decimal": 2.23
+              }
+            },
+            "28.5": {
+              "line": 28.5,
+              "is_alternate": true,
+              "over": {
+                "decimal": 1.7
+              },
+              "under": {
+                "decimal": 2.05
+              }
+            },
+            "29.5": {
+              "line": 29.5,
+              "is_alternate": true,
+              "over": {
+                "decimal": 1.86
+              },
+              "under": {
+                "decimal": 1.86
+              }
+            },
+            "30.5": {
+              "line": 30.5,
+              "is_alternate": false,
+              "over": {
+                "decimal": 2.04
+              },
+              "under": {
+                "decimal": 1.72
+              }
+            },
+            "31.5": {
+              "line": 31.5,
+              "is_alternate": true,
+              "over": {
+                "decimal": 2.2
+              },
+              "under": {
+                "decimal": 1.61
+              }
+            },
+            "32.5": {
+              "line": 32.5,
+              "is_alternate": true,
+              "over": {
+                "decimal": 2.4
+              },
+              "under": {
+                "decimal": 1.51
+              }
+            },
+            "33.5": {
+              "line": 33.5,
+              "is_alternate": true,
+              "over": {
+                "decimal": 2.58
+              },
+              "under": {
+                "decimal": 1.42
+              }
+            },
+            "34.5": {
+              "line": 34.5,
+              "is_alternate": true,
+              "over": {
+                "decimal": 2.8
+              },
+              "under": {
+                "decimal": 1.34
+              }
+            }
+          }
+        },
+        "total_dragons": {},
+        "total_towers": {}
+      }
+    },
+    {
+      "matchup_id": 1623956491,
+      "league": "LPL",
+      "home_team": "Invictus",
+      "away_team": "Oh My God",
+      "start_time": "2026-02-11T02:15:00",
+      "status": "scheduled",
+      "markets": {
+        "moneyline": {
+          "0": {
+            "away": {
+              "decimal": 2.63
+            },
+            "home": {
+              "decimal": 1.49
+            }
+          },
+          "1": {
+            "away": {
+              "decimal": 2.3
+            },
+            "home": {
+              "decimal": 1.63
+            }
+          },
+          "2": {
+            "away": {
+              "decimal": 2.25
+            },
+            "home": {
+              "decimal": 1.65
+            }
+          },
+          "3": {
+            "away": {
+              "decimal": 2.25
+            },
+            "home": {
+              "decimal": 1.65
+            }
+          }
+        },
+        "handicap_map": {
+          "0": {
+            "-2.5": {
+              "is_alternate": true,
+              "away": {
+                "spread": 2.5,
+                "decimal": 1.22
+              },
+              "home": {
+                "spread": -2.5,
+                "decimal": 3.84
+              }
+            },
+            "-1.5": {
+              "is_alternate": false,
+              "away": {
+                "spread": 1.5,
+                "decimal": 1.76
+              },
+              "home": {
+                "spread": -1.5,
+                "decimal": 2.08
+              }
+            },
+            "1.5": {
+              "is_alternate": true,
+              "away": {
+                "spread": -1.5,
+                "decimal": 3.91
+              },
+              "home": {
+                "spread": 1.5,
+                "decimal": 1.21
+              }
+            },
+            "2.5": {
+              "is_alternate": true,
+              "away": {
+                "spread": -2.5,
+                "decimal": 7.44
+              },
+              "home": {
+                "spread": 2.5,
+                "decimal": 1.05
+              }
+            }
+          }
+        },
+        "total_map": {
+          "0": {
+            "3.5": {
+              "line": 3.5,
+              "is_alternate": true,
+              "over": {
+                "decimal": 1.34
+              },
+              "under": {
+                "decimal": 2.95
+              }
+            },
+            "4.5": {
+              "line": 4.5,
+              "is_alternate": false,
+              "over": {
+                "decimal": 2.71
+              },
+              "under": {
+                "decimal": 1.44
+              }
+            }
+          }
+        },
+        "total_kill_home": {},
+        "total_kill_away": {},
+        "handicap_kills": {
+          "1": {
+            "-10.5": {
+              "is_alternate": true,
+              "home": {
+                "spread": -10.5,
+                "decimal": 2.66
+              }
+            },
+            "-9.5": {
+              "is_alternate": true,
+              "home": {
+                "spread": -9.5,
+                "decimal": 2.4
+              }
+            },
+            "-8.5": {
+              "is_alternate": true,
+              "home": {
+                "spread": -8.5,
+                "decimal": 2.19
+              }
+            },
+            "-7.5": {
+              "is_alternate": true,
+              "home": {
+                "spread": -7.5,
+                "decimal": 2.02
+              }
+            },
+            "-6.5": {
+              "is_alternate": false,
+              "home": {
+                "spread": -6.5,
+                "decimal": 1.88
+              }
+            },
+            "-5.5": {
+              "is_alternate": true,
+              "home": {
+                "spread": -5.5,
+                "decimal": 1.78
+              }
+            },
+            "-4.5": {
+              "is_alternate": true,
+              "home": {
+                "spread": -4.5,
+                "decimal": 1.71
+              }
+            },
+            "-3.5": {
+              "is_alternate": true,
+              "home": {
+                "spread": -3.5,
+                "decimal": 1.65
+              }
+            },
+            "-2.5": {
+              "is_alternate": true,
+              "home": {
+                "spread": -2.5,
+                "decimal": 1.61
+              }
+            },
+            "2.5": {
+              "is_alternate": true,
+              "away": {
+                "spread": 2.5,
+                "decimal": 2.14
+              }
+            },
+            "3.5": {
+              "is_alternate": true,
+              "away": {
+                "spread": 3.5,
+                "decimal": 2.09
+              }
+            },
+            "4.5": {
+              "is_alternate": true,
+              "away": {
+                "spread": 4.5,
+                "decimal": 2.04
+              }
+            },
+            "5.5": {
+              "is_alternate": true,
+              "away": {
+                "spread": 5.5,
+                "decimal": 1.95
+              }
+            },
+            "6.5": {
+              "is_alternate": false,
+              "away": {
+                "spread": 6.5,
+                "decimal": 1.85
+              }
+            },
+            "7.5": {
+              "is_alternate": true,
+              "away": {
+                "spread": 7.5,
+                "decimal": 1.73
+              }
+            },
+            "8.5": {
+              "is_alternate": true,
+              "away": {
+                "spread": 8.5,
+                "decimal": 1.61
+              }
+            },
+            "9.5": {
+              "is_alternate": true,
+              "away": {
+                "spread": 9.5,
+                "decimal": 1.49
+              }
+            },
+            "10.5": {
+              "is_alternate": true,
+              "away": {
+                "spread": 10.5,
+                "decimal": 1.38
+              }
+            }
+          },
+          "2": {
+            "-9.5": {
+              "is_alternate": true,
+              "home": {
+                "spread": -9.5,
+                "decimal": 2.42
+              }
+            },
+            "-8.5": {
+              "is_alternate": true,
+              "home": {
+                "spread": -8.5,
+                "decimal": 2.21
+              }
+            },
+            "-7.5": {
+              "is_alternate": true,
+              "home": {
+                "spread": -7.5,
+                "decimal": 2.06
+              }
+            },
+            "-6.5": {
+              "is_alternate": true,
+              "home": {
+                "spread": -6.5,
+                "decimal": 1.92
+              }
+            },
+            "-5.5": {
+              "is_alternate": false,
+              "home": {
+                "spread": -5.5,
+                "decimal": 1.83
+              }
+            },
+            "-4.5": {
+              "is_alternate": true,
+              "home": {
+                "spread": -4.5,
+                "decimal": 1.75
+              }
+            },
+            "-3.5": {
+              "is_alternate": true,
+              "home": {
+                "spread": -3.5,
+                "decimal": 1.69
+              }
+            },
+            "-2.5": {
+              "is_alternate": true,
+              "home": {
+                "spread": -2.5,
+                "decimal": 1.65
+              }
+            },
+            "-1.5": {
+              "is_alternate": true,
+              "home": {
+                "spread": -1.5,
+                "decimal": 1.61
+              }
+            },
+            "1.5": {
+              "is_alternate": true,
+              "away": {
+                "spread": 1.5,
+                "decimal": 2.13
+              }
+            },
+            "2.5": {
+              "is_alternate": true,
+              "away": {
+                "spread": 2.5,
+                "decimal": 2.1
+              }
+            },
+            "3.5": {
+              "is_alternate": true,
+              "away": {
+                "spread": 3.5,
+                "decimal": 2.07
+              }
+            },
+            "4.5": {
+              "is_alternate": true,
+              "away": {
+                "spread": 4.5,
+                "decimal": 1.99
+              }
+            },
+            "5.5": {
+              "is_alternate": false,
+              "away": {
+                "spread": 5.5,
+                "decimal": 1.92
+              }
+            },
+            "6.5": {
+              "is_alternate": true,
+              "away": {
+                "spread": 6.5,
+                "decimal": 1.81
+              }
+            },
+            "7.5": {
+              "is_alternate": true,
+              "away": {
+                "spread": 7.5,
+                "decimal": 1.7
+              }
+            },
+            "8.5": {
+              "is_alternate": true,
+              "away": {
+                "spread": 8.5,
+                "decimal": 1.58
+              }
+            },
+            "9.5": {
+              "is_alternate": true,
+              "away": {
+                "spread": 9.5,
+                "decimal": 1.47
+              }
+            }
+          },
+          "3": {
+            "-10.5": {
+              "is_alternate": true,
+              "home": {
+                "spread": -10.5,
+                "decimal": 2.7
+              }
+            },
+            "-9.5": {
+              "is_alternate": true,
+              "home": {
+                "spread": -9.5,
+                "decimal": 2.43
+              }
+            },
+            "-8.5": {
+              "is_alternate": true,
+              "home": {
+                "spread": -8.5,
+                "decimal": 2.23
+              }
+            },
+            "-7.5": {
+              "is_alternate": true,
+              "home": {
+                "spread": -7.5,
+                "decimal": 2.05
+              }
+            },
+            "-6.5": {
+              "is_alternate": false,
+              "home": {
+                "spread": -6.5,
+                "decimal": 1.92
+              }
+            },
+            "-5.5": {
+              "is_alternate": true,
+              "home": {
+                "spread": -5.5,
+                "decimal": 1.81
+              }
+            },
+            "-4.5": {
+              "is_alternate": true,
+              "home": {
+                "spread": -4.5,
+                "decimal": 1.74
+              }
+            },
+            "-3.5": {
+              "is_alternate": true,
+              "home": {
+                "spread": -3.5,
+                "decimal": 1.68
+              }
+            },
+            "-2.5": {
+              "is_alternate": true,
+              "home": {
+                "spread": -2.5,
+                "decimal": 1.63
+              }
+            },
+            "2.5": {
+              "is_alternate": true,
+              "away": {
+                "spread": 2.5,
+                "decimal": 2.1
+              }
+            },
+            "3.5": {
+              "is_alternate": true,
+              "away": {
+                "spread": 3.5,
+                "decimal": 2.05
+              }
+            },
+            "4.5": {
+              "is_alternate": true,
+              "away": {
+                "spread": 4.5,
+                "decimal": 2.0
+              }
+            },
+            "5.5": {
+              "is_alternate": true,
+              "away": {
+                "spread": 5.5,
+                "decimal": 1.92
+              }
+            },
+            "6.5": {
+              "is_alternate": false,
+              "away": {
+                "spread": 6.5,
+                "decimal": 1.82
+              }
+            },
+            "7.5": {
+              "is_alternate": true,
+              "away": {
+                "spread": 7.5,
+                "decimal": 1.7
+              }
+            },
+            "8.5": {
+              "is_alternate": true,
+              "away": {
+                "spread": 8.5,
+                "decimal": 1.59
+              }
+            },
+            "9.5": {
+              "is_alternate": true,
+              "away": {
+                "spread": 9.5,
+                "decimal": 1.47
+              }
+            },
+            "10.5": {
+              "is_alternate": true,
+              "away": {
+                "spread": 10.5,
+                "decimal": 1.37
+              }
+            }
+          }
+        },
+        "total_kills": {
+          "1": {
+            "25.5": {
+              "line": 25.5,
+              "is_alternate": true,
+              "over": {
+                "decimal": 1.4
+              },
+              "under": {
+                "decimal": 2.61
+              }
+            },
+            "26.5": {
+              "line": 26.5,
+              "is_alternate": true,
+              "over": {
+                "decimal": 1.51
+              },
+              "under": {
+                "decimal": 2.36
+              }
+            },
+            "27.5": {
+              "line": 27.5,
+              "is_alternate": true,
+              "over": {
+                "decimal": 1.64
+              },
+              "under": {
+                "decimal": 2.14
+              }
+            },
+            "28.5": {
+              "line": 28.5,
+              "is_alternate": true,
+              "over": {
+                "decimal": 1.79
+              },
+              "under": {
+                "decimal": 1.93
+              }
+            },
+            "29.5": {
+              "line": 29.5,
+              "is_alternate": false,
+              "over": {
+                "decimal": 1.98
+              },
+              "under": {
+                "decimal": 1.77
+              }
+            },
+            "30.5": {
+              "line": 30.5,
+              "is_alternate": true,
+              "over": {
+                "decimal": 2.17
+              },
+              "under": {
+                "decimal": 1.62
+              }
+            },
+            "31.5": {
+              "line": 31.5,
+              "is_alternate": true,
+              "over": {
+                "decimal": 2.4
+              },
+              "under": {
+                "decimal": 1.51
+              }
+            },
+            "32.5": {
+              "line": 32.5,
+              "is_alternate": true,
+              "over": {
+                "decimal": 2.62
+              },
+              "under": {
+                "decimal": 1.41
+              }
+            },
+            "33.5": {
+              "line": 33.5,
+              "is_alternate": true,
+              "over": {
+                "decimal": 2.88
+              },
+              "under": {
+                "decimal": 1.32
+              }
+            }
+          },
+          "2": {
+            "25.5": {
+              "line": 25.5,
+              "is_alternate": true,
+              "over": {
+                "decimal": 1.35
+              },
+              "under": {
+                "decimal": 2.79
+              }
+            },
+            "26.5": {
+              "line": 26.5,
+              "is_alternate": true,
+              "over": {
+                "decimal": 1.44
+              },
+              "under": {
+                "decimal": 2.51
+              }
+            },
+            "27.5": {
+              "line": 27.5,
+              "is_alternate": true,
+              "over": {
+                "decimal": 1.56
+              },
+              "under": {
+                "decimal": 2.28
+              }
+            },
+            "28.5": {
+              "line": 28.5,
+              "is_alternate": true,
+              "over": {
+                "decimal": 1.7
+              },
+              "under": {
+                "decimal": 2.06
+              }
+            },
+            "29.5": {
+              "line": 29.5,
+              "is_alternate": false,
+              "over": {
+                "decimal": 1.86
+              },
+              "under": {
+                "decimal": 1.88
+              }
+            },
+            "30.5": {
+              "line": 30.5,
+              "is_alternate": true,
+              "over": {
+                "decimal": 2.05
+              },
+              "under": {
+                "decimal": 1.7
+              }
+            },
+            "31.5": {
+              "line": 31.5,
+              "is_alternate": true,
+              "over": {
+                "decimal": 2.27
+              },
+              "under": {
+                "decimal": 1.57
+              }
+            },
+            "32.5": {
+              "line": 32.5,
+              "is_alternate": true,
+              "over": {
+                "decimal": 2.49
+              },
+              "under": {
+                "decimal": 1.45
+              }
+            },
+            "33.5": {
+              "line": 33.5,
+              "is_alternate": true,
+              "over": {
+                "decimal": 2.74
+              },
+              "under": {
+                "decimal": 1.36
+              }
+            }
+          },
+          "3": {
+            "25.5": {
+              "line": 25.5,
+              "is_alternate": true,
+              "over": {
+                "decimal": 1.36
+              },
+              "under": {
+                "decimal": 2.72
+              }
+            },
+            "26.5": {
+              "line": 26.5,
+              "is_alternate": true,
+              "over": {
+                "decimal": 1.47
+              },
+              "under": {
+                "decimal": 2.45
+              }
+            },
+            "27.5": {
+              "line": 27.5,
+              "is_alternate": true,
+              "over": {
+                "decimal": 1.6
+              },
+              "under": {
+                "decimal": 2.22
+              }
+            },
+            "28.5": {
+              "line": 28.5,
+              "is_alternate": true,
+              "over": {
+                "decimal": 1.74
+              },
+              "under": {
+                "decimal": 2.0
+              }
+            },
+            "29.5": {
+              "line": 29.5,
+              "is_alternate": false,
+              "over": {
+                "decimal": 1.92
+              },
+              "under": {
+                "decimal": 1.82
+              }
+            },
+            "30.5": {
+              "line": 30.5,
+              "is_alternate": true,
+              "over": {
+                "decimal": 2.12
+              },
+              "under": {
+                "decimal": 1.66
+              }
+            },
+            "31.5": {
+              "line": 31.5,
+              "is_alternate": true,
+              "over": {
+                "decimal": 2.34
+              },
+              "under": {
+                "decimal": 1.54
+              }
+            },
+            "32.5": {
+              "line": 32.5,
+              "is_alternate": true,
+              "over": {
+                "decimal": 2.56
+              },
+              "under": {
+                "decimal": 1.43
+              }
+            },
+            "33.5": {
+              "line": 33.5,
+              "is_alternate": true,
+              "over": {
+                "decimal": 2.81
+              },
+              "under": {
+                "decimal": 1.34
+              }
+            }
+          }
+        },
+        "total_dragons": {},
+        "total_towers": {}
+      }
+    },
     {
       "matchup_id": 1623846335,
       "league": "LPL",
@@ -148,7 +3028,7 @@
               "is_alternate": true,
               "away": {
                 "spread": -12.5,
-                "decimal": 2.8
+                "decimal": 2.83
               }
             },
             "-11.5": {
@@ -169,7 +3049,7 @@
               "is_alternate": false,
               "away": {
                 "spread": -9.5,
-                "decimal": 1.92
+                "decimal": 1.93
               }
             },
             "-8.5": {
@@ -197,7 +3077,7 @@
               "is_alternate": true,
               "home": {
                 "spread": 6.5,
-                "decimal": 2.34
+                "decimal": 2.3
               }
             },
             "7.5": {
@@ -218,7 +3098,7 @@
               "is_alternate": false,
               "home": {
                 "spread": 9.5,
-                "decimal": 1.83
+                "decimal": 1.81
               }
             },
             "10.5": {
@@ -358,7 +3238,7 @@
               "is_alternate": true,
               "away": {
                 "spread": -13.5,
-                "decimal": 2.69
+                "decimal": 2.71
               }
             },
             "-12.5": {
@@ -379,7 +3259,7 @@
               "is_alternate": false,
               "away": {
                 "spread": -10.5,
-                "decimal": 1.83
+                "decimal": 1.85
               }
             },
             "-9.5": {
@@ -407,7 +3287,7 @@
               "is_alternate": true,
               "home": {
                 "spread": 7.5,
-                "decimal": 2.61
+                "decimal": 2.56
               }
             },
             "8.5": {
@@ -428,7 +3308,7 @@
               "is_alternate": false,
               "home": {
                 "spread": 10.5,
-                "decimal": 1.91
+                "decimal": 1.89
               }
             },
             "11.5": {
@@ -490,15 +3370,15 @@
               "line": 30.5,
               "is_alternate": false,
               "over": {
-                "decimal": 1.87
+                "decimal": 1.75
               },
               "under": {
-                "decimal": 1.87
+                "decimal": 1.99
               }
             },
             "31.5": {
               "line": 31.5,
-              "is_alternate": true,
+              "is_alternate": false,
               "over": {
                 "decimal": 2.04
               },
@@ -524,6 +3404,16 @@
               },
               "under": {
                 "decimal": 1.47
+              }
+            },
+            "34.5": {
+              "line": 34.5,
+              "is_alternate": true,
+              "over": {
+                "decimal": 2.56
+              },
+              "under": {
+                "decimal": 1.43
               }
             }
           }
@@ -589,7 +3479,7 @@
               "is_alternate": false,
               "home": {
                 "spread": -7.5,
-                "decimal": 1.9
+                "decimal": 2.11
               }
             },
             "-6.5": {
@@ -607,14 +3497,56 @@
               }
             },
             "-4.5": {
-              "is_alternate": true,
+              "is_alternate": false,
               "home": {
                 "spread": -4.5,
                 "decimal": 1.65
               }
             },
-            "4.5": {
+            "-3.5": {
               "is_alternate": true,
+              "home": {
+                "spread": -3.5,
+                "decimal": 1.81
+              }
+            },
+            "-2.5": {
+              "is_alternate": true,
+              "home": {
+                "spread": -2.5,
+                "decimal": 1.77
+              }
+            },
+            "-1.5": {
+              "is_alternate": true,
+              "home": {
+                "spread": -1.5,
+                "decimal": 1.74
+              }
+            },
+            "1.5": {
+              "is_alternate": true,
+              "away": {
+                "spread": 1.5,
+                "decimal": 1.97
+              }
+            },
+            "2.5": {
+              "is_alternate": true,
+              "away": {
+                "spread": 2.5,
+                "decimal": 1.95
+              }
+            },
+            "3.5": {
+              "is_alternate": true,
+              "away": {
+                "spread": 3.5,
+                "decimal": 1.92
+              }
+            },
+            "4.5": {
+              "is_alternate": false,
               "away": {
                 "spread": 4.5,
                 "decimal": 2.09
@@ -638,7 +3570,7 @@
               "is_alternate": false,
               "away": {
                 "spread": 7.5,
-                "decimal": 1.84
+                "decimal": 1.64
               }
             },
             "8.5": {
@@ -799,18 +3731,18 @@
               "is_alternate": false,
               "home": {
                 "spread": -7.5,
-                "decimal": 1.86
+                "decimal": 2.07
               }
             },
             "-6.5": {
-              "is_alternate": true,
+              "is_alternate": false,
               "home": {
                 "spread": -6.5,
                 "decimal": 1.73
               }
             },
             "-5.5": {
-              "is_alternate": true,
+              "is_alternate": false,
               "home": {
                 "spread": -5.5,
                 "decimal": 1.65
@@ -823,6 +3755,34 @@
                 "decimal": 1.58
               }
             },
+            "-3.5": {
+              "is_alternate": true,
+              "home": {
+                "spread": -3.5,
+                "decimal": 1.69
+              }
+            },
+            "-2.5": {
+              "is_alternate": true,
+              "home": {
+                "spread": -2.5,
+                "decimal": 1.65
+              }
+            },
+            "2.5": {
+              "is_alternate": true,
+              "away": {
+                "spread": 2.5,
+                "decimal": 2.1
+              }
+            },
+            "3.5": {
+              "is_alternate": true,
+              "away": {
+                "spread": 3.5,
+                "decimal": 2.06
+              }
+            },
             "4.5": {
               "is_alternate": true,
               "away": {
@@ -831,14 +3791,14 @@
               }
             },
             "5.5": {
-              "is_alternate": true,
+              "is_alternate": false,
               "away": {
                 "spread": 5.5,
                 "decimal": 2.13
               }
             },
             "6.5": {
-              "is_alternate": true,
+              "is_alternate": false,
               "away": {
                 "spread": 6.5,
                 "decimal": 2.01
@@ -848,7 +3808,7 @@
               "is_alternate": false,
               "away": {
                 "spread": 7.5,
-                "decimal": 1.88
+                "decimal": 1.69
               }
             },
             "8.5": {
@@ -953,6 +3913,378 @@
       }
     },
     {
+      "matchup_id": 1623901471,
+      "league": "TCL",
+      "home_team": "Bushido Wildcats",
+      "away_team": "S2G",
+      "start_time": "2026-02-10T13:30:00",
+      "status": "scheduled",
+      "markets": {
+        "moneyline": {
+          "0": {
+            "away": {
+              "decimal": 2.01
+            },
+            "home": {
+              "decimal": 1.74
+            }
+          },
+          "1": {
+            "away": {
+              "decimal": 1.96
+            },
+            "home": {
+              "decimal": 1.79
+            }
+          },
+          "2": {
+            "away": {
+              "decimal": 1.96
+            },
+            "home": {
+              "decimal": 1.79
+            }
+          }
+        },
+        "handicap_map": {
+          "0": {
+            "-1.5": {
+              "is_alternate": true,
+              "away": {
+                "spread": 1.5,
+                "decimal": 1.3
+              },
+              "home": {
+                "spread": -1.5,
+                "decimal": 3.08
+              }
+            },
+            "1.5": {
+              "is_alternate": false,
+              "away": {
+                "spread": -1.5,
+                "decimal": 3.11
+              },
+              "home": {
+                "spread": 1.5,
+                "decimal": 1.31
+              }
+            }
+          }
+        },
+        "total_map": {
+          "0": {
+            "2.5": {
+              "line": 2.5,
+              "is_alternate": false,
+              "over": {
+                "decimal": 2.01
+              },
+              "under": {
+                "decimal": 1.68
+              }
+            }
+          }
+        },
+        "total_kill_home": {},
+        "total_kill_away": {},
+        "handicap_kills": {
+          "1": {
+            "-4.5": {
+              "is_alternate": true,
+              "away": {
+                "spread": -4.5,
+                "decimal": 1.99
+              }
+            },
+            "-3.5": {
+              "is_alternate": true,
+              "away": {
+                "spread": -3.5,
+                "decimal": 1.92
+              }
+            },
+            "-2.5": {
+              "is_alternate": false,
+              "away": {
+                "spread": -2.5,
+                "decimal": 1.93
+              }
+            },
+            "-1.5": {
+              "is_alternate": true,
+              "away": {
+                "spread": -1.5,
+                "decimal": 1.89
+              },
+              "home": {
+                "spread": -1.5,
+                "decimal": 1.91
+              }
+            },
+            "-0.5": {
+              "is_alternate": false,
+              "away": {
+                "spread": -0.5,
+                "decimal": 1.88
+              },
+              "home": {
+                "spread": -0.5,
+                "decimal": 1.88
+              }
+            },
+            "0.5": {
+              "is_alternate": true,
+              "away": {
+                "spread": 0.5,
+                "decimal": 1.84
+              },
+              "home": {
+                "spread": 0.5,
+                "decimal": 1.84
+              }
+            },
+            "1.5": {
+              "is_alternate": true,
+              "away": {
+                "spread": 1.5,
+                "decimal": 1.84
+              },
+              "home": {
+                "spread": 1.5,
+                "decimal": 1.81
+              }
+            },
+            "2.5": {
+              "is_alternate": true,
+              "away": {
+                "spread": 2.5,
+                "decimal": 1.8
+              },
+              "home": {
+                "spread": 2.5,
+                "decimal": 1.8
+              }
+            },
+            "3.5": {
+              "is_alternate": true,
+              "home": {
+                "spread": 3.5,
+                "decimal": 1.81
+              }
+            },
+            "4.5": {
+              "is_alternate": true,
+              "home": {
+                "spread": 4.5,
+                "decimal": 1.75
+              }
+            }
+          },
+          "2": {
+            "-4.5": {
+              "is_alternate": true,
+              "away": {
+                "spread": -4.5,
+                "decimal": 1.98
+              }
+            },
+            "-3.5": {
+              "is_alternate": true,
+              "away": {
+                "spread": -3.5,
+                "decimal": 1.91
+              }
+            },
+            "-2.5": {
+              "is_alternate": false,
+              "away": {
+                "spread": -2.5,
+                "decimal": 1.93
+              }
+            },
+            "-1.5": {
+              "is_alternate": true,
+              "away": {
+                "spread": -1.5,
+                "decimal": 1.88
+              },
+              "home": {
+                "spread": -1.5,
+                "decimal": 1.92
+              }
+            },
+            "-0.5": {
+              "is_alternate": false,
+              "away": {
+                "spread": -0.5,
+                "decimal": 1.88
+              },
+              "home": {
+                "spread": -0.5,
+                "decimal": 1.88
+              }
+            },
+            "0.5": {
+              "is_alternate": true,
+              "away": {
+                "spread": 0.5,
+                "decimal": 1.84
+              },
+              "home": {
+                "spread": 0.5,
+                "decimal": 1.84
+              }
+            },
+            "1.5": {
+              "is_alternate": true,
+              "away": {
+                "spread": 1.5,
+                "decimal": 1.83
+              },
+              "home": {
+                "spread": 1.5,
+                "decimal": 1.81
+              }
+            },
+            "2.5": {
+              "is_alternate": true,
+              "away": {
+                "spread": 2.5,
+                "decimal": 1.79
+              },
+              "home": {
+                "spread": 2.5,
+                "decimal": 1.8
+              }
+            },
+            "3.5": {
+              "is_alternate": true,
+              "home": {
+                "spread": 3.5,
+                "decimal": 1.81
+              }
+            },
+            "4.5": {
+              "is_alternate": true,
+              "home": {
+                "spread": 4.5,
+                "decimal": 1.75
+              }
+            }
+          }
+        },
+        "total_kills": {
+          "1": {
+            "26.5": {
+              "line": 26.5,
+              "is_alternate": true,
+              "over": {
+                "decimal": 1.55
+              },
+              "under": {
+                "decimal": 2.31
+              }
+            },
+            "27.5": {
+              "line": 27.5,
+              "is_alternate": true,
+              "over": {
+                "decimal": 1.68
+              },
+              "under": {
+                "decimal": 2.08
+              }
+            },
+            "28.5": {
+              "line": 28.5,
+              "is_alternate": false,
+              "over": {
+                "decimal": 1.85
+              },
+              "under": {
+                "decimal": 1.89
+              }
+            },
+            "29.5": {
+              "line": 29.5,
+              "is_alternate": true,
+              "over": {
+                "decimal": 2.03
+              },
+              "under": {
+                "decimal": 1.72
+              }
+            },
+            "30.5": {
+              "line": 30.5,
+              "is_alternate": true,
+              "over": {
+                "decimal": 2.24
+              },
+              "under": {
+                "decimal": 1.58
+              }
+            }
+          },
+          "2": {
+            "26.5": {
+              "line": 26.5,
+              "is_alternate": true,
+              "over": {
+                "decimal": 1.55
+              },
+              "under": {
+                "decimal": 2.31
+              }
+            },
+            "27.5": {
+              "line": 27.5,
+              "is_alternate": true,
+              "over": {
+                "decimal": 1.68
+              },
+              "under": {
+                "decimal": 2.07
+              }
+            },
+            "28.5": {
+              "line": 28.5,
+              "is_alternate": false,
+              "over": {
+                "decimal": 1.85
+              },
+              "under": {
+                "decimal": 1.88
+              }
+            },
+            "29.5": {
+              "line": 29.5,
+              "is_alternate": true,
+              "over": {
+                "decimal": 2.03
+              },
+              "under": {
+                "decimal": 1.71
+              }
+            },
+            "30.5": {
+              "line": 30.5,
+              "is_alternate": true,
+              "over": {
+                "decimal": 2.25
+              },
+              "under": {
+                "decimal": 1.58
+              }
+            }
+          }
+        },
+        "total_dragons": {},
+        "total_towers": {}
+      }
+    },
+    {
       "matchup_id": 1623874585,
       "league": "ROL",
       "home_team": "ZennIT",
@@ -1000,15 +4332,15 @@
               "is_alternate": true,
               "away": {
                 "spread": 2.5,
-                "decimal": 1.06
+                "decimal": 1.1
               },
               "home": {
                 "spread": -2.5,
-                "decimal": 4.88
+                "decimal": 4.24
               }
             },
             "-1.5": {
-              "is_alternate": true,
+              "is_alternate": false,
               "away": {
                 "spread": 1.5,
                 "decimal": 1.25
@@ -1019,14 +4351,14 @@
               }
             },
             "1.5": {
-              "is_alternate": false,
+              "is_alternate": true,
               "away": {
                 "spread": -1.5,
-                "decimal": 2.24
+                "decimal": 2.68
               },
               "home": {
                 "spread": 1.5,
-                "decimal": 1.54
+                "decimal": 1.35
               }
             },
             "2.5": {
@@ -1068,8 +4400,132 @@
         },
         "total_kill_home": {},
         "total_kill_away": {},
-        "handicap_kills": {},
-        "total_kills": {},
+        "handicap_kills": {
+          "1": {
+            "-3.5": {
+              "is_alternate": false,
+              "home": {
+                "spread": -3.5,
+                "decimal": 1.84
+              }
+            },
+            "-2.5": {
+              "is_alternate": false,
+              "home": {
+                "spread": -2.5,
+                "decimal": 1.83
+              }
+            },
+            "2.5": {
+              "is_alternate": false,
+              "away": {
+                "spread": 2.5,
+                "decimal": 1.84
+              }
+            },
+            "3.5": {
+              "is_alternate": false,
+              "away": {
+                "spread": 3.5,
+                "decimal": 1.83
+              }
+            }
+          },
+          "2": {
+            "-3.5": {
+              "is_alternate": false,
+              "home": {
+                "spread": -3.5,
+                "decimal": 1.83
+              }
+            },
+            "3.5": {
+              "is_alternate": false,
+              "away": {
+                "spread": 3.5,
+                "decimal": 1.84
+              }
+            }
+          },
+          "3": {
+            "-2.5": {
+              "is_alternate": false,
+              "home": {
+                "spread": -2.5,
+                "decimal": 1.84
+              }
+            },
+            "-1.5": {
+              "is_alternate": false,
+              "away": {
+                "spread": -1.5,
+                "decimal": 1.83
+              }
+            },
+            "1.5": {
+              "is_alternate": false,
+              "home": {
+                "spread": 1.5,
+                "decimal": 1.83
+              }
+            },
+            "2.5": {
+              "is_alternate": false,
+              "away": {
+                "spread": 2.5,
+                "decimal": 1.83
+              }
+            }
+          }
+        },
+        "total_kills": {
+          "1": {
+            "35.5": {
+              "line": 35.5,
+              "is_alternate": false,
+              "over": {
+                "decimal": 1.81
+              },
+              "under": {
+                "decimal": 1.85
+              }
+            },
+            "36.5": {
+              "line": 36.5,
+              "is_alternate": false,
+              "over": {
+                "decimal": 1.89
+              },
+              "under": {
+                "decimal": 1.77
+              }
+            }
+          },
+          "2": {
+            "35.5": {
+              "line": 35.5,
+              "is_alternate": false,
+              "over": {
+                "decimal": 1.81
+              },
+              "under": {
+                "decimal": 1.85
+              }
+            }
+          },
+          "3": {
+            "35.5": {
+              "line": 35.5,
+              "is_alternate": false,
+              "over": {
+                "decimal": 1.81
+              },
+              "under": {
+                "decimal": 1.85
+              }
+            }
+          }
+        },
         "total_dragons": {},
         "total_towers": {}
       }
@@ -1106,6 +4562,13 @@
         "total_kill_away": {},
         "handicap_kills": {
           "1": {
+            "-10.5": {
+              "is_alternate": true,
+              "away": {
+                "spread": -10.5,
+                "decimal": 2.62
+              }
+            },
             "-9.5": {
               "is_alternate": true,
               "away": {
@@ -1121,7 +4584,7 @@
               }
             },
             "-7.5": {
-              "is_alternate": true,
+              "is_alternate": false,
               "away": {
                 "spread": -7.5,
                 "decimal": 2.02
@@ -1131,7 +4594,7 @@
               "is_alternate": false,
               "away": {
                 "spread": -6.5,
-                "decimal": 1.88
+                "decimal": 1.79
               }
             },
             "-5.5": {
@@ -1180,11 +4643,11 @@
               "is_alternate": false,
               "home": {
                 "spread": 6.5,
-                "decimal": 1.86
+                "decimal": 1.93
               }
             },
             "7.5": {
-              "is_alternate": true,
+              "is_alternate": false,
               "home": {
                 "spread": 7.5,
                 "decimal": 1.73
@@ -1202,6 +4665,13 @@
               "home": {
                 "spread": 9.5,
                 "decimal": 1.46
+              }
+            },
+            "10.5": {
+              "is_alternate": true,
+              "home": {
+                "spread": 10.5,
+                "decimal": 1.38
               }
             }
           }
@@ -1276,6 +4746,327 @@
               },
               "under": {
                 "decimal": 1.49
+              }
+            }
+          }
+        },
+        "total_dragons": {},
+        "total_towers": {}
+      }
+    },
+    {
+      "matchup_id": 1623902931,
+      "league": "TCL",
+      "home_team": "Misa",
+      "away_team": "SU Esports",
+      "start_time": "2026-02-10T10:33:46.457000",
+      "status": "scheduled",
+      "markets": {
+        "moneyline": {
+          "0": {
+            "away": {
+              "decimal": 6.91
+            },
+            "home": {
+              "decimal": 1.05
+            }
+          },
+          "1": {
+            "away": {
+              "decimal": 4.5
+            },
+            "home": {
+              "decimal": 1.14
+            }
+          },
+          "2": {
+            "away": {
+              "decimal": 4.5
+            },
+            "home": {
+              "decimal": 1.14
+            }
+          }
+        },
+        "handicap_map": {
+          "0": {
+            "-1.5": {
+              "is_alternate": false,
+              "away": {
+                "spread": 1.5,
+                "decimal": 2.92
+              },
+              "home": {
+                "spread": -1.5,
+                "decimal": 1.35
+              }
+            }
+          }
+        },
+        "total_map": {
+          "0": {
+            "2.5": {
+              "line": 2.5,
+              "is_alternate": false,
+              "over": {
+                "decimal": 3.04
+              },
+              "under": {
+                "decimal": 1.28
+              }
+            }
+          }
+        },
+        "total_kill_home": {},
+        "total_kill_away": {},
+        "handicap_kills": {
+          "1": {
+            "-13.5": {
+              "is_alternate": true,
+              "home": {
+                "spread": -13.5,
+                "decimal": 2.71
+              }
+            },
+            "-12.5": {
+              "is_alternate": true,
+              "home": {
+                "spread": -12.5,
+                "decimal": 2.27
+              }
+            },
+            "-11.5": {
+              "is_alternate": false,
+              "home": {
+                "spread": -11.5,
+                "decimal": 1.94
+              }
+            },
+            "-10.5": {
+              "is_alternate": true,
+              "home": {
+                "spread": -10.5,
+                "decimal": 1.71
+              }
+            },
+            "-9.5": {
+              "is_alternate": true,
+              "home": {
+                "spread": -9.5,
+                "decimal": 1.53
+              }
+            },
+            "9.5": {
+              "is_alternate": true,
+              "away": {
+                "spread": 9.5,
+                "decimal": 2.35
+              }
+            },
+            "10.5": {
+              "is_alternate": true,
+              "away": {
+                "spread": 10.5,
+                "decimal": 2.04
+              }
+            },
+            "11.5": {
+              "is_alternate": false,
+              "away": {
+                "spread": 11.5,
+                "decimal": 1.81
+              }
+            },
+            "12.5": {
+              "is_alternate": true,
+              "away": {
+                "spread": 12.5,
+                "decimal": 1.57
+              }
+            },
+            "13.5": {
+              "is_alternate": true,
+              "away": {
+                "spread": 13.5,
+                "decimal": 1.4
+              }
+            }
+          },
+          "2": {
+            "-13.5": {
+              "is_alternate": true,
+              "home": {
+                "spread": -13.5,
+                "decimal": 2.65
+              }
+            },
+            "-12.5": {
+              "is_alternate": true,
+              "home": {
+                "spread": -12.5,
+                "decimal": 2.26
+              }
+            },
+            "-11.5": {
+              "is_alternate": false,
+              "home": {
+                "spread": -11.5,
+                "decimal": 1.93
+              }
+            },
+            "-10.5": {
+              "is_alternate": true,
+              "home": {
+                "spread": -10.5,
+                "decimal": 1.72
+              }
+            },
+            "-9.5": {
+              "is_alternate": true,
+              "home": {
+                "spread": -9.5,
+                "decimal": 1.55
+              }
+            },
+            "9.5": {
+              "is_alternate": true,
+              "away": {
+                "spread": 9.5,
+                "decimal": 2.36
+              }
+            },
+            "10.5": {
+              "is_alternate": true,
+              "away": {
+                "spread": 10.5,
+                "decimal": 2.03
+              }
+            },
+            "11.5": {
+              "is_alternate": false,
+              "away": {
+                "spread": 11.5,
+                "decimal": 1.82
+              }
+            },
+            "12.5": {
+              "is_alternate": true,
+              "away": {
+                "spread": 12.5,
+                "decimal": 1.57
+              }
+            },
+            "13.5": {
+              "is_alternate": true,
+              "away": {
+                "spread": 13.5,
+                "decimal": 1.4
+              }
+            }
+          }
+        },
+        "total_kills": {
+          "1": {
+            "25.5": {
+              "line": 25.5,
+              "is_alternate": true,
+              "over": {
+                "decimal": 1.55
+              },
+              "under": {
+                "decimal": 2.31
+              }
+            },
+            "26.5": {
+              "line": 26.5,
+              "is_alternate": true,
+              "over": {
+                "decimal": 1.7
+              },
+              "under": {
+                "decimal": 2.05
+              }
+            },
+            "27.5": {
+              "line": 27.5,
+              "is_alternate": false,
+              "over": {
+                "decimal": 1.89
+              },
+              "under": {
+                "decimal": 1.85
+              }
+            },
+            "28.5": {
+              "line": 28.5,
+              "is_alternate": true,
+              "over": {
+                "decimal": 2.06
+              },
+              "under": {
+                "decimal": 1.69
+              }
+            },
+            "29.5": {
+              "line": 29.5,
+              "is_alternate": true,
+              "over": {
+                "decimal": 2.26
+              },
+              "under": {
+                "decimal": 1.57
+              }
+            }
+          },
+          "2": {
+            "27.5": {
+              "line": 27.5,
+              "is_alternate": true,
+              "over": {
+                "decimal": 1.67
+              },
+              "under": {
+                "decimal": 2.1
+              }
+            },
+            "28.5": {
+              "line": 28.5,
+              "is_alternate": true,
+              "over": {
+                "decimal": 1.77
+              },
+              "under": {
+                "decimal": 1.97
+              }
+            },
+            "29.5": {
+              "line": 29.5,
+              "is_alternate": false,
+              "over": {
+                "decimal": 1.96
+              },
+              "under": {
+                "decimal": 1.79
+              }
+            },
+            "30.5": {
+              "line": 30.5,
+              "is_alternate": true,
+              "over": {
+                "decimal": 2.16
+              },
+              "under": {
+                "decimal": 1.63
+              }
+            },
+            "31.5": {
+              "line": 31.5,
+              "is_alternate": true,
+              "over": {
+                "decimal": 2.41
+              },
+              "under": {
+                "decimal": 1.5
               }
             }
           }

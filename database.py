@@ -1,10 +1,13 @@
+import os
 import sqlite3
 import json
 from datetime import datetime
 from pathlib import Path
 from typing import Dict, List, Optional, Tuple
 
-DB_PATH = Path(__file__).parent / "pinnacle_data.db"
+# Dota 2: run_dota.py define PINNACLE_DB_PATH para usar pinnacle_dota.db
+_DEFAULT_DB = Path(__file__).parent / "pinnacle_data.db"
+DB_PATH = Path(os.getenv("PINNACLE_DB_PATH", str(_DEFAULT_DB)))
 
 def init_database():
     """Inicializa o banco de dados criando as tabelas necessárias"""

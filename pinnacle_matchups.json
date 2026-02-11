@@ -1,16 +1,16 @@
 {
   "request_info": {
-    "timestamp": "2026-02-09T10:07:59.830221",
+    "timestamp": "2026-02-10T22:22:04.126195",
     "api_version": "new",
     "source": "sports.pinnacle.bet.br"
   },
   "response_data": {
-    "url": "https://sports.pinnacle.bet.br/sports-service/sv/euro/odds/matchups?sportId=12&oddsType=1&version=0&timeStamp=1770646079305&language=pt&eSportCode=league-of-legends&periodNum=0%2C1%2C2%2C3%2C11%2C12%2C13&locale=pt_BR&_=1770646079305&withCredentials=true",
+    "url": "https://sports.pinnacle.bet.br/sports-service/sv/euro/odds/matchups?sportId=12&oddsType=1&version=0&timeStamp=1770776523457&language=pt&eSportCode=league-of-legends&periodNum=0%2C1%2C2%2C3%2C11%2C12%2C13&locale=pt_BR&_=1770776523457&withCredentials=true",
     "status_code": 200,
-    "timestamp": "2026-02-09T10:07:59.828616",
+    "timestamp": "2026-02-10T22:22:04.124336",
     "data": {
       "sportId": 12,
-      "version": 1770646079814,
+      "version": 1770775972792,
       "leagues": [
         {
           "sportId": 12,
@@ -21,76 +21,96 @@
           "container": "China",
           "events": [
             {
-              "id": 1623846335,
+              "id": 1623956491,
               "parentId": 0,
-              "time": 1770789600000,
+              "time": 1770790500000,
               "participants": [
                 {
-                  "name": "Thundertalk",
-                  "englishName": "ThunderTalk",
+                  "name": "Invictus",
+                  "englishName": "Invictus",
                   "type": "HOME",
-                  "fav": false
+                  "fav": true
                 },
                 {
-                  "name": "LNG",
-                  "englishName": "LNG",
+                  "name": "Oh My God",
+                  "englishName": "Oh My God",
                   "type": "AWAY",
-                  "fav": true
+                  "fav": false
                 }
               ],
-              "moreBet": 9,
+              "moreBet": 56,
               "periods": {
                 "0": {
                   "handicap": [
                     {
-                      "lineId": 3452136251,
-                      "isAlt": false,
+                      "lineId": 55034736320,
+                      "isAlt": true,
                       "homeSpread": "+2.5",
                       "awaySpread": "-2.5",
-                      "homeOdds": "2.170",
-                      "awayOdds": "1.699",
+                      "homeOdds": "1.055",
+                      "awayOdds": "7.440",
                       "unavailable": false,
                       "offline": false
                     },
                     {
-                      "lineId": 54999901858,
+                      "lineId": 55034736316,
                       "isAlt": true,
                       "homeSpread": "+1.5",
                       "awaySpread": "-1.5",
-                      "homeOdds": "4.770",
-                      "awayOdds": "1.145",
+                      "homeOdds": "1.213",
+                      "awayOdds": "3.910",
+                      "unavailable": false,
+                      "offline": false
+                    },
+                    {
+                      "lineId": 3453502942,
+                      "isAlt": false,
+                      "homeSpread": "-1.5",
+                      "awaySpread": "+1.5",
+                      "homeOdds": "2.080",
+                      "awayOdds": "1.757",
+                      "unavailable": false,
+                      "offline": false
+                    },
+                    {
+                      "lineId": 55034736312,
+                      "isAlt": true,
+                      "homeSpread": "-2.5",
+                      "awaySpread": "+2.5",
+                      "homeOdds": "3.840",
+                      "awayOdds": "1.221",
                       "unavailable": false,
                       "offline": false
                     }
                   ],
                   "overUnder": [
                     {
-                      "lineId": 3452136251,
+                      "lineId": 3453502942,
                       "isAlt": false,
-                      "overOdds": "5.520",
-                      "underOdds": "1.115",
+                      "overOdds": "2.710",
+                      "underOdds": "1.440",
                       "points": "4.5",
                       "unavailable": false,
                       "offline": false
                     },
                     {
-                      "lineId": 54999901857,
+                      "lineId": 55034736311,
                       "isAlt": true,
-                      "overOdds": "2.000",
-                      "underOdds": "1.757",
+                      "overOdds": "1.344",
+                      "underOdds": "2.950",
                       "points": "3.5",
                       "unavailable": false,
                       "offline": false
                     }
                   ],
                   "moneyLine": {
-                    "lineId": 3452136251,
-                    "homePrice": "10.310",
-                    "awayPrice": "1.040",
+                    "lineId": 3453502942,
+                    "homePrice": "1.487",
+                    "awayPrice": "2.630",
                     "unavailable": false,
                     "offline": false
                   },
-                  "indexMainLineHdp": 0,
+                  "indexMainLineHdp": 2,
                   "indexMainLineOU": 0
                 },
                 "1": {
@@ -105,9 +125,9 @@
                     }
                   ],
                   "moneyLine": {
-                    "lineId": 3452136270,
-                    "homePrice": "4.640",
-                    "awayPrice": "1.179",
+                    "lineId": 3453465835,
+                    "homePrice": "1.628",
+                    "awayPrice": "2.300",
                     "unavailable": false,
                     "offline": false
                   }
@@ -124,9 +144,9 @@
                     }
                   ],
                   "moneyLine": {
-                    "lineId": 3452136271,
-                    "homePrice": "4.630",
-                    "awayPrice": "1.180",
+                    "lineId": 3453465837,
+                    "homePrice": "1.653",
+                    "awayPrice": "2.250",
                     "unavailable": false,
                     "offline": false
                   }
@@ -143,9 +163,9 @@
                     }
                   ],
                   "moneyLine": {
-                    "lineId": 3452136272,
-                    "homePrice": "4.630",
-                    "awayPrice": "1.180",
+                    "lineId": 3453465839,
+                    "homePrice": "1.653",
+                    "awayPrice": "2.250",
                     "unavailable": false,
                     "offline": false
                   }
@@ -154,14 +174,1594 @@
               "homeTeamType": 0,
               "awayTeamType": 1,
               "parlayRestriction": 2,
-              "rotNum": "22558",
+              "rotNum": "12778",
               "resultingUnit": "Regular",
+              "hasLiveStream": false,
+              "hasScoreboard": false,
+              "live": false
+            },
+            {
+              "id": 1623966162,
+              "parentId": 1623956491,
+              "time": 1770790500000,
+              "participants": [
+                {
+                  "name": "Invictus (Mortes)",
+                  "englishName": "Invictus (Kills)",
+                  "type": "HOME",
+                  "fav": true
+                },
+                {
+                  "name": "Oh My God (Mortes)",
+                  "englishName": "Oh My God (Kills)",
+                  "type": "AWAY",
+                  "fav": false
+                }
+              ],
+              "moreBet": 60,
+              "periods": {
+                "1": {
+                  "handicap": [
+                    {
+                      "lineId": 55034912204,
+                      "isAlt": true,
+                      "homeSpread": "-2.5",
+                      "awaySpread": "+2.5",
+                      "homeOdds": "1.606",
+                      "awayOdds": "2.140",
+                      "unavailable": false,
+                      "offline": false
+                    },
+                    {
+                      "lineId": 55034912200,
+                      "isAlt": true,
+                      "homeSpread": "-3.5",
+                      "awaySpread": "+3.5",
+                      "homeOdds": "1.649",
+                      "awayOdds": "2.090",
+                      "unavailable": false,
+                      "offline": false
+                    },
+                    {
+                      "lineId": 55034912196,
+                      "isAlt": true,
+                      "homeSpread": "-4.5",
+                      "awaySpread": "+4.5",
+                      "homeOdds": "1.709",
+                      "awayOdds": "2.040",
+                      "unavailable": false,
+                      "offline": false
+                    },
+                    {
+                      "lineId": 55034912192,
+                      "isAlt": true,
+                      "homeSpread": "-5.5",
+                      "awaySpread": "+5.5",
+                      "homeOdds": "1.781",
+                      "awayOdds": "1.952",
+                      "unavailable": false,
+                      "offline": false
+                    },
+                    {
+                      "lineId": 3453509534,
+                      "isAlt": false,
+                      "homeSpread": "-6.5",
+                      "awaySpread": "+6.5",
+                      "homeOdds": "1.884",
+                      "awayOdds": "1.847",
+                      "unavailable": false,
+                      "offline": false
+                    },
+                    {
+                      "lineId": 55034912188,
+                      "isAlt": true,
+                      "homeSpread": "-7.5",
+                      "awaySpread": "+7.5",
+                      "homeOdds": "2.020",
+                      "awayOdds": "1.729",
+                      "unavailable": false,
+                      "offline": false
+                    },
+                    {
+                      "lineId": 55034912184,
+                      "isAlt": true,
+                      "homeSpread": "-8.5",
+                      "awaySpread": "+8.5",
+                      "homeOdds": "2.190",
+                      "awayOdds": "1.613",
+                      "unavailable": false,
+                      "offline": false
+                    },
+                    {
+                      "lineId": 55034912180,
+                      "isAlt": true,
+                      "homeSpread": "-9.5",
+                      "awaySpread": "+9.5",
+                      "homeOdds": "2.400",
+                      "awayOdds": "1.487",
+                      "unavailable": false,
+                      "offline": false
+                    },
+                    {
+                      "lineId": 55034912176,
+                      "isAlt": true,
+                      "homeSpread": "-10.5",
+                      "awaySpread": "+10.5",
+                      "homeOdds": "2.660",
+                      "awayOdds": "1.381",
+                      "unavailable": false,
+                      "offline": false
+                    }
+                  ],
+                  "overUnder": [
+                    {
+                      "lineId": 55034912203,
+                      "isAlt": true,
+                      "overOdds": "2.880",
+                      "underOdds": "1.322",
+                      "points": "33.5",
+                      "unavailable": false,
+                      "offline": false
+                    },
+                    {
+                      "lineId": 55034912199,
+                      "isAlt": true,
+                      "overOdds": "2.620",
+                      "underOdds": "1.406",
+                      "points": "32.5",
+                      "unavailable": false,
+                      "offline": false
+                    },
+                    {
+                      "lineId": 55034912195,
+                      "isAlt": true,
+                      "overOdds": "2.400",
+                      "underOdds": "1.510",
+                      "points": "31.5",
+                      "unavailable": false,
+                      "offline": false
+                    },
+                    {
+                      "lineId": 55034912191,
+                      "isAlt": true,
+                      "overOdds": "2.170",
+                      "underOdds": "1.625",
+                      "points": "30.5",
+                      "unavailable": false,
+                      "offline": false
+                    },
+                    {
+                      "lineId": 3453509534,
+                      "isAlt": false,
+                      "overOdds": "1.980",
+                      "underOdds": "1.769",
+                      "points": "29.5",
+                      "unavailable": false,
+                      "offline": false
+                    },
+                    {
+                      "lineId": 55034912187,
+                      "isAlt": true,
+                      "overOdds": "1.793",
+                      "underOdds": "1.934",
+                      "points": "28.5",
+                      "unavailable": false,
+                      "offline": false
+                    },
+                    {
+                      "lineId": 55034912183,
+                      "isAlt": true,
+                      "overOdds": "1.641",
+                      "underOdds": "2.140",
+                      "points": "27.5",
+                      "unavailable": false,
+                      "offline": false
+                    },
+                    {
+                      "lineId": 55034912179,
+                      "isAlt": true,
+                      "overOdds": "1.507",
+                      "underOdds": "2.360",
+                      "points": "26.5",
+                      "unavailable": false,
+                      "offline": false
+                    },
+                    {
+                      "lineId": 55034912175,
+                      "isAlt": true,
+                      "overOdds": "1.398",
+                      "underOdds": "2.610",
+                      "points": "25.5",
+                      "unavailable": false,
+                      "offline": false
+                    }
+                  ],
+                  "moneyLine": {
+                    "lineId": 3453509534,
+                    "homePrice": "1.581",
+                    "awayPrice": "2.270",
+                    "unavailable": false,
+                    "offline": false
+                  },
+                  "indexMainLineHdp": 4,
+                  "indexMainLineOU": 4
+                },
+                "2": {
+                  "handicap": [
+                    {
+                      "lineId": 55034911964,
+                      "isAlt": true,
+                      "homeSpread": "-1.5",
+                      "awaySpread": "+1.5",
+                      "homeOdds": "1.613",
+                      "awayOdds": "2.130",
+                      "unavailable": false,
+                      "offline": false
+                    },
+                    {
+                      "lineId": 55034911960,
+                      "isAlt": true,
+                      "homeSpread": "-2.5",
+                      "awaySpread": "+2.5",
+                      "homeOdds": "1.645",
+                      "awayOdds": "2.100",
+                      "unavailable": false,
+                      "offline": false
+                    },
+                    {
+                      "lineId": 55034911956,
+                      "isAlt": true,
+                      "homeSpread": "-3.5",
+                      "awaySpread": "+3.5",
+                      "homeOdds": "1.694",
+                      "awayOdds": "2.070",
+                      "unavailable": false,
+                      "offline": false
+                    },
+                    {
+                      "lineId": 55034911952,
+                      "isAlt": true,
+                      "homeSpread": "-4.5",
+                      "awaySpread": "+4.5",
+                      "homeOdds": "1.746",
+                      "awayOdds": "1.990",
+                      "unavailable": false,
+                      "offline": false
+                    },
+                    {
+                      "lineId": 3453509528,
+                      "isAlt": false,
+                      "homeSpread": "-5.5",
+                      "awaySpread": "+5.5",
+                      "homeOdds": "1.826",
+                      "awayOdds": "1.917",
+                      "unavailable": false,
+                      "offline": false
+                    },
+                    {
+                      "lineId": 55034911948,
+                      "isAlt": true,
+                      "homeSpread": "-6.5",
+                      "awaySpread": "+6.5",
+                      "homeOdds": "1.917",
+                      "awayOdds": "1.806",
+                      "unavailable": false,
+                      "offline": false
+                    },
+                    {
+                      "lineId": 55034911944,
+                      "isAlt": true,
+                      "homeSpread": "-7.5",
+                      "awaySpread": "+7.5",
+                      "homeOdds": "2.060",
+                      "awayOdds": "1.699",
+                      "unavailable": false,
+                      "offline": false
+                    },
+                    {
+                      "lineId": 55034911940,
+                      "isAlt": true,
+                      "homeSpread": "-8.5",
+                      "awaySpread": "+8.5",
+                      "homeOdds": "2.210",
+                      "awayOdds": "1.578",
+                      "unavailable": false,
+                      "offline": false
+                    },
+                    {
+                      "lineId": 55034911936,
+                      "isAlt": true,
+                      "homeSpread": "-9.5",
+                      "awaySpread": "+9.5",
+                      "homeOdds": "2.420",
+                      "awayOdds": "1.467",
+                      "unavailable": false,
+                      "offline": false
+                    }
+                  ],
+                  "overUnder": [
+                    {
+                      "lineId": 55034911963,
+                      "isAlt": true,
+                      "overOdds": "2.740",
+                      "underOdds": "1.359",
+                      "points": "33.5",
+                      "unavailable": false,
+                      "offline": false
+                    },
+                    {
+                      "lineId": 55034911959,
+                      "isAlt": true,
+                      "overOdds": "2.490",
+                      "underOdds": "1.452",
+                      "points": "32.5",
+                      "unavailable": false,
+                      "offline": false
+                    },
+                    {
+                      "lineId": 55034911955,
+                      "isAlt": true,
+                      "overOdds": "2.270",
+                      "underOdds": "1.568",
+                      "points": "31.5",
+                      "unavailable": false,
+                      "offline": false
+                    },
+                    {
+                      "lineId": 55034911951,
+                      "isAlt": true,
+                      "overOdds": "2.050",
+                      "underOdds": "1.699",
+                      "points": "30.5",
+                      "unavailable": false,
+                      "offline": false
+                    },
+                    {
+                      "lineId": 3453509528,
+                      "isAlt": false,
+                      "overOdds": "1.862",
+                      "underOdds": "1.877",
+                      "points": "29.5",
+                      "unavailable": false,
+                      "offline": false
+                    },
+                    {
+                      "lineId": 55034911947,
+                      "isAlt": true,
+                      "overOdds": "1.699",
+                      "underOdds": "2.060",
+                      "points": "28.5",
+                      "unavailable": false,
+                      "offline": false
+                    },
+                    {
+                      "lineId": 55034911943,
+                      "isAlt": true,
+                      "overOdds": "1.564",
+                      "underOdds": "2.280",
+                      "points": "27.5",
+                      "unavailable": false,
+                      "offline": false
+                    },
+                    {
+                      "lineId": 55034911939,
+                      "isAlt": true,
+                      "overOdds": "1.444",
+                      "underOdds": "2.510",
+                      "points": "26.5",
+                      "unavailable": false,
+                      "offline": false
+                    },
+                    {
+                      "lineId": 55034911935,
+                      "isAlt": true,
+                      "overOdds": "1.346",
+                      "underOdds": "2.790",
+                      "points": "25.5",
+                      "unavailable": false,
+                      "offline": false
+                    }
+                  ],
+                  "moneyLine": {
+                    "lineId": 3453509528,
+                    "homePrice": "1.613",
+                    "awayPrice": "2.210",
+                    "unavailable": false,
+                    "offline": false
+                  },
+                  "indexMainLineHdp": 4,
+                  "indexMainLineOU": 4
+                },
+                "3": {
+                  "handicap": [
+                    {
+                      "lineId": 55034912004,
+                      "isAlt": true,
+                      "homeSpread": "-2.5",
+                      "awaySpread": "+2.5",
+                      "homeOdds": "1.632",
+                      "awayOdds": "2.100",
+                      "unavailable": false,
+                      "offline": false
+                    },
+                    {
+                      "lineId": 55034912000,
+                      "isAlt": true,
+                      "homeSpread": "-3.5",
+                      "awaySpread": "+3.5",
+                      "homeOdds": "1.675",
+                      "awayOdds": "2.050",
+                      "unavailable": false,
+                      "offline": false
+                    },
+                    {
+                      "lineId": 55034911996,
+                      "isAlt": true,
+                      "homeSpread": "-4.5",
+                      "awaySpread": "+4.5",
+                      "homeOdds": "1.740",
+                      "awayOdds": "2.000",
+                      "unavailable": false,
+                      "offline": false
+                    },
+                    {
+                      "lineId": 55034911992,
+                      "isAlt": true,
+                      "homeSpread": "-5.5",
+                      "awaySpread": "+5.5",
+                      "homeOdds": "1.813",
+                      "awayOdds": "1.917",
+                      "unavailable": false,
+                      "offline": false
+                    },
+                    {
+                      "lineId": 3453509529,
+                      "isAlt": false,
+                      "homeSpread": "-6.5",
+                      "awaySpread": "+6.5",
+                      "homeOdds": "1.917",
+                      "awayOdds": "1.819",
+                      "unavailable": false,
+                      "offline": false
+                    },
+                    {
+                      "lineId": 55034911988,
+                      "isAlt": true,
+                      "homeSpread": "-7.5",
+                      "awaySpread": "+7.5",
+                      "homeOdds": "2.050",
+                      "awayOdds": "1.704",
+                      "unavailable": false,
+                      "offline": false
+                    },
+                    {
+                      "lineId": 55034911984,
+                      "isAlt": true,
+                      "homeSpread": "-8.5",
+                      "awaySpread": "+8.5",
+                      "homeOdds": "2.230",
+                      "awayOdds": "1.591",
+                      "unavailable": false,
+                      "offline": false
+                    },
+                    {
+                      "lineId": 55034911980,
+                      "isAlt": true,
+                      "homeSpread": "-9.5",
+                      "awaySpread": "+9.5",
+                      "homeOdds": "2.430",
+                      "awayOdds": "1.473",
+                      "unavailable": false,
+                      "offline": false
+                    },
+                    {
+                      "lineId": 55034911976,
+                      "isAlt": true,
+                      "homeSpread": "-10.5",
+                      "awaySpread": "+10.5",
+                      "homeOdds": "2.700",
+                      "awayOdds": "1.371",
+                      "unavailable": false,
+                      "offline": false
+                    }
+                  ],
+                  "overUnder": [
+                    {
+                      "lineId": 55034912003,
+                      "isAlt": true,
+                      "overOdds": "2.810",
+                      "underOdds": "1.340",
+                      "points": "33.5",
+                      "unavailable": false,
+                      "offline": false
+                    },
+                    {
+                      "lineId": 55034911999,
+                      "isAlt": true,
+                      "overOdds": "2.560",
+                      "underOdds": "1.427",
+                      "points": "32.5",
+                      "unavailable": false,
+                      "offline": false
+                    },
+                    {
+                      "lineId": 55034911995,
+                      "isAlt": true,
+                      "overOdds": "2.340",
+                      "underOdds": "1.537",
+                      "points": "31.5",
+                      "unavailable": false,
+                      "offline": false
+                    },
+                    {
+                      "lineId": 55034911991,
+                      "isAlt": true,
+                      "overOdds": "2.120",
+                      "underOdds": "1.657",
+                      "points": "30.5",
+                      "unavailable": false,
+                      "offline": false
+                    },
+                    {
+                      "lineId": 3453509529,
+                      "isAlt": false,
+                      "overOdds": "1.917",
+                      "underOdds": "1.819",
+                      "points": "29.5",
+                      "unavailable": false,
+                      "offline": false
+                    },
+                    {
+                      "lineId": 55034911987,
+                      "isAlt": true,
+                      "overOdds": "1.740",
+                      "underOdds": "2.000",
+                      "points": "28.5",
+                      "unavailable": false,
+                      "offline": false
+                    },
+                    {
+                      "lineId": 55034911983,
+                      "isAlt": true,
+                      "overOdds": "1.598",
+                      "underOdds": "2.220",
+                      "points": "27.5",
+                      "unavailable": false,
+                      "offline": false
+                    },
+                    {
+                      "lineId": 55034911979,
+                      "isAlt": true,
+                      "overOdds": "1.467",
+                      "underOdds": "2.450",
+                      "points": "26.5",
+                      "unavailable": false,
+                      "offline": false
+                    },
+                    {
+                      "lineId": 55034911975,
+                      "isAlt": true,
+                      "overOdds": "1.364",
+                      "underOdds": "2.720",
+                      "points": "25.5",
+                      "unavailable": false,
+                      "offline": false
+                    }
+                  ],
+                  "moneyLine": {
+                    "lineId": 3453509529,
+                    "homePrice": "1.609",
+                    "awayPrice": "2.220",
+                    "unavailable": false,
+                    "offline": false
+                  },
+                  "indexMainLineHdp": 4,
+                  "indexMainLineOU": 4
+                }
+              },
+              "homeTeamType": 0,
+              "awayTeamType": 1,
+              "parlayRestriction": 2,
+              "rotNum": "12778",
+              "resultingUnit": "Mortes",
+              "hasLiveStream": false,
+              "hasScoreboard": false,
+              "live": false
+            },
+            {
+              "id": 1623927378,
+              "parentId": 0,
+              "time": 1770800400000,
+              "participants": [
+                {
+                  "name": "Team WE",
+                  "englishName": "Team WE",
+                  "type": "HOME",
+                  "fav": false
+                },
+                {
+                  "name": "LNG",
+                  "englishName": "LNG",
+                  "type": "AWAY",
+                  "fav": true
+                }
+              ],
+              "moreBet": 56,
+              "periods": {
+                "0": {
+                  "handicap": [
+                    {
+                      "lineId": 55034737900,
+                      "isAlt": true,
+                      "homeSpread": "+2.5",
+                      "awaySpread": "-2.5",
+                      "homeOdds": "1.238",
+                      "awayOdds": "3.700",
+                      "unavailable": false,
+                      "offline": false
+                    },
+                    {
+                      "lineId": 3453503011,
+                      "isAlt": false,
+                      "homeSpread": "+1.5",
+                      "awaySpread": "-1.5",
+                      "homeOdds": "1.826",
+                      "awayOdds": "2.000",
+                      "unavailable": false,
+                      "offline": false
+                    },
+                    {
+                      "lineId": 55034737896,
+                      "isAlt": true,
+                      "homeSpread": "-1.5",
+                      "awaySpread": "+1.5",
+                      "homeOdds": "4.120",
+                      "awayOdds": "1.193",
+                      "unavailable": false,
+                      "offline": false
+                    },
+                    {
+                      "lineId": 55034737892,
+                      "isAlt": true,
+                      "homeSpread": "-2.5",
+                      "awaySpread": "+2.5",
+                      "homeOdds": "7.770",
+                      "awayOdds": "1.050",
+                      "unavailable": false,
+                      "offline": false
+                    }
+                  ],
+                  "overUnder": [
+                    {
+                      "lineId": 3453503011,
+                      "isAlt": false,
+                      "overOdds": "2.760",
+                      "underOdds": "1.427",
+                      "points": "4.5",
+                      "unavailable": false,
+                      "offline": false
+                    },
+                    {
+                      "lineId": 55034737895,
+                      "isAlt": true,
+                      "overOdds": "1.354",
+                      "underOdds": "2.910",
+                      "points": "3.5",
+                      "unavailable": false,
+                      "offline": false
+                    }
+                  ],
+                  "moneyLine": {
+                    "lineId": 3453503011,
+                    "homePrice": "2.780",
+                    "awayPrice": "1.442",
+                    "unavailable": false,
+                    "offline": false
+                  },
+                  "indexMainLineHdp": 1,
+                  "indexMainLineOU": 0
+                },
+                "1": {
+                  "handicap": [
+                    {
+                      "unavailable": true
+                    }
+                  ],
+                  "overUnder": [
+                    {
+                      "unavailable": true
+                    }
+                  ],
+                  "moneyLine": {
+                    "lineId": 3453503001,
+                    "homePrice": "2.370",
+                    "awayPrice": "1.591",
+                    "unavailable": false,
+                    "offline": false
+                  }
+                },
+                "2": {
+                  "handicap": [
+                    {
+                      "unavailable": true
+                    }
+                  ],
+                  "overUnder": [
+                    {
+                      "unavailable": true
+                    }
+                  ],
+                  "moneyLine": {
+                    "lineId": 3453503003,
+                    "homePrice": "2.370",
+                    "awayPrice": "1.591",
+                    "unavailable": false,
+                    "offline": false
+                  }
+                },
+                "3": {
+                  "handicap": [
+                    {
+                      "unavailable": true
+                    }
+                  ],
+                  "overUnder": [
+                    {
+                      "unavailable": true
+                    }
+                  ],
+                  "moneyLine": {
+                    "lineId": 3453503005,
+                    "homePrice": "2.370",
+                    "awayPrice": "1.591",
+                    "unavailable": false,
+                    "offline": false
+                  }
+                }
+              },
+              "homeTeamType": 0,
+              "awayTeamType": 1,
+              "parlayRestriction": 2,
+              "rotNum": "12776",
+              "resultingUnit": "Regular",
+              "hasLiveStream": false,
+              "hasScoreboard": false,
+              "live": false
+            },
+            {
+              "id": 1623955423,
+              "parentId": 1623927378,
+              "time": 1770800400000,
+              "participants": [
+                {
+                  "name": "Team WE (Mortes)",
+                  "englishName": "Team WE (Kills)",
+                  "type": "HOME",
+                  "fav": false
+                },
+                {
+                  "name": "LNG (Mortes)",
+                  "englishName": "LNG (Kills)",
+                  "type": "AWAY",
+                  "fav": true
+                }
+              ],
+              "moreBet": 60,
+              "periods": {
+                "1": {
+                  "handicap": [
+                    {
+                      "lineId": 55034737564,
+                      "isAlt": true,
+                      "homeSpread": "+10.5",
+                      "awaySpread": "-10.5",
+                      "homeOdds": "1.337",
+                      "awayOdds": "2.820",
+                      "unavailable": false,
+                      "offline": false
+                    },
+                    {
+                      "lineId": 55034737560,
+                      "isAlt": true,
+                      "homeSpread": "+9.5",
+                      "awaySpread": "-9.5",
+                      "homeOdds": "1.450",
+                      "awayOdds": "2.490",
+                      "unavailable": false,
+                      "offline": false
+                    },
+                    {
+                      "lineId": 55034737556,
+                      "isAlt": true,
+                      "homeSpread": "+8.5",
+                      "awaySpread": "-8.5",
+                      "homeOdds": "1.581",
+                      "awayOdds": "2.250",
+                      "unavailable": false,
+                      "offline": false
+                    },
+                    {
+                      "lineId": 55034737552,
+                      "isAlt": true,
+                      "homeSpread": "+7.5",
+                      "awaySpread": "-7.5",
+                      "homeOdds": "1.709",
+                      "awayOdds": "2.040",
+                      "unavailable": false,
+                      "offline": false
+                    },
+                    {
+                      "lineId": 3453503002,
+                      "isAlt": false,
+                      "homeSpread": "+6.5",
+                      "awaySpread": "-6.5",
+                      "homeOdds": "1.833",
+                      "awayOdds": "1.900",
+                      "unavailable": false,
+                      "offline": false
+                    },
+                    {
+                      "lineId": 55034737548,
+                      "isAlt": true,
+                      "homeSpread": "+5.5",
+                      "awaySpread": "-5.5",
+                      "homeOdds": "1.934",
+                      "awayOdds": "1.793",
+                      "unavailable": false,
+                      "offline": false
+                    },
+                    {
+                      "lineId": 55034737544,
+                      "isAlt": true,
+                      "homeSpread": "+4.5",
+                      "awaySpread": "-4.5",
+                      "homeOdds": "2.030",
+                      "awayOdds": "1.719",
+                      "unavailable": false,
+                      "offline": false
+                    },
+                    {
+                      "lineId": 55034737540,
+                      "isAlt": true,
+                      "homeSpread": "+3.5",
+                      "awaySpread": "-3.5",
+                      "homeOdds": "2.080",
+                      "awayOdds": "1.657",
+                      "unavailable": false,
+                      "offline": false
+                    },
+                    {
+                      "lineId": 55034737536,
+                      "isAlt": true,
+                      "homeSpread": "+2.5",
+                      "awaySpread": "-2.5",
+                      "homeOdds": "2.120",
+                      "awayOdds": "1.617",
+                      "unavailable": false,
+                      "offline": false
+                    }
+                  ],
+                  "overUnder": [
+                    {
+                      "lineId": 55034737563,
+                      "isAlt": true,
+                      "overOdds": "2.970",
+                      "underOdds": "1.301",
+                      "points": "34.5",
+                      "unavailable": false,
+                      "offline": false
+                    },
+                    {
+                      "lineId": 55034737559,
+                      "isAlt": true,
+                      "overOdds": "2.750",
+                      "underOdds": "1.366",
+                      "points": "33.5",
+                      "unavailable": false,
+                      "offline": false
+                    },
+                    {
+                      "lineId": 55034737555,
+                      "isAlt": true,
+                      "overOdds": "2.560",
+                      "underOdds": "1.446",
+                      "points": "32.5",
+                      "unavailable": false,
+                      "offline": false
+                    },
+                    {
+                      "lineId": 55034737551,
+                      "isAlt": true,
+                      "overOdds": "2.360",
+                      "underOdds": "1.529",
+                      "points": "31.5",
+                      "unavailable": false,
+                      "offline": false
+                    },
+                    {
+                      "lineId": 3453503002,
+                      "isAlt": false,
+                      "overOdds": "2.180",
+                      "underOdds": "1.628",
+                      "points": "30.5",
+                      "unavailable": false,
+                      "offline": false
+                    },
+                    {
+                      "lineId": 55034737547,
+                      "isAlt": true,
+                      "overOdds": "1.970",
+                      "underOdds": "1.763",
+                      "points": "29.5",
+                      "unavailable": false,
+                      "offline": false
+                    },
+                    {
+                      "lineId": 55034737543,
+                      "isAlt": true,
+                      "overOdds": "1.793",
+                      "underOdds": "1.934",
+                      "points": "28.5",
+                      "unavailable": false,
+                      "offline": false
+                    },
+                    {
+                      "lineId": 55034737539,
+                      "isAlt": true,
+                      "overOdds": "1.632",
+                      "underOdds": "2.120",
+                      "points": "27.5",
+                      "unavailable": false,
+                      "offline": false
+                    },
+                    {
+                      "lineId": 55034737535,
+                      "isAlt": true,
+                      "overOdds": "1.505",
+                      "underOdds": "2.340",
+                      "points": "26.5",
+                      "unavailable": false,
+                      "offline": false
+                    }
+                  ],
+                  "moneyLine": {
+                    "lineId": 3453503002,
+                    "homePrice": "2.250",
+                    "awayPrice": "1.591",
+                    "unavailable": false,
+                    "offline": false
+                  },
+                  "indexMainLineHdp": 4,
+                  "indexMainLineOU": 4
+                },
+                "2": {
+                  "handicap": [
+                    {
+                      "lineId": 55034737644,
+                      "isAlt": true,
+                      "homeSpread": "+10.5",
+                      "awaySpread": "-10.5",
+                      "homeOdds": "1.338",
+                      "awayOdds": "2.820",
+                      "unavailable": false,
+                      "offline": false
+                    },
+                    {
+                      "lineId": 55034737640,
+                      "isAlt": true,
+                      "homeSpread": "+9.5",
+                      "awaySpread": "-9.5",
+                      "homeOdds": "1.450",
+                      "awayOdds": "2.490",
+                      "unavailable": false,
+                      "offline": false
+                    },
+                    {
+                      "lineId": 55034737636,
+                      "isAlt": true,
+                      "homeSpread": "+8.5",
+                      "awaySpread": "-8.5",
+                      "homeOdds": "1.581",
+                      "awayOdds": "2.250",
+                      "unavailable": false,
+                      "offline": false
+                    },
+                    {
+                      "lineId": 55034737632,
+                      "isAlt": true,
+                      "homeSpread": "+7.5",
+                      "awaySpread": "-7.5",
+                      "homeOdds": "1.704",
+                      "awayOdds": "2.050",
+                      "unavailable": false,
+                      "offline": false
+                    },
+                    {
+                      "lineId": 3453503004,
+                      "isAlt": false,
+                      "homeSpread": "+6.5",
+                      "awaySpread": "-6.5",
+                      "homeOdds": "1.833",
+                      "awayOdds": "1.900",
+                      "unavailable": false,
+                      "offline": false
+                    },
+                    {
+                      "lineId": 55034737628,
+                      "isAlt": true,
+                      "homeSpread": "+5.5",
+                      "awaySpread": "-5.5",
+                      "homeOdds": "1.934",
+                      "awayOdds": "1.793",
+                      "unavailable": false,
+                      "offline": false
+                    },
+                    {
+                      "lineId": 55034737624,
+                      "isAlt": true,
+                      "homeSpread": "+4.5",
+                      "awaySpread": "-4.5",
+                      "homeOdds": "2.030",
+                      "awayOdds": "1.719",
+                      "unavailable": false,
+                      "offline": false
+                    },
+                    {
+                      "lineId": 55034737620,
+                      "isAlt": true,
+                      "homeSpread": "+3.5",
+                      "awaySpread": "-3.5",
+                      "homeOdds": "2.080",
+                      "awayOdds": "1.657",
+                      "unavailable": false,
+                      "offline": false
+                    },
+                    {
+                      "lineId": 55034737616,
+                      "isAlt": true,
+                      "homeSpread": "+2.5",
+                      "awaySpread": "-2.5",
+                      "homeOdds": "2.130",
+                      "awayOdds": "1.613",
+                      "unavailable": false,
+                      "offline": false
+                    }
+                  ],
+                  "overUnder": [
+                    {
+                      "lineId": 55034737643,
+                      "isAlt": true,
+                      "overOdds": "2.830",
+                      "underOdds": "1.335",
+                      "points": "34.5",
+                      "unavailable": false,
+                      "offline": false
+                    },
+                    {
+                      "lineId": 55034737639,
+                      "isAlt": true,
+                      "overOdds": "2.620",
+                      "underOdds": "1.406",
+                      "points": "33.5",
+                      "unavailable": false,
+                      "offline": false
+                    },
+                    {
+                      "lineId": 55034737635,
+                      "isAlt": true,
+                      "overOdds": "2.430",
+                      "underOdds": "1.495",
+                      "points": "32.5",
+                      "unavailable": false,
+                      "offline": false
+                    },
+                    {
+                      "lineId": 55034737631,
+                      "isAlt": true,
+                      "overOdds": "2.240",
+                      "underOdds": "1.588",
+                      "points": "31.5",
+                      "unavailable": false,
+                      "offline": false
+                    },
+                    {
+                      "lineId": 3453503004,
+                      "isAlt": false,
+                      "overOdds": "2.070",
+                      "underOdds": "1.704",
+                      "points": "30.5",
+                      "unavailable": false,
+                      "offline": false
+                    },
+                    {
+                      "lineId": 55034737627,
+                      "isAlt": true,
+                      "overOdds": "1.884",
+                      "underOdds": "1.840",
+                      "points": "29.5",
+                      "unavailable": false,
+                      "offline": false
+                    },
+                    {
+                      "lineId": 55034737623,
+                      "isAlt": true,
+                      "overOdds": "1.724",
+                      "underOdds": "2.020",
+                      "points": "28.5",
+                      "unavailable": false,
+                      "offline": false
+                    },
+                    {
+                      "lineId": 55034737619,
+                      "isAlt": true,
+                      "overOdds": "1.581",
+                      "underOdds": "2.210",
+                      "points": "27.5",
+                      "unavailable": false,
+                      "offline": false
+                    },
+                    {
+                      "lineId": 55034737615,
+                      "isAlt": true,
+                      "overOdds": "1.465",
+                      "underOdds": "2.430",
+                      "points": "26.5",
+                      "unavailable": false,
+                      "offline": false
+                    }
+                  ],
+                  "moneyLine": {
+                    "lineId": 3453503004,
+                    "homePrice": "2.260",
+                    "awayPrice": "1.584",
+                    "unavailable": false,
+                    "offline": false
+                  },
+                  "indexMainLineHdp": 4,
+                  "indexMainLineOU": 4
+                },
+                "3": {
+                  "handicap": [
+                    {
+                      "lineId": 55034737724,
+                      "isAlt": true,
+                      "homeSpread": "+10.5",
+                      "awaySpread": "-10.5",
+                      "homeOdds": "1.337",
+                      "awayOdds": "2.820",
+                      "unavailable": false,
+                      "offline": false
+                    },
+                    {
+                      "lineId": 55034737720,
+                      "isAlt": true,
+                      "homeSpread": "+9.5",
+                      "awaySpread": "-9.5",
+                      "homeOdds": "1.448",
+                      "awayOdds": "2.500",
+                      "unavailable": false,
+                      "offline": false
+                    },
+                    {
+                      "lineId": 55034737716,
+                      "isAlt": true,
+                      "homeSpread": "+8.5",
+                      "awaySpread": "-8.5",
+                      "homeOdds": "1.578",
+                      "awayOdds": "2.250",
+                      "unavailable": false,
+                      "offline": false
+                    },
+                    {
+                      "lineId": 55034737712,
+                      "isAlt": true,
+                      "homeSpread": "+7.5",
+                      "awaySpread": "-7.5",
+                      "homeOdds": "1.704",
+                      "awayOdds": "2.050",
+                      "unavailable": false,
+                      "offline": false
+                    },
+                    {
+                      "lineId": 3453503006,
+                      "isAlt": false,
+                      "homeSpread": "+6.5",
+                      "awaySpread": "-6.5",
+                      "homeOdds": "1.833",
+                      "awayOdds": "1.909",
+                      "unavailable": false,
+                      "offline": false
+                    },
+                    {
+                      "lineId": 55034737708,
+                      "isAlt": true,
+                      "homeSpread": "+5.5",
+                      "awaySpread": "-5.5",
+                      "homeOdds": "1.934",
+                      "awayOdds": "1.793",
+                      "unavailable": false,
+                      "offline": false
+                    },
+                    {
+                      "lineId": 55034737704,
+                      "isAlt": true,
+                      "homeSpread": "+4.5",
+                      "awaySpread": "-4.5",
+                      "homeOdds": "2.030",
+                      "awayOdds": "1.719",
+                      "unavailable": false,
+                      "offline": false
+                    },
+                    {
+                      "lineId": 55034737700,
+                      "isAlt": true,
+                      "homeSpread": "+3.5",
+                      "awaySpread": "-3.5",
+                      "homeOdds": "2.080",
+                      "awayOdds": "1.657",
+                      "unavailable": false,
+                      "offline": false
+                    },
+                    {
+                      "lineId": 55034737696,
+                      "isAlt": true,
+                      "homeSpread": "+2.5",
+                      "awaySpread": "-2.5",
+                      "homeOdds": "2.130",
+                      "awayOdds": "1.617",
+                      "unavailable": false,
+                      "offline": false
+                    }
+                  ],
+                  "overUnder": [
+                    {
+                      "lineId": 55034737723,
+                      "isAlt": true,
+                      "overOdds": "2.800",
+                      "underOdds": "1.343",
+                      "points": "34.5",
+                      "unavailable": false,
+                      "offline": false
+                    },
+                    {
+                      "lineId": 55034737719,
+                      "isAlt": true,
+                      "overOdds": "2.580",
+                      "underOdds": "1.418",
+                      "points": "33.5",
+                      "unavailable": false,
+                      "offline": false
+                    },
+                    {
+                      "lineId": 55034737715,
+                      "isAlt": true,
+                      "overOdds": "2.400",
+                      "underOdds": "1.510",
+                      "points": "32.5",
+                      "unavailable": false,
+                      "offline": false
+                    },
+                    {
+                      "lineId": 55034737711,
+                      "isAlt": true,
+                      "overOdds": "2.200",
+                      "underOdds": "1.606",
+                      "points": "31.5",
+                      "unavailable": false,
+                      "offline": false
+                    },
+                    {
+                      "lineId": 3453503006,
+                      "isAlt": false,
+                      "overOdds": "2.040",
+                      "underOdds": "1.724",
+                      "points": "30.5",
+                      "unavailable": false,
+                      "offline": false
+                    },
+                    {
+                      "lineId": 55034737707,
+                      "isAlt": true,
+                      "overOdds": "1.862",
+                      "underOdds": "1.862",
+                      "points": "29.5",
+                      "unavailable": false,
+                      "offline": false
+                    },
+                    {
+                      "lineId": 55034737703,
+                      "isAlt": true,
+                      "overOdds": "1.704",
+                      "underOdds": "2.050",
+                      "points": "28.5",
+                      "unavailable": false,
+                      "offline": false
+                    },
+                    {
+                      "lineId": 55034737699,
+                      "isAlt": true,
+                      "overOdds": "1.564",
+                      "underOdds": "2.230",
+                      "points": "27.5",
+                      "unavailable": false,
+                      "offline": false
+                    },
+                    {
+                      "lineId": 55034737695,
+                      "isAlt": true,
+                      "overOdds": "1.454",
+                      "underOdds": "2.460",
+                      "points": "26.5",
+                      "unavailable": false,
+                      "offline": false
+                    }
+                  ],
+                  "moneyLine": {
+                    "lineId": 3453503006,
+                    "homePrice": "2.260",
+                    "awayPrice": "1.584",
+                    "unavailable": false,
+                    "offline": false
+                  },
+                  "indexMainLineHdp": 4,
+                  "indexMainLineOU": 4
+                }
+              },
+              "homeTeamType": 0,
+              "awayTeamType": 1,
+              "parlayRestriction": 2,
+              "rotNum": "12776",
+              "resultingUnit": "Mortes",
               "hasLiveStream": false,
               "hasScoreboard": false,
               "live": false
             }
           ],
           "seqNo": 302
+        },
+        {
+          "sportId": 12,
+          "id": 200739,
+          "name": "League of Legends - EBL",
+          "leagueCode": "league-of-legends-ebl",
+          "gameCode": "league-of-legends",
+          "container": "Balkans",
+          "events": [
+            {
+              "id": 1623889195,
+              "parentId": 0,
+              "time": 1770832800000,
+              "participants": [
+                {
+                  "name": "SPIKE Syndicate",
+                  "englishName": "SPIKE Syndicate",
+                  "type": "HOME",
+                  "fav": true
+                },
+                {
+                  "name": "Crvena Zvezda",
+                  "englishName": "Crvena Zvezda",
+                  "type": "AWAY",
+                  "fav": false
+                }
+              ],
+              "moreBet": 7,
+              "periods": {
+                "0": {
+                  "handicap": [
+                    {
+                      "lineId": 55033053300,
+                      "isAlt": true,
+                      "homeSpread": "+1.5",
+                      "awaySpread": "-1.5",
+                      "homeOdds": "1.095",
+                      "awayOdds": "4.320",
+                      "unavailable": false,
+                      "offline": false
+                    },
+                    {
+                      "lineId": 3453443005,
+                      "isAlt": false,
+                      "homeSpread": "-1.5",
+                      "awaySpread": "+1.5",
+                      "homeOdds": "2.150",
+                      "awayOdds": "1.591",
+                      "unavailable": false,
+                      "offline": false
+                    }
+                  ],
+                  "overUnder": [
+                    {
+                      "lineId": 3453443005,
+                      "isAlt": false,
+                      "overOdds": "2.030",
+                      "underOdds": "1.671",
+                      "points": "2.5",
+                      "unavailable": false,
+                      "offline": false
+                    }
+                  ],
+                  "moneyLine": {
+                    "lineId": 3453443005,
+                    "homePrice": "1.347",
+                    "awayPrice": "2.750",
+                    "unavailable": false,
+                    "offline": false
+                  },
+                  "indexMainLineHdp": 1,
+                  "indexMainLineOU": 0
+                },
+                "1": {
+                  "handicap": [
+                    {
+                      "unavailable": true
+                    }
+                  ],
+                  "overUnder": [
+                    {
+                      "unavailable": true
+                    }
+                  ],
+                  "moneyLine": {
+                    "lineId": 3453443002,
+                    "homePrice": "1.454",
+                    "awayPrice": "2.430",
+                    "unavailable": false,
+                    "offline": false
+                  }
+                },
+                "2": {
+                  "handicap": [
+                    {
+                      "unavailable": true
+                    }
+                  ],
+                  "overUnder": [
+                    {
+                      "unavailable": true
+                    }
+                  ],
+                  "moneyLine": {
+                    "lineId": 3453443003,
+                    "homePrice": "1.454",
+                    "awayPrice": "2.430",
+                    "unavailable": false,
+                    "offline": false
+                  }
+                },
+                "3": {
+                  "handicap": [
+                    {
+                      "unavailable": true
+                    }
+                  ],
+                  "overUnder": [
+                    {
+                      "unavailable": true
+                    }
+                  ],
+                  "moneyLine": {
+                    "lineId": 3453443004,
+                    "homePrice": "1.500",
+                    "awayPrice": "2.320",
+                    "unavailable": false,
+                    "offline": false
+                  }
+                }
+              },
+              "homeTeamType": 0,
+              "awayTeamType": 1,
+              "parlayRestriction": 1,
+              "rotNum": "42746",
+              "resultingUnit": "Regular",
+              "hasLiveStream": false,
+              "hasScoreboard": false,
+              "live": false
+            }
+          ],
+          "seqNo": 306
+        },
+        {
+          "sportId": 12,
+          "id": 272187,
+          "name": "League of Legends - HLL",
+          "leagueCode": "league-of-legends-hll",
+          "gameCode": "league-of-legends",
+          "container": "Europe",
+          "events": [
+            {
+              "id": 1623889157,
+              "parentId": 0,
+              "time": 1770825600000,
+              "participants": [
+                {
+                  "name": "GOAL",
+                  "englishName": "GOAL",
+                  "type": "HOME",
+                  "fav": true
+                },
+                {
+                  "name": "Paradox",
+                  "englishName": "Paradox",
+                  "type": "AWAY",
+                  "fav": false
+                }
+              ],
+              "moreBet": 3,
+              "periods": {
+                "0": {
+                  "handicap": [
+                    {
+                      "lineId": 3453446441,
+                      "isAlt": false,
+                      "homeSpread": "-0.5",
+                      "awaySpread": "+0.5",
+                      "homeOdds": "2.260",
+                      "awayOdds": "1.529",
+                      "unavailable": false,
+                      "offline": false
+                    }
+                  ],
+                  "overUnder": [
+                    {
+                      "unavailable": true
+                    }
+                  ],
+                  "moneyLine": {
+                    "unavailable": true
+                  },
+                  "indexMainLineHdp": 0
+                },
+                "1": {
+                  "handicap": [
+                    {
+                      "unavailable": true
+                    }
+                  ],
+                  "overUnder": [
+                    {
+                      "unavailable": true
+                    }
+                  ],
+                  "moneyLine": {
+                    "lineId": 3453446439,
+                    "homePrice": "1.500",
+                    "awayPrice": "2.320",
+                    "unavailable": false,
+                    "offline": false
+                  }
+                },
+                "2": {
+                  "handicap": [
+                    {
+                      "unavailable": true
+                    }
+                  ],
+                  "overUnder": [
+                    {
+                      "unavailable": true
+                    }
+                  ],
+                  "moneyLine": {
+                    "lineId": 3453446440,
+                    "homePrice": "1.500",
+                    "awayPrice": "2.320",
+                    "unavailable": false,
+                    "offline": false
+                  }
+                }
+              },
+              "homeTeamType": 0,
+              "awayTeamType": 1,
+              "parlayRestriction": 1,
+              "rotNum": "15052",
+              "resultingUnit": "Regular",
+              "hasLiveStream": false,
+              "hasScoreboard": false,
+              "live": false
+            }
+          ],
+          "seqNo": 306
         },
         {
           "sportId": 12,
@@ -172,997 +1772,13 @@
           "container": "France",
           "events": [
             {
-              "id": 1623868132,
+              "id": 1623892681,
               "parentId": 0,
-              "time": 1770742800000,
+              "time": 1770829200000,
               "participants": [
-                {
-                  "name": "Lille",
-                  "englishName": "Lille",
-                  "type": "HOME",
-                  "fav": false
-                },
                 {
                   "name": "BK ROG",
                   "englishName": "BK ROG",
-                  "type": "AWAY",
-                  "fav": false
-                }
-              ],
-              "moreBet": 2,
-              "periods": {
-                "0": {
-                  "handicap": [
-                    {
-                      "unavailable": true
-                    }
-                  ],
-                  "overUnder": [
-                    {
-                      "unavailable": true
-                    }
-                  ],
-                  "moneyLine": {
-                    "lineId": 3452019186,
-                    "homePrice": "2.340",
-                    "awayPrice": "1.613",
-                    "unavailable": false,
-                    "offline": false
-                  }
-                },
-                "1": {
-                  "handicap": [
-                    {
-                      "unavailable": true
-                    }
-                  ],
-                  "overUnder": [
-                    {
-                      "unavailable": true
-                    }
-                  ],
-                  "moneyLine": {
-                    "lineId": 3452022906,
-                    "homePrice": "2.340",
-                    "awayPrice": "1.613",
-                    "unavailable": false,
-                    "offline": false
-                  }
-                }
-              },
-              "homeTeamType": 0,
-              "awayTeamType": 1,
-              "parlayRestriction": 2,
-              "rotNum": "10624",
-              "resultingUnit": "Regular",
-              "hasLiveStream": false,
-              "hasScoreboard": false,
-              "live": false
-            },
-            {
-              "id": 1623876206,
-              "parentId": 1623868132,
-              "time": 1770742800000,
-              "participants": [
-                {
-                  "name": "Lille (Mortes)",
-                  "englishName": "Lille (Kills)",
-                  "type": "HOME",
-                  "fav": false
-                },
-                {
-                  "name": "BK ROG (Mortes)",
-                  "englishName": "BK ROG (Kills)",
-                  "type": "AWAY",
-                  "fav": true
-                }
-              ],
-              "moreBet": 16,
-              "periods": {
-                "1": {
-                  "handicap": [
-                    {
-                      "lineId": 54997287618,
-                      "isAlt": true,
-                      "homeSpread": "+9.5",
-                      "awaySpread": "-9.5",
-                      "homeOdds": "1.462",
-                      "awayOdds": "2.460",
-                      "unavailable": false,
-                      "offline": false
-                    },
-                    {
-                      "lineId": 54997287614,
-                      "isAlt": true,
-                      "homeSpread": "+8.5",
-                      "awaySpread": "-8.5",
-                      "homeOdds": "1.598",
-                      "awayOdds": "2.220",
-                      "unavailable": false,
-                      "offline": false
-                    },
-                    {
-                      "lineId": 54997287610,
-                      "isAlt": true,
-                      "homeSpread": "+7.5",
-                      "awaySpread": "-7.5",
-                      "homeOdds": "1.729",
-                      "awayOdds": "2.020",
-                      "unavailable": false,
-                      "offline": false
-                    },
-                    {
-                      "lineId": 3452007059,
-                      "isAlt": false,
-                      "homeSpread": "+6.5",
-                      "awaySpread": "-6.5",
-                      "homeOdds": "1.862",
-                      "awayOdds": "1.877",
-                      "unavailable": false,
-                      "offline": false
-                    },
-                    {
-                      "lineId": 54997287606,
-                      "isAlt": true,
-                      "homeSpread": "+5.5",
-                      "awaySpread": "-5.5",
-                      "homeOdds": "1.961",
-                      "awayOdds": "1.775",
-                      "unavailable": false,
-                      "offline": false
-                    },
-                    {
-                      "lineId": 54997287602,
-                      "isAlt": true,
-                      "homeSpread": "+4.5",
-                      "awaySpread": "-4.5",
-                      "homeOdds": "2.050",
-                      "awayOdds": "1.704",
-                      "unavailable": false,
-                      "offline": false
-                    },
-                    {
-                      "lineId": 54997287598,
-                      "isAlt": true,
-                      "homeSpread": "+3.5",
-                      "awaySpread": "-3.5",
-                      "homeOdds": "2.090",
-                      "awayOdds": "1.649",
-                      "unavailable": false,
-                      "offline": false
-                    }
-                  ],
-                  "overUnder": [
-                    {
-                      "lineId": 54997287617,
-                      "isAlt": true,
-                      "overOdds": "2.390",
-                      "underOdds": "1.492",
-                      "points": "32.5",
-                      "unavailable": false,
-                      "offline": false
-                    },
-                    {
-                      "lineId": 54997287613,
-                      "isAlt": true,
-                      "overOdds": "2.210",
-                      "underOdds": "1.606",
-                      "points": "31.5",
-                      "unavailable": false,
-                      "offline": false
-                    },
-                    {
-                      "lineId": 54997287609,
-                      "isAlt": true,
-                      "overOdds": "2.020",
-                      "underOdds": "1.724",
-                      "points": "30.5",
-                      "unavailable": false,
-                      "offline": false
-                    },
-                    {
-                      "lineId": 3452007059,
-                      "isAlt": false,
-                      "overOdds": "1.862",
-                      "underOdds": "1.877",
-                      "points": "29.5",
-                      "unavailable": false,
-                      "offline": false
-                    },
-                    {
-                      "lineId": 54997287605,
-                      "isAlt": true,
-                      "overOdds": "1.709",
-                      "underOdds": "2.040",
-                      "points": "28.5",
-                      "unavailable": false,
-                      "offline": false
-                    },
-                    {
-                      "lineId": 54997287601,
-                      "isAlt": true,
-                      "overOdds": "1.588",
-                      "underOdds": "2.240",
-                      "points": "27.5",
-                      "unavailable": false,
-                      "offline": false
-                    },
-                    {
-                      "lineId": 54997287597,
-                      "isAlt": true,
-                      "overOdds": "1.471",
-                      "underOdds": "2.440",
-                      "points": "26.5",
-                      "unavailable": false,
-                      "offline": false
-                    }
-                  ],
-                  "moneyLine": {
-                    "lineId": 3452007059,
-                    "homePrice": "2.260",
-                    "awayPrice": "1.588",
-                    "unavailable": false,
-                    "offline": false
-                  },
-                  "indexMainLineHdp": 3,
-                  "indexMainLineOU": 3
-                }
-              },
-              "homeTeamType": 0,
-              "awayTeamType": 1,
-              "parlayRestriction": 2,
-              "rotNum": "10624",
-              "resultingUnit": "Mortes",
-              "hasLiveStream": false,
-              "hasScoreboard": false,
-              "live": false
-            },
-            {
-              "id": 1623869322,
-              "parentId": 0,
-              "time": 1770746400000,
-              "participants": [
-                {
-                  "name": "Joblife",
-                  "englishName": "Joblife",
-                  "type": "HOME",
-                  "fav": false
-                },
-                {
-                  "name": "TLN Pirates",
-                  "englishName": "TLN Pirates",
-                  "type": "AWAY",
-                  "fav": false
-                }
-              ],
-              "moreBet": 2,
-              "periods": {
-                "0": {
-                  "handicap": [
-                    {
-                      "unavailable": true
-                    }
-                  ],
-                  "overUnder": [
-                    {
-                      "unavailable": true
-                    }
-                  ],
-                  "moneyLine": {
-                    "lineId": 3452100494,
-                    "homePrice": "1.510",
-                    "awayPrice": "2.590",
-                    "unavailable": false,
-                    "offline": false
-                  }
-                },
-                "1": {
-                  "handicap": [
-                    {
-                      "unavailable": true
-                    }
-                  ],
-                  "overUnder": [
-                    {
-                      "unavailable": true
-                    }
-                  ],
-                  "moneyLine": {
-                    "lineId": 3452100492,
-                    "homePrice": "1.510",
-                    "awayPrice": "2.590",
-                    "unavailable": false,
-                    "offline": false
-                  }
-                }
-              },
-              "homeTeamType": 0,
-              "awayTeamType": 1,
-              "parlayRestriction": 2,
-              "rotNum": "10626",
-              "resultingUnit": "Regular",
-              "hasLiveStream": false,
-              "hasScoreboard": false,
-              "live": false
-            },
-            {
-              "id": 1623877495,
-              "parentId": 1623869322,
-              "time": 1770746400000,
-              "participants": [
-                {
-                  "name": "Joblife (Mortes)",
-                  "englishName": "Joblife (Kills)",
-                  "type": "HOME",
-                  "fav": true
-                },
-                {
-                  "name": "TLN Pirates (Mortes)",
-                  "englishName": "TLN Pirates (Kills)",
-                  "type": "AWAY",
-                  "fav": false
-                }
-              ],
-              "moreBet": 16,
-              "periods": {
-                "1": {
-                  "handicap": [
-                    {
-                      "lineId": 54999499730,
-                      "isAlt": true,
-                      "homeSpread": "-4.5",
-                      "awaySpread": "+4.5",
-                      "homeOdds": "1.588",
-                      "awayOdds": "2.190",
-                      "unavailable": false,
-                      "offline": false
-                    },
-                    {
-                      "lineId": 54999499726,
-                      "isAlt": true,
-                      "homeSpread": "-5.5",
-                      "awaySpread": "+5.5",
-                      "homeOdds": "1.657",
-                      "awayOdds": "2.120",
-                      "unavailable": false,
-                      "offline": false
-                    },
-                    {
-                      "lineId": 54999499722,
-                      "isAlt": true,
-                      "homeSpread": "-6.5",
-                      "awaySpread": "+6.5",
-                      "homeOdds": "1.740",
-                      "awayOdds": "2.000",
-                      "unavailable": false,
-                      "offline": false
-                    },
-                    {
-                      "lineId": 3452116506,
-                      "isAlt": false,
-                      "homeSpread": "-7.5",
-                      "awaySpread": "+7.5",
-                      "homeOdds": "1.862",
-                      "awayOdds": "1.877",
-                      "unavailable": false,
-                      "offline": false
-                    },
-                    {
-                      "lineId": 54999499718,
-                      "isAlt": true,
-                      "homeSpread": "-8.5",
-                      "awaySpread": "+8.5",
-                      "homeOdds": "2.020",
-                      "awayOdds": "1.729",
-                      "unavailable": false,
-                      "offline": false
-                    },
-                    {
-                      "lineId": 54999499714,
-                      "isAlt": true,
-                      "homeSpread": "-9.5",
-                      "awaySpread": "+9.5",
-                      "homeOdds": "2.230",
-                      "awayOdds": "1.591",
-                      "unavailable": false,
-                      "offline": false
-                    },
-                    {
-                      "lineId": 54999499710,
-                      "isAlt": true,
-                      "homeSpread": "-10.5",
-                      "awaySpread": "+10.5",
-                      "homeOdds": "2.480",
-                      "awayOdds": "1.456",
-                      "unavailable": false,
-                      "offline": false
-                    }
-                  ],
-                  "overUnder": [
-                    {
-                      "lineId": 54999499729,
-                      "isAlt": true,
-                      "overOdds": "2.350",
-                      "underOdds": "1.510",
-                      "points": "35.5",
-                      "unavailable": false,
-                      "offline": false
-                    },
-                    {
-                      "lineId": 54999499725,
-                      "isAlt": true,
-                      "overOdds": "2.180",
-                      "underOdds": "1.617",
-                      "points": "34.5",
-                      "unavailable": false,
-                      "offline": false
-                    },
-                    {
-                      "lineId": 54999499721,
-                      "isAlt": true,
-                      "overOdds": "2.010",
-                      "underOdds": "1.735",
-                      "points": "33.5",
-                      "unavailable": false,
-                      "offline": false
-                    },
-                    {
-                      "lineId": 3452116506,
-                      "isAlt": false,
-                      "overOdds": "1.862",
-                      "underOdds": "1.877",
-                      "points": "32.5",
-                      "unavailable": false,
-                      "offline": false
-                    },
-                    {
-                      "lineId": 54999499717,
-                      "isAlt": true,
-                      "overOdds": "1.719",
-                      "underOdds": "2.030",
-                      "points": "31.5",
-                      "unavailable": false,
-                      "offline": false
-                    },
-                    {
-                      "lineId": 54999499713,
-                      "isAlt": true,
-                      "overOdds": "1.602",
-                      "underOdds": "2.210",
-                      "points": "30.5",
-                      "unavailable": false,
-                      "offline": false
-                    },
-                    {
-                      "lineId": 54999499709,
-                      "isAlt": true,
-                      "overOdds": "1.492",
-                      "underOdds": "2.390",
-                      "points": "29.5",
-                      "unavailable": false,
-                      "offline": false
-                    }
-                  ],
-                  "moneyLine": {
-                    "lineId": 3452116506,
-                    "homePrice": "1.487",
-                    "awayPrice": "2.480",
-                    "unavailable": false,
-                    "offline": false
-                  },
-                  "indexMainLineHdp": 3,
-                  "indexMainLineOU": 3
-                }
-              },
-              "homeTeamType": 0,
-              "awayTeamType": 1,
-              "parlayRestriction": 2,
-              "rotNum": "10626",
-              "resultingUnit": "Mortes",
-              "hasLiveStream": false,
-              "hasScoreboard": false,
-              "live": false
-            },
-            {
-              "id": 1623874537,
-              "parentId": 0,
-              "time": 1770750000000,
-              "participants": [
-                {
-                  "name": "Galions",
-                  "englishName": "Galions",
-                  "type": "HOME",
-                  "fav": false
-                },
-                {
-                  "name": "Solary",
-                  "englishName": "Solary",
-                  "type": "AWAY",
-                  "fav": false
-                }
-              ],
-              "moreBet": 2,
-              "periods": {
-                "0": {
-                  "handicap": [
-                    {
-                      "unavailable": true
-                    }
-                  ],
-                  "overUnder": [
-                    {
-                      "unavailable": true
-                    }
-                  ],
-                  "moneyLine": {
-                    "lineId": 3452020016,
-                    "homePrice": "1.588",
-                    "awayPrice": "2.390",
-                    "unavailable": false,
-                    "offline": false
-                  }
-                },
-                "1": {
-                  "handicap": [
-                    {
-                      "unavailable": true
-                    }
-                  ],
-                  "overUnder": [
-                    {
-                      "unavailable": true
-                    }
-                  ],
-                  "moneyLine": {
-                    "lineId": 3452023820,
-                    "homePrice": "1.588",
-                    "awayPrice": "2.390",
-                    "unavailable": false,
-                    "offline": false
-                  }
-                }
-              },
-              "homeTeamType": 0,
-              "awayTeamType": 1,
-              "parlayRestriction": 2,
-              "rotNum": "10628",
-              "resultingUnit": "Regular",
-              "hasLiveStream": false,
-              "hasScoreboard": false,
-              "live": false
-            },
-            {
-              "id": 1623878457,
-              "parentId": 1623874537,
-              "time": 1770750000000,
-              "participants": [
-                {
-                  "name": "Galions (Mortes)",
-                  "englishName": "Galions (Kills)",
-                  "type": "HOME",
-                  "fav": true
-                },
-                {
-                  "name": "Solary (Mortes)",
-                  "englishName": "Solary (Kills)",
-                  "type": "AWAY",
-                  "fav": false
-                }
-              ],
-              "moreBet": 16,
-              "periods": {
-                "1": {
-                  "handicap": [
-                    {
-                      "lineId": 54996338174,
-                      "isAlt": true,
-                      "homeSpread": "-4.5",
-                      "awaySpread": "+4.5",
-                      "homeOdds": "1.649",
-                      "awayOdds": "2.090",
-                      "unavailable": false,
-                      "offline": false
-                    },
-                    {
-                      "lineId": 54996338170,
-                      "isAlt": true,
-                      "homeSpread": "-5.5",
-                      "awaySpread": "+5.5",
-                      "homeOdds": "1.719",
-                      "awayOdds": "2.030",
-                      "unavailable": false,
-                      "offline": false
-                    },
-                    {
-                      "lineId": 54996338166,
-                      "isAlt": true,
-                      "homeSpread": "-6.5",
-                      "awaySpread": "+6.5",
-                      "homeOdds": "1.793",
-                      "awayOdds": "1.934",
-                      "unavailable": false,
-                      "offline": false
-                    },
-                    {
-                      "lineId": 3451957338,
-                      "isAlt": false,
-                      "homeSpread": "-7.5",
-                      "awaySpread": "+7.5",
-                      "homeOdds": "1.900",
-                      "awayOdds": "1.840",
-                      "unavailable": false,
-                      "offline": false
-                    },
-                    {
-                      "lineId": 54996338162,
-                      "isAlt": true,
-                      "homeSpread": "-8.5",
-                      "awaySpread": "+8.5",
-                      "homeOdds": "2.030",
-                      "awayOdds": "1.719",
-                      "unavailable": false,
-                      "offline": false
-                    },
-                    {
-                      "lineId": 54996338158,
-                      "isAlt": true,
-                      "homeSpread": "-9.5",
-                      "awaySpread": "+9.5",
-                      "homeOdds": "2.200",
-                      "awayOdds": "1.609",
-                      "unavailable": false,
-                      "offline": false
-                    },
-                    {
-                      "lineId": 54996338154,
-                      "isAlt": true,
-                      "homeSpread": "-10.5",
-                      "awaySpread": "+10.5",
-                      "homeOdds": "2.390",
-                      "awayOdds": "1.492",
-                      "unavailable": false,
-                      "offline": false
-                    }
-                  ],
-                  "overUnder": [
-                    {
-                      "lineId": 54996338173,
-                      "isAlt": true,
-                      "overOdds": "2.430",
-                      "underOdds": "1.473",
-                      "points": "35.5",
-                      "unavailable": false,
-                      "offline": false
-                    },
-                    {
-                      "lineId": 54996338169,
-                      "isAlt": true,
-                      "overOdds": "2.240",
-                      "underOdds": "1.584",
-                      "points": "34.5",
-                      "unavailable": false,
-                      "offline": false
-                    },
-                    {
-                      "lineId": 54996338165,
-                      "isAlt": true,
-                      "overOdds": "2.040",
-                      "underOdds": "1.709",
-                      "points": "33.5",
-                      "unavailable": false,
-                      "offline": false
-                    },
-                    {
-                      "lineId": 3451957338,
-                      "isAlt": false,
-                      "overOdds": "1.877",
-                      "underOdds": "1.862",
-                      "points": "32.5",
-                      "unavailable": false,
-                      "offline": false
-                    },
-                    {
-                      "lineId": 54996338161,
-                      "isAlt": true,
-                      "overOdds": "1.719",
-                      "underOdds": "2.030",
-                      "points": "31.5",
-                      "unavailable": false,
-                      "offline": false
-                    },
-                    {
-                      "lineId": 54996338157,
-                      "isAlt": true,
-                      "overOdds": "1.591",
-                      "underOdds": "2.230",
-                      "points": "30.5",
-                      "unavailable": false,
-                      "offline": false
-                    },
-                    {
-                      "lineId": 54996338153,
-                      "isAlt": true,
-                      "overOdds": "1.471",
-                      "underOdds": "2.440",
-                      "points": "29.5",
-                      "unavailable": false,
-                      "offline": false
-                    }
-                  ],
-                  "moneyLine": {
-                    "lineId": 3451957338,
-                    "homePrice": "1.561",
-                    "awayPrice": "2.310",
-                    "unavailable": false,
-                    "offline": false
-                  },
-                  "indexMainLineHdp": 3,
-                  "indexMainLineOU": 3
-                }
-              },
-              "homeTeamType": 0,
-              "awayTeamType": 1,
-              "parlayRestriction": 2,
-              "rotNum": "10628",
-              "resultingUnit": "Mortes",
-              "hasLiveStream": false,
-              "hasScoreboard": false,
-              "live": false
-            },
-            {
-              "id": 1623874559,
-              "parentId": 0,
-              "time": 1770753600000,
-              "participants": [
-                {
-                  "name": "ZYB",
-                  "englishName": "ZYB",
-                  "type": "HOME",
-                  "fav": false
-                },
-                {
-                  "name": "French Flair",
-                  "englishName": "French Flair",
-                  "type": "AWAY",
-                  "fav": false
-                }
-              ],
-              "moreBet": 2,
-              "periods": {
-                "0": {
-                  "handicap": [
-                    {
-                      "unavailable": true
-                    }
-                  ],
-                  "overUnder": [
-                    {
-                      "unavailable": true
-                    }
-                  ],
-                  "moneyLine": {
-                    "lineId": 3452020013,
-                    "homePrice": "4.300",
-                    "awayPrice": "1.226",
-                    "unavailable": false,
-                    "offline": false
-                  }
-                },
-                "1": {
-                  "handicap": [
-                    {
-                      "unavailable": true
-                    }
-                  ],
-                  "overUnder": [
-                    {
-                      "unavailable": true
-                    }
-                  ],
-                  "moneyLine": {
-                    "lineId": 3452023818,
-                    "homePrice": "4.300",
-                    "awayPrice": "1.226",
-                    "unavailable": false,
-                    "offline": false
-                  }
-                }
-              },
-              "homeTeamType": 0,
-              "awayTeamType": 1,
-              "parlayRestriction": 2,
-              "rotNum": "10630",
-              "resultingUnit": "Regular",
-              "hasLiveStream": false,
-              "hasScoreboard": false,
-              "live": false
-            },
-            {
-              "id": 1623879595,
-              "parentId": 1623874559,
-              "time": 1770753600000,
-              "participants": [
-                {
-                  "name": "ZYB (Mortes)",
-                  "englishName": "ZYB (Kills)",
-                  "type": "HOME",
-                  "fav": false
-                },
-                {
-                  "name": "French Flair (Mortes)",
-                  "englishName": "French Flair (Kills)",
-                  "type": "AWAY",
-                  "fav": true
-                }
-              ],
-              "moreBet": 16,
-              "periods": {
-                "1": {
-                  "handicap": [
-                    {
-                      "lineId": 54997338666,
-                      "isAlt": true,
-                      "homeSpread": "+13.5",
-                      "awaySpread": "-13.5",
-                      "homeOdds": "1.383",
-                      "awayOdds": "2.690",
-                      "unavailable": false,
-                      "offline": false
-                    },
-                    {
-                      "lineId": 54997338662,
-                      "isAlt": true,
-                      "homeSpread": "+12.5",
-                      "awaySpread": "-12.5",
-                      "homeOdds": "1.529",
-                      "awayOdds": "2.350",
-                      "unavailable": false,
-                      "offline": false
-                    },
-                    {
-                      "lineId": 54997338658,
-                      "isAlt": true,
-                      "homeSpread": "+11.5",
-                      "awaySpread": "-11.5",
-                      "homeOdds": "1.699",
-                      "awayOdds": "2.050",
-                      "unavailable": false,
-                      "offline": false
-                    },
-                    {
-                      "lineId": 3452009565,
-                      "isAlt": false,
-                      "homeSpread": "+10.5",
-                      "awaySpread": "-10.5",
-                      "homeOdds": "1.909",
-                      "awayOdds": "1.833",
-                      "unavailable": false,
-                      "offline": false
-                    },
-                    {
-                      "lineId": 54997338654,
-                      "isAlt": true,
-                      "homeSpread": "+9.5",
-                      "awaySpread": "-9.5",
-                      "homeOdds": "2.130",
-                      "awayOdds": "1.649",
-                      "unavailable": false,
-                      "offline": false
-                    },
-                    {
-                      "lineId": 54997338650,
-                      "isAlt": true,
-                      "homeSpread": "+8.5",
-                      "awaySpread": "-8.5",
-                      "homeOdds": "2.380",
-                      "awayOdds": "1.515",
-                      "unavailable": false,
-                      "offline": false
-                    },
-                    {
-                      "lineId": 54997338646,
-                      "isAlt": true,
-                      "homeSpread": "+7.5",
-                      "awaySpread": "-7.5",
-                      "homeOdds": "2.610",
-                      "awayOdds": "1.409",
-                      "unavailable": false,
-                      "offline": false
-                    }
-                  ],
-                  "overUnder": [
-                    {
-                      "lineId": 54997338665,
-                      "isAlt": true,
-                      "overOdds": "2.450",
-                      "underOdds": "1.467",
-                      "points": "33.5",
-                      "unavailable": false,
-                      "offline": false
-                    },
-                    {
-                      "lineId": 54997338661,
-                      "isAlt": true,
-                      "overOdds": "2.240",
-                      "underOdds": "1.584",
-                      "points": "32.5",
-                      "unavailable": false,
-                      "offline": false
-                    },
-                    {
-                      "lineId": 54997338657,
-                      "isAlt": true,
-                      "overOdds": "2.040",
-                      "underOdds": "1.709",
-                      "points": "31.5",
-                      "unavailable": false,
-                      "offline": false
-                    },
-                    {
-                      "lineId": 3452009565,
-                      "isAlt": false,
-                      "overOdds": "1.869",
-                      "underOdds": "1.869",
-                      "points": "30.5",
-                      "unavailable": false,
-                      "offline": false
-                    },
-                    {
-                      "lineId": 54997338653,
-                      "isAlt": true,
-                      "overOdds": "1.709",
-                      "underOdds": "2.040",
-                      "points": "29.5",
-                      "unavailable": false,
-                      "offline": false
-                    },
-                    {
-                      "lineId": 54997338649,
-                      "isAlt": true,
-                      "overOdds": "1.574",
-                      "underOdds": "2.260",
-                      "points": "28.5",
-                      "unavailable": false,
-                      "offline": false
-                    },
-                    {
-                      "lineId": 54997338645,
-                      "isAlt": true,
-                      "overOdds": "1.456",
-                      "underOdds": "2.480",
-                      "points": "27.5",
-                      "unavailable": false,
-                      "offline": false
-                    }
-                  ],
-                  "moneyLine": {
-                    "lineId": 3452009565,
-                    "homePrice": "3.740",
-                    "awayPrice": "1.214",
-                    "unavailable": false,
-                    "offline": false
-                  },
-                  "indexMainLineHdp": 3,
-                  "indexMainLineOU": 3
-                }
-              },
-              "homeTeamType": 0,
-              "awayTeamType": 1,
-              "parlayRestriction": 2,
-              "rotNum": "10630",
-              "resultingUnit": "Mortes",
-              "hasLiveStream": false,
-              "hasScoreboard": false,
-              "live": false
-            },
-            {
-              "id": 1623875473,
-              "parentId": 0,
-              "time": 1770757200000,
-              "participants": [
-                {
-                  "name": "Vitality.Bee",
-                  "englishName": "Vitality.Bee",
                   "type": "HOME",
                   "fav": false
                 },
@@ -1187,9 +1803,9 @@
                     }
                   ],
                   "moneyLine": {
-                    "lineId": 3452122426,
-                    "homePrice": "2.950",
-                    "awayPrice": "1.411",
+                    "lineId": 3453444539,
+                    "homePrice": "2.110",
+                    "awayPrice": "1.746",
                     "unavailable": false,
                     "offline": false
                   }
@@ -1206,9 +1822,9 @@
                     }
                   ],
                   "moneyLine": {
-                    "lineId": 3452122424,
-                    "homePrice": "2.950",
-                    "awayPrice": "1.411",
+                    "lineId": 3453444535,
+                    "homePrice": "2.110",
+                    "awayPrice": "1.746",
                     "unavailable": false,
                     "offline": false
                   }
@@ -1217,20 +1833,20 @@
               "homeTeamType": 0,
               "awayTeamType": 1,
               "parlayRestriction": 2,
-              "rotNum": "10632",
+              "rotNum": "31840",
               "resultingUnit": "Regular",
               "hasLiveStream": false,
               "hasScoreboard": false,
               "live": false
             },
             {
-              "id": 1623880182,
-              "parentId": 1623875473,
-              "time": 1770757200000,
+              "id": 1623906706,
+              "parentId": 1623892681,
+              "time": 1770829200000,
               "participants": [
                 {
-                  "name": "Vitality.Bee (Mortes)",
-                  "englishName": "Vitality.Bee (Kills)",
+                  "name": "BK ROG (Mortes)",
+                  "englishName": "BK ROG (Kills)",
                   "type": "HOME",
                   "fav": false
                 },
@@ -1246,145 +1862,145 @@
                 "1": {
                   "handicap": [
                     {
-                      "lineId": 54999613510,
+                      "lineId": 55033690428,
                       "isAlt": true,
-                      "homeSpread": "+12.5",
-                      "awaySpread": "-12.5",
-                      "homeOdds": "1.353",
-                      "awayOdds": "2.800",
+                      "homeSpread": "+7.5",
+                      "awaySpread": "-7.5",
+                      "homeOdds": "1.625",
+                      "awayOdds": "2.130",
                       "unavailable": false,
                       "offline": false
                     },
                     {
-                      "lineId": 54999613506,
+                      "lineId": 55033690424,
                       "isAlt": true,
-                      "homeSpread": "+11.5",
-                      "awaySpread": "-11.5",
-                      "homeOdds": "1.487",
-                      "awayOdds": "2.450",
+                      "homeSpread": "+6.5",
+                      "awaySpread": "-6.5",
+                      "homeOdds": "1.724",
+                      "awayOdds": "2.020",
                       "unavailable": false,
                       "offline": false
                     },
                     {
-                      "lineId": 54999613502,
+                      "lineId": 55033690420,
                       "isAlt": true,
-                      "homeSpread": "+10.5",
-                      "awaySpread": "-10.5",
-                      "homeOdds": "1.641",
-                      "awayOdds": "2.140",
-                      "unavailable": false,
-                      "offline": false
-                    },
-                    {
-                      "lineId": 3452122425,
-                      "isAlt": false,
-                      "homeSpread": "+9.5",
-                      "awaySpread": "-9.5",
-                      "homeOdds": "1.826",
+                      "homeSpread": "+5.5",
+                      "awaySpread": "-5.5",
+                      "homeOdds": "1.806",
                       "awayOdds": "1.917",
                       "unavailable": false,
                       "offline": false
                     },
                     {
-                      "lineId": 54999613498,
+                      "lineId": 3453465751,
+                      "isAlt": false,
+                      "homeSpread": "+4.5",
+                      "awaySpread": "-4.5",
+                      "homeOdds": "1.884",
+                      "awayOdds": "1.854",
+                      "unavailable": false,
+                      "offline": false
+                    },
+                    {
+                      "lineId": 55033690416,
                       "isAlt": true,
-                      "homeSpread": "+8.5",
-                      "awaySpread": "-8.5",
+                      "homeSpread": "+3.5",
+                      "awaySpread": "-3.5",
+                      "homeOdds": "1.934",
+                      "awayOdds": "1.793",
+                      "unavailable": false,
+                      "offline": false
+                    },
+                    {
+                      "lineId": 55033690412,
+                      "isAlt": true,
+                      "homeSpread": "+2.5",
+                      "awaySpread": "-2.5",
+                      "homeOdds": "1.990",
+                      "awayOdds": "1.751",
+                      "unavailable": false,
+                      "offline": false
+                    },
+                    {
+                      "lineId": 55033690408,
+                      "isAlt": true,
+                      "homeSpread": "+1.5",
+                      "awaySpread": "-1.5",
                       "homeOdds": "2.000",
-                      "awayOdds": "1.740",
-                      "unavailable": false,
-                      "offline": false
-                    },
-                    {
-                      "lineId": 54999613494,
-                      "isAlt": true,
-                      "homeSpread": "+7.5",
-                      "awaySpread": "-7.5",
-                      "homeOdds": "2.170",
-                      "awayOdds": "1.625",
-                      "unavailable": false,
-                      "offline": false
-                    },
-                    {
-                      "lineId": 54999613490,
-                      "isAlt": true,
-                      "homeSpread": "+6.5",
-                      "awaySpread": "-6.5",
-                      "homeOdds": "2.340",
-                      "awayOdds": "1.515",
+                      "awayOdds": "1.714",
                       "unavailable": false,
                       "offline": false
                     }
                   ],
                   "overUnder": [
                     {
-                      "lineId": 54999613509,
+                      "lineId": 55033690427,
                       "isAlt": true,
-                      "overOdds": "2.370",
-                      "underOdds": "1.497",
-                      "points": "36.5",
-                      "unavailable": false,
-                      "offline": false
-                    },
-                    {
-                      "lineId": 54999613505,
-                      "isAlt": true,
-                      "overOdds": "2.210",
-                      "underOdds": "1.602",
-                      "points": "35.5",
-                      "unavailable": false,
-                      "offline": false
-                    },
-                    {
-                      "lineId": 54999613501,
-                      "isAlt": true,
-                      "overOdds": "2.040",
-                      "underOdds": "1.714",
+                      "overOdds": "2.570",
+                      "underOdds": "1.421",
                       "points": "34.5",
                       "unavailable": false,
                       "offline": false
                     },
                     {
-                      "lineId": 3452122425,
-                      "isAlt": false,
-                      "overOdds": "1.892",
-                      "underOdds": "1.847",
+                      "lineId": 55033690423,
+                      "isAlt": true,
+                      "overOdds": "2.340",
+                      "underOdds": "1.534",
                       "points": "33.5",
                       "unavailable": false,
                       "offline": false
                     },
                     {
-                      "lineId": 54999613497,
+                      "lineId": 55033690419,
                       "isAlt": true,
-                      "overOdds": "1.746",
-                      "underOdds": "1.990",
+                      "overOdds": "2.120",
+                      "underOdds": "1.657",
                       "points": "32.5",
                       "unavailable": false,
                       "offline": false
                     },
                     {
-                      "lineId": 54999613493,
-                      "isAlt": true,
-                      "overOdds": "1.628",
-                      "underOdds": "2.160",
+                      "lineId": 3453465751,
+                      "isAlt": false,
+                      "overOdds": "1.943",
+                      "underOdds": "1.800",
                       "points": "31.5",
                       "unavailable": false,
                       "offline": false
                     },
                     {
-                      "lineId": 54999613489,
+                      "lineId": 55033690415,
+                      "isAlt": true,
+                      "overOdds": "1.781",
+                      "underOdds": "1.952",
+                      "points": "30.5",
+                      "unavailable": false,
+                      "offline": false
+                    },
+                    {
+                      "lineId": 55033690411,
+                      "isAlt": true,
+                      "overOdds": "1.641",
+                      "underOdds": "2.140",
+                      "points": "29.5",
+                      "unavailable": false,
+                      "offline": false
+                    },
+                    {
+                      "lineId": 55033690407,
                       "isAlt": true,
                       "overOdds": "1.515",
                       "underOdds": "2.340",
-                      "points": "30.5",
+                      "points": "28.5",
                       "unavailable": false,
                       "offline": false
                     }
                   ],
                   "moneyLine": {
-                    "lineId": 3452122425,
-                    "homePrice": "3.050",
-                    "awayPrice": "1.322",
+                    "lineId": 3453465751,
+                    "homePrice": "2.060",
+                    "awayPrice": "1.704",
                     "unavailable": false,
                     "offline": false
                   },
@@ -1395,7 +2011,991 @@
               "homeTeamType": 0,
               "awayTeamType": 1,
               "parlayRestriction": 2,
-              "rotNum": "10632",
+              "rotNum": "31840",
+              "resultingUnit": "Mortes",
+              "hasLiveStream": false,
+              "hasScoreboard": false,
+              "live": false
+            },
+            {
+              "id": 1623892787,
+              "parentId": 0,
+              "time": 1770832800000,
+              "participants": [
+                {
+                  "name": "Solary",
+                  "englishName": "Solary",
+                  "type": "HOME",
+                  "fav": false
+                },
+                {
+                  "name": "TLN Pirates",
+                  "englishName": "TLN Pirates",
+                  "type": "AWAY",
+                  "fav": false
+                }
+              ],
+              "moreBet": 2,
+              "periods": {
+                "0": {
+                  "handicap": [
+                    {
+                      "unavailable": true
+                    }
+                  ],
+                  "overUnder": [
+                    {
+                      "unavailable": true
+                    }
+                  ],
+                  "moneyLine": {
+                    "lineId": 3453444626,
+                    "homePrice": "1.363",
+                    "awayPrice": "3.180",
+                    "unavailable": false,
+                    "offline": false
+                  }
+                },
+                "1": {
+                  "handicap": [
+                    {
+                      "unavailable": true
+                    }
+                  ],
+                  "overUnder": [
+                    {
+                      "unavailable": true
+                    }
+                  ],
+                  "moneyLine": {
+                    "lineId": 3453444619,
+                    "homePrice": "1.363",
+                    "awayPrice": "3.180",
+                    "unavailable": false,
+                    "offline": false
+                  }
+                }
+              },
+              "homeTeamType": 0,
+              "awayTeamType": 1,
+              "parlayRestriction": 2,
+              "rotNum": "31842",
+              "resultingUnit": "Regular",
+              "hasLiveStream": false,
+              "hasScoreboard": false,
+              "live": false
+            },
+            {
+              "id": 1623907794,
+              "parentId": 1623892787,
+              "time": 1770832800000,
+              "participants": [
+                {
+                  "name": "Solary (Mortes)",
+                  "englishName": "Solary (Kills)",
+                  "type": "HOME",
+                  "fav": true
+                },
+                {
+                  "name": "TLN Pirates (Mortes)",
+                  "englishName": "TLN Pirates (Kills)",
+                  "type": "AWAY",
+                  "fav": false
+                }
+              ],
+              "moreBet": 16,
+              "periods": {
+                "1": {
+                  "handicap": [
+                    {
+                      "lineId": 55033735612,
+                      "isAlt": true,
+                      "homeSpread": "-6.5",
+                      "awaySpread": "+6.5",
+                      "homeOdds": "1.558",
+                      "awayOdds": "2.250",
+                      "unavailable": false,
+                      "offline": false
+                    },
+                    {
+                      "lineId": 55033735608,
+                      "isAlt": true,
+                      "homeSpread": "-7.5",
+                      "awaySpread": "+7.5",
+                      "homeOdds": "1.653",
+                      "awayOdds": "2.120",
+                      "unavailable": false,
+                      "offline": false
+                    },
+                    {
+                      "lineId": 55033735604,
+                      "isAlt": true,
+                      "homeSpread": "-8.5",
+                      "awaySpread": "+8.5",
+                      "homeOdds": "1.769",
+                      "awayOdds": "1.961",
+                      "unavailable": false,
+                      "offline": false
+                    },
+                    {
+                      "lineId": 3453467342,
+                      "isAlt": false,
+                      "homeSpread": "-9.5",
+                      "awaySpread": "+9.5",
+                      "homeOdds": "1.934",
+                      "awayOdds": "1.813",
+                      "unavailable": false,
+                      "offline": false
+                    },
+                    {
+                      "lineId": 55033735600,
+                      "isAlt": true,
+                      "homeSpread": "-10.5",
+                      "awaySpread": "+10.5",
+                      "homeOdds": "2.120",
+                      "awayOdds": "1.653",
+                      "unavailable": false,
+                      "offline": false
+                    },
+                    {
+                      "lineId": 55033735596,
+                      "isAlt": true,
+                      "homeSpread": "-11.5",
+                      "awaySpread": "+11.5",
+                      "homeOdds": "2.380",
+                      "awayOdds": "1.518",
+                      "unavailable": false,
+                      "offline": false
+                    },
+                    {
+                      "lineId": 55033735592,
+                      "isAlt": true,
+                      "homeSpread": "-12.5",
+                      "awaySpread": "+12.5",
+                      "homeOdds": "2.660",
+                      "awayOdds": "1.392",
+                      "unavailable": false,
+                      "offline": false
+                    }
+                  ],
+                  "overUnder": [
+                    {
+                      "lineId": 55033735611,
+                      "isAlt": true,
+                      "overOdds": "2.430",
+                      "underOdds": "1.473",
+                      "points": "34.5",
+                      "unavailable": false,
+                      "offline": false
+                    },
+                    {
+                      "lineId": 55033735607,
+                      "isAlt": true,
+                      "overOdds": "2.230",
+                      "underOdds": "1.588",
+                      "points": "33.5",
+                      "unavailable": false,
+                      "offline": false
+                    },
+                    {
+                      "lineId": 55033735603,
+                      "isAlt": true,
+                      "overOdds": "2.030",
+                      "underOdds": "1.714",
+                      "points": "32.5",
+                      "unavailable": false,
+                      "offline": false
+                    },
+                    {
+                      "lineId": 3453467342,
+                      "isAlt": false,
+                      "overOdds": "1.869",
+                      "underOdds": "1.869",
+                      "points": "31.5",
+                      "unavailable": false,
+                      "offline": false
+                    },
+                    {
+                      "lineId": 55033735599,
+                      "isAlt": true,
+                      "overOdds": "1.709",
+                      "underOdds": "2.040",
+                      "points": "30.5",
+                      "unavailable": false,
+                      "offline": false
+                    },
+                    {
+                      "lineId": 55033735595,
+                      "isAlt": true,
+                      "overOdds": "1.581",
+                      "underOdds": "2.250",
+                      "points": "29.5",
+                      "unavailable": false,
+                      "offline": false
+                    },
+                    {
+                      "lineId": 55033735591,
+                      "isAlt": true,
+                      "overOdds": "1.460",
+                      "underOdds": "2.460",
+                      "points": "28.5",
+                      "unavailable": false,
+                      "offline": false
+                    }
+                  ],
+                  "moneyLine": {
+                    "lineId": 3453467342,
+                    "homePrice": "1.373",
+                    "awayPrice": "2.840",
+                    "unavailable": false,
+                    "offline": false
+                  },
+                  "indexMainLineHdp": 3,
+                  "indexMainLineOU": 3
+                }
+              },
+              "homeTeamType": 0,
+              "awayTeamType": 1,
+              "parlayRestriction": 2,
+              "rotNum": "31842",
+              "resultingUnit": "Mortes",
+              "hasLiveStream": false,
+              "hasScoreboard": false,
+              "live": false
+            },
+            {
+              "id": 1623892718,
+              "parentId": 0,
+              "time": 1770836400000,
+              "participants": [
+                {
+                  "name": "Lille",
+                  "englishName": "Lille",
+                  "type": "HOME",
+                  "fav": false
+                },
+                {
+                  "name": "Galions",
+                  "englishName": "Galions",
+                  "type": "AWAY",
+                  "fav": false
+                }
+              ],
+              "moreBet": 2,
+              "periods": {
+                "0": {
+                  "handicap": [
+                    {
+                      "unavailable": true
+                    }
+                  ],
+                  "overUnder": [
+                    {
+                      "unavailable": true
+                    }
+                  ],
+                  "moneyLine": {
+                    "lineId": 3453444720,
+                    "homePrice": "4.350",
+                    "awayPrice": "1.222",
+                    "unavailable": false,
+                    "offline": false
+                  }
+                },
+                "1": {
+                  "handicap": [
+                    {
+                      "unavailable": true
+                    }
+                  ],
+                  "overUnder": [
+                    {
+                      "unavailable": true
+                    }
+                  ],
+                  "moneyLine": {
+                    "lineId": 3453444715,
+                    "homePrice": "4.350",
+                    "awayPrice": "1.222",
+                    "unavailable": false,
+                    "offline": false
+                  }
+                }
+              },
+              "homeTeamType": 0,
+              "awayTeamType": 1,
+              "parlayRestriction": 2,
+              "rotNum": "31844",
+              "resultingUnit": "Regular",
+              "hasLiveStream": false,
+              "hasScoreboard": false,
+              "live": false
+            },
+            {
+              "id": 1623909777,
+              "parentId": 1623892718,
+              "time": 1770836400000,
+              "participants": [
+                {
+                  "name": "Lille (Mortes)",
+                  "englishName": "Lille (Kills)",
+                  "type": "HOME",
+                  "fav": false
+                },
+                {
+                  "name": "Galions (Mortes)",
+                  "englishName": "Galions (Kills)",
+                  "type": "AWAY",
+                  "fav": true
+                }
+              ],
+              "moreBet": 16,
+              "periods": {
+                "1": {
+                  "handicap": [
+                    {
+                      "lineId": 55033731084,
+                      "isAlt": true,
+                      "homeSpread": "+13.5",
+                      "awaySpread": "-13.5",
+                      "homeOdds": "1.347",
+                      "awayOdds": "2.820",
+                      "unavailable": false,
+                      "offline": false
+                    },
+                    {
+                      "lineId": 55033731080,
+                      "isAlt": true,
+                      "homeSpread": "+12.5",
+                      "awaySpread": "-12.5",
+                      "homeOdds": "1.476",
+                      "awayOdds": "2.480",
+                      "unavailable": false,
+                      "offline": false
+                    },
+                    {
+                      "lineId": 55033731076,
+                      "isAlt": true,
+                      "homeSpread": "+11.5",
+                      "awaySpread": "-11.5",
+                      "homeOdds": "1.625",
+                      "awayOdds": "2.170",
+                      "unavailable": false,
+                      "offline": false
+                    },
+                    {
+                      "lineId": 3453467182,
+                      "isAlt": false,
+                      "homeSpread": "+10.5",
+                      "awaySpread": "-10.5",
+                      "homeOdds": "1.806",
+                      "awayOdds": "1.943",
+                      "unavailable": false,
+                      "offline": false
+                    },
+                    {
+                      "lineId": 55033731072,
+                      "isAlt": true,
+                      "homeSpread": "+9.5",
+                      "awaySpread": "-9.5",
+                      "homeOdds": "1.990",
+                      "awayOdds": "1.751",
+                      "unavailable": false,
+                      "offline": false
+                    },
+                    {
+                      "lineId": 55033731068,
+                      "isAlt": true,
+                      "homeSpread": "+8.5",
+                      "awaySpread": "-8.5",
+                      "homeOdds": "2.190",
+                      "awayOdds": "1.613",
+                      "unavailable": false,
+                      "offline": false
+                    },
+                    {
+                      "lineId": 55033731064,
+                      "isAlt": true,
+                      "homeSpread": "+7.5",
+                      "awaySpread": "-7.5",
+                      "homeOdds": "2.410",
+                      "awayOdds": "1.483",
+                      "unavailable": false,
+                      "offline": false
+                    }
+                  ],
+                  "overUnder": [
+                    {
+                      "lineId": 55033731083,
+                      "isAlt": true,
+                      "overOdds": "2.430",
+                      "underOdds": "1.476",
+                      "points": "33.5",
+                      "unavailable": false,
+                      "offline": false
+                    },
+                    {
+                      "lineId": 55033731079,
+                      "isAlt": true,
+                      "overOdds": "2.230",
+                      "underOdds": "1.591",
+                      "points": "32.5",
+                      "unavailable": false,
+                      "offline": false
+                    },
+                    {
+                      "lineId": 55033731075,
+                      "isAlt": true,
+                      "overOdds": "2.030",
+                      "underOdds": "1.719",
+                      "points": "31.5",
+                      "unavailable": false,
+                      "offline": false
+                    },
+                    {
+                      "lineId": 3453467182,
+                      "isAlt": false,
+                      "overOdds": "1.862",
+                      "underOdds": "1.877",
+                      "points": "30.5",
+                      "unavailable": false,
+                      "offline": false
+                    },
+                    {
+                      "lineId": 55033731071,
+                      "isAlt": true,
+                      "overOdds": "1.699",
+                      "underOdds": "2.050",
+                      "points": "29.5",
+                      "unavailable": false,
+                      "offline": false
+                    },
+                    {
+                      "lineId": 55033731067,
+                      "isAlt": true,
+                      "overOdds": "1.571",
+                      "underOdds": "2.270",
+                      "points": "28.5",
+                      "unavailable": false,
+                      "offline": false
+                    },
+                    {
+                      "lineId": 55033731063,
+                      "isAlt": true,
+                      "overOdds": "1.452",
+                      "underOdds": "2.490",
+                      "points": "27.5",
+                      "unavailable": false,
+                      "offline": false
+                    }
+                  ],
+                  "moneyLine": {
+                    "lineId": 3453467182,
+                    "homePrice": "3.500",
+                    "awayPrice": "1.244",
+                    "unavailable": false,
+                    "offline": false
+                  },
+                  "indexMainLineHdp": 3,
+                  "indexMainLineOU": 3
+                }
+              },
+              "homeTeamType": 0,
+              "awayTeamType": 1,
+              "parlayRestriction": 2,
+              "rotNum": "31844",
+              "resultingUnit": "Mortes",
+              "hasLiveStream": false,
+              "hasScoreboard": false,
+              "live": false
+            },
+            {
+              "id": 1623902872,
+              "parentId": 0,
+              "time": 1770840000000,
+              "participants": [
+                {
+                  "name": "ZYB",
+                  "englishName": "ZYB",
+                  "type": "HOME",
+                  "fav": false
+                },
+                {
+                  "name": "Joblife",
+                  "englishName": "Joblife",
+                  "type": "AWAY",
+                  "fav": false
+                }
+              ],
+              "moreBet": 2,
+              "periods": {
+                "0": {
+                  "handicap": [
+                    {
+                      "unavailable": true
+                    }
+                  ],
+                  "overUnder": [
+                    {
+                      "unavailable": true
+                    }
+                  ],
+                  "moneyLine": {
+                    "lineId": 3453472710,
+                    "homePrice": "2.960",
+                    "awayPrice": "1.408",
+                    "unavailable": false,
+                    "offline": false
+                  }
+                },
+                "1": {
+                  "handicap": [
+                    {
+                      "unavailable": true
+                    }
+                  ],
+                  "overUnder": [
+                    {
+                      "unavailable": true
+                    }
+                  ],
+                  "moneyLine": {
+                    "lineId": 3453472708,
+                    "homePrice": "2.960",
+                    "awayPrice": "1.408",
+                    "unavailable": false,
+                    "offline": false
+                  }
+                }
+              },
+              "homeTeamType": 0,
+              "awayTeamType": 1,
+              "parlayRestriction": 2,
+              "rotNum": "31846",
+              "resultingUnit": "Regular",
+              "hasLiveStream": false,
+              "hasScoreboard": false,
+              "live": false
+            },
+            {
+              "id": 1623912633,
+              "parentId": 1623902872,
+              "time": 1770840000000,
+              "participants": [
+                {
+                  "name": "ZYB (Mortes)",
+                  "englishName": "ZYB (Kills)",
+                  "type": "HOME",
+                  "fav": false
+                },
+                {
+                  "name": "Joblife (Mortes)",
+                  "englishName": "Joblife (Kills)",
+                  "type": "AWAY",
+                  "fav": true
+                }
+              ],
+              "moreBet": 16,
+              "periods": {
+                "1": {
+                  "handicap": [
+                    {
+                      "lineId": 55033900216,
+                      "isAlt": true,
+                      "homeSpread": "+11.5",
+                      "awaySpread": "-11.5",
+                      "homeOdds": "1.546",
+                      "awayOdds": "2.270",
+                      "unavailable": false,
+                      "offline": false
+                    },
+                    {
+                      "lineId": 55033900212,
+                      "isAlt": true,
+                      "homeSpread": "+10.5",
+                      "awaySpread": "-10.5",
+                      "homeOdds": "1.671",
+                      "awayOdds": "2.100",
+                      "unavailable": false,
+                      "offline": false
+                    },
+                    {
+                      "lineId": 55033900208,
+                      "isAlt": true,
+                      "homeSpread": "+9.5",
+                      "awaySpread": "-9.5",
+                      "homeOdds": "1.787",
+                      "awayOdds": "1.943",
+                      "unavailable": false,
+                      "offline": false
+                    },
+                    {
+                      "lineId": 3453473293,
+                      "isAlt": false,
+                      "homeSpread": "+8.5",
+                      "awaySpread": "-8.5",
+                      "homeOdds": "1.909",
+                      "awayOdds": "1.833",
+                      "unavailable": false,
+                      "offline": false
+                    },
+                    {
+                      "lineId": 55033900204,
+                      "isAlt": true,
+                      "homeSpread": "+7.5",
+                      "awaySpread": "-7.5",
+                      "homeOdds": "2.010",
+                      "awayOdds": "1.735",
+                      "unavailable": false,
+                      "offline": false
+                    },
+                    {
+                      "lineId": 55033900200,
+                      "isAlt": true,
+                      "homeSpread": "+6.5",
+                      "awaySpread": "-6.5",
+                      "homeOdds": "2.130",
+                      "awayOdds": "1.649",
+                      "unavailable": false,
+                      "offline": false
+                    },
+                    {
+                      "lineId": 55033900196,
+                      "isAlt": true,
+                      "homeSpread": "+5.5",
+                      "awaySpread": "-5.5",
+                      "homeOdds": "2.210",
+                      "awayOdds": "1.578",
+                      "unavailable": false,
+                      "offline": false
+                    }
+                  ],
+                  "overUnder": [
+                    {
+                      "lineId": 55033900215,
+                      "isAlt": true,
+                      "overOdds": "2.280",
+                      "underOdds": "1.543",
+                      "points": "36.5",
+                      "unavailable": false,
+                      "offline": false
+                    },
+                    {
+                      "lineId": 55033900211,
+                      "isAlt": true,
+                      "overOdds": "2.120",
+                      "underOdds": "1.653",
+                      "points": "35.5",
+                      "unavailable": false,
+                      "offline": false
+                    },
+                    {
+                      "lineId": 55033900207,
+                      "isAlt": true,
+                      "overOdds": "1.952",
+                      "underOdds": "1.775",
+                      "points": "34.5",
+                      "unavailable": false,
+                      "offline": false
+                    },
+                    {
+                      "lineId": 3453473293,
+                      "isAlt": false,
+                      "overOdds": "1.819",
+                      "underOdds": "1.925",
+                      "points": "33.5",
+                      "unavailable": false,
+                      "offline": false
+                    },
+                    {
+                      "lineId": 55033900203,
+                      "isAlt": true,
+                      "overOdds": "1.666",
+                      "underOdds": "2.100",
+                      "points": "32.5",
+                      "unavailable": false,
+                      "offline": false
+                    },
+                    {
+                      "lineId": 55033900199,
+                      "isAlt": true,
+                      "overOdds": "1.546",
+                      "underOdds": "2.320",
+                      "points": "31.5",
+                      "unavailable": false,
+                      "offline": false
+                    },
+                    {
+                      "lineId": 55033900195,
+                      "isAlt": true,
+                      "overOdds": "1.434",
+                      "underOdds": "2.530",
+                      "points": "30.5",
+                      "unavailable": false,
+                      "offline": false
+                    }
+                  ],
+                  "moneyLine": {
+                    "lineId": 3453473293,
+                    "homePrice": "2.530",
+                    "awayPrice": "1.469",
+                    "unavailable": false,
+                    "offline": false
+                  },
+                  "indexMainLineHdp": 3,
+                  "indexMainLineOU": 3
+                }
+              },
+              "homeTeamType": 0,
+              "awayTeamType": 1,
+              "parlayRestriction": 2,
+              "rotNum": "31846",
+              "resultingUnit": "Mortes",
+              "hasLiveStream": false,
+              "hasScoreboard": false,
+              "live": false
+            },
+            {
+              "id": 1623901428,
+              "parentId": 0,
+              "time": 1770843600000,
+              "participants": [
+                {
+                  "name": "Vitality.Bee",
+                  "englishName": "Vitality.Bee",
+                  "type": "HOME",
+                  "fav": false
+                },
+                {
+                  "name": "French Flair",
+                  "englishName": "French Flair",
+                  "type": "AWAY",
+                  "fav": false
+                }
+              ],
+              "moreBet": 2,
+              "periods": {
+                "0": {
+                  "handicap": [
+                    {
+                      "unavailable": true
+                    }
+                  ],
+                  "overUnder": [
+                    {
+                      "unavailable": true
+                    }
+                  ],
+                  "moneyLine": {
+                    "lineId": 3453444414,
+                    "homePrice": "3.700",
+                    "awayPrice": "1.285",
+                    "unavailable": false,
+                    "offline": false
+                  }
+                },
+                "1": {
+                  "handicap": [
+                    {
+                      "unavailable": true
+                    }
+                  ],
+                  "overUnder": [
+                    {
+                      "unavailable": true
+                    }
+                  ],
+                  "moneyLine": {
+                    "lineId": 3453444393,
+                    "homePrice": "3.700",
+                    "awayPrice": "1.285",
+                    "unavailable": false,
+                    "offline": false
+                  }
+                }
+              },
+              "homeTeamType": 0,
+              "awayTeamType": 1,
+              "parlayRestriction": 2,
+              "rotNum": "31848",
+              "resultingUnit": "Regular",
+              "hasLiveStream": false,
+              "hasScoreboard": false,
+              "live": false
+            },
+            {
+              "id": 1623913131,
+              "parentId": 1623901428,
+              "time": 1770843600000,
+              "participants": [
+                {
+                  "name": "Vitality.Bee (Mortes)",
+                  "englishName": "Vitality.Bee (Kills)",
+                  "type": "HOME",
+                  "fav": false
+                },
+                {
+                  "name": "French Flair (Mortes)",
+                  "englishName": "French Flair (Kills)",
+                  "type": "AWAY",
+                  "fav": true
+                }
+              ],
+              "moreBet": 16,
+              "periods": {
+                "1": {
+                  "handicap": [
+                    {
+                      "lineId": 55033302944,
+                      "isAlt": true,
+                      "homeSpread": "+12.5",
+                      "awaySpread": "-12.5",
+                      "homeOdds": "1.431",
+                      "awayOdds": "2.550",
+                      "unavailable": false,
+                      "offline": false
+                    },
+                    {
+                      "lineId": 55033302940,
+                      "isAlt": true,
+                      "homeSpread": "+11.5",
+                      "awaySpread": "-11.5",
+                      "homeOdds": "1.568",
+                      "awayOdds": "2.280",
+                      "unavailable": false,
+                      "offline": false
+                    },
+                    {
+                      "lineId": 55033302936,
+                      "isAlt": true,
+                      "homeSpread": "+10.5",
+                      "awaySpread": "-10.5",
+                      "homeOdds": "1.714",
+                      "awayOdds": "2.030",
+                      "unavailable": false,
+                      "offline": false
+                    },
+                    {
+                      "lineId": 3453452023,
+                      "isAlt": false,
+                      "homeSpread": "+9.5",
+                      "awaySpread": "-9.5",
+                      "homeOdds": "1.884",
+                      "awayOdds": "1.854",
+                      "unavailable": false,
+                      "offline": false
+                    },
+                    {
+                      "lineId": 55033302932,
+                      "isAlt": true,
+                      "homeSpread": "+8.5",
+                      "awaySpread": "-8.5",
+                      "homeOdds": "2.050",
+                      "awayOdds": "1.704",
+                      "unavailable": false,
+                      "offline": false
+                    },
+                    {
+                      "lineId": 55033302928,
+                      "isAlt": true,
+                      "homeSpread": "+7.5",
+                      "awaySpread": "-7.5",
+                      "homeOdds": "2.210",
+                      "awayOdds": "1.602",
+                      "unavailable": false,
+                      "offline": false
+                    },
+                    {
+                      "lineId": 55033302924,
+                      "isAlt": true,
+                      "homeSpread": "+6.5",
+                      "awaySpread": "-6.5",
+                      "homeOdds": "2.380",
+                      "awayOdds": "1.497",
+                      "unavailable": false,
+                      "offline": false
+                    }
+                  ],
+                  "overUnder": [
+                    {
+                      "lineId": 55033302943,
+                      "isAlt": true,
+                      "overOdds": "2.320",
+                      "underOdds": "1.520",
+                      "points": "33.5",
+                      "unavailable": false,
+                      "offline": false
+                    },
+                    {
+                      "lineId": 55033302939,
+                      "isAlt": true,
+                      "overOdds": "2.150",
+                      "underOdds": "1.641",
+                      "points": "32.5",
+                      "unavailable": false,
+                      "offline": false
+                    },
+                    {
+                      "lineId": 55033302935,
+                      "isAlt": true,
+                      "overOdds": "1.970",
+                      "underOdds": "1.769",
+                      "points": "31.5",
+                      "unavailable": false,
+                      "offline": false
+                    },
+                    {
+                      "lineId": 3453452023,
+                      "isAlt": false,
+                      "overOdds": "1.819",
+                      "underOdds": "1.925",
+                      "points": "30.5",
+                      "unavailable": false,
+                      "offline": false
+                    },
+                    {
+                      "lineId": 55033302931,
+                      "isAlt": true,
+                      "overOdds": "1.675",
+                      "underOdds": "2.090",
+                      "points": "29.5",
+                      "unavailable": false,
+                      "offline": false
+                    },
+                    {
+                      "lineId": 55033302927,
+                      "isAlt": true,
+                      "overOdds": "1.543",
+                      "underOdds": "2.320",
+                      "points": "28.5",
+                      "unavailable": false,
+                      "offline": false
+                    },
+                    {
+                      "lineId": 55033302923,
+                      "isAlt": true,
+                      "overOdds": "1.425",
+                      "underOdds": "2.560",
+                      "points": "27.5",
+                      "unavailable": false,
+                      "offline": false
+                    }
+                  ],
+                  "moneyLine": {
+                    "lineId": 3453452023,
+                    "homePrice": "3.060",
+                    "awayPrice": "1.320",
+                    "unavailable": false,
+                    "offline": false
+                  },
+                  "indexMainLineHdp": 3,
+                  "indexMainLineOU": 3
+                }
+              },
+              "homeTeamType": 0,
+              "awayTeamType": 1,
+              "parlayRestriction": 2,
+              "rotNum": "31848",
               "resultingUnit": "Mortes",
               "hasLiveStream": false,
               "hasScoreboard": false,
@@ -1406,70 +3006,70 @@
         },
         {
           "sportId": 12,
-          "id": 218181,
-          "name": "League of Legends - ROL",
-          "leagueCode": "league-of-legends-rol",
+          "id": 233800,
+          "name": "League of Legends - LIT",
+          "leagueCode": "league-of-legends-lit",
           "gameCode": "league-of-legends",
-          "container": "Europe",
+          "container": "Italy",
           "events": [
             {
-              "id": 1623874585,
+              "id": 1623889181,
               "parentId": 0,
-              "time": 1770742800000,
+              "time": 1770829200000,
               "participants": [
                 {
-                  "name": "ZennIT",
-                  "englishName": "ZennIT",
+                  "name": "GMBLERS",
+                  "englishName": "GMBLERS",
                   "type": "HOME",
                   "fav": false
                 },
                 {
-                  "name": "mCon",
-                  "englishName": "mCon",
+                  "name": "Deacoy",
+                  "englishName": "Deacoy",
                   "type": "AWAY",
                   "fav": true
                 }
               ],
-              "moreBet": 12,
+              "moreBet": 11,
               "periods": {
                 "0": {
                   "handicap": [
                     {
-                      "lineId": 54997165510,
+                      "lineId": 55033154852,
                       "isAlt": true,
                       "homeSpread": "+2.5",
                       "awaySpread": "-2.5",
-                      "homeOdds": "1.143",
-                      "awayOdds": "3.790",
+                      "homeOdds": "1.176",
+                      "awayOdds": "3.920",
                       "unavailable": false,
                       "offline": false
                     },
                     {
-                      "lineId": 3452001004,
+                      "lineId": 3453446695,
                       "isAlt": false,
                       "homeSpread": "+1.5",
                       "awaySpread": "-1.5",
-                      "homeOdds": "1.537",
-                      "awayOdds": "2.240",
+                      "homeOdds": "1.621",
+                      "awayOdds": "2.200",
                       "unavailable": false,
                       "offline": false
                     },
                     {
-                      "lineId": 54997165506,
+                      "lineId": 55033154848,
                       "isAlt": true,
                       "homeSpread": "-1.5",
                       "awaySpread": "+1.5",
-                      "homeOdds": "3.050",
-                      "awayOdds": "1.255",
+                      "homeOdds": "3.380",
+                      "awayOdds": "1.243",
                       "unavailable": false,
                       "offline": false
                     },
                     {
-                      "lineId": 54997165502,
+                      "lineId": 55033154844,
                       "isAlt": true,
                       "homeSpread": "-2.5",
                       "awaySpread": "+2.5",
-                      "homeOdds": "4.880",
+                      "homeOdds": "5.940",
                       "awayOdds": "1.060",
                       "unavailable": false,
                       "offline": false
@@ -1477,28 +3077,28 @@
                   ],
                   "overUnder": [
                     {
-                      "lineId": 3452001004,
+                      "lineId": 3453446695,
                       "isAlt": false,
-                      "overOdds": "2.490",
-                      "underOdds": "1.431",
+                      "overOdds": "2.510",
+                      "underOdds": "1.423",
                       "points": "4.5",
                       "unavailable": false,
                       "offline": false
                     },
                     {
-                      "lineId": 54997165505,
+                      "lineId": 55033154847,
                       "isAlt": true,
-                      "overOdds": "1.292",
-                      "underOdds": "2.880",
+                      "overOdds": "1.301",
+                      "underOdds": "2.850",
                       "points": "3.5",
                       "unavailable": false,
                       "offline": false
                     }
                   ],
                   "moneyLine": {
-                    "lineId": 3452001004,
-                    "homePrice": "2.150",
-                    "awayPrice": "1.588",
+                    "lineId": 3453446695,
+                    "homePrice": "2.320",
+                    "awayPrice": "1.558",
                     "unavailable": false,
                     "offline": false
                   },
@@ -1517,9 +3117,9 @@
                     }
                   ],
                   "moneyLine": {
-                    "lineId": 3452000993,
-                    "homePrice": "2.010",
-                    "awayPrice": "1.680",
+                    "lineId": 3453446689,
+                    "homePrice": "2.120",
+                    "awayPrice": "1.666",
                     "unavailable": false,
                     "offline": false
                   }
@@ -1536,9 +3136,9 @@
                     }
                   ],
                   "moneyLine": {
-                    "lineId": 3452000997,
-                    "homePrice": "2.010",
-                    "awayPrice": "1.680",
+                    "lineId": 3453446691,
+                    "homePrice": "2.120",
+                    "awayPrice": "1.666",
                     "unavailable": false,
                     "offline": false
                   }
@@ -1555,9 +3155,9 @@
                     }
                   ],
                   "moneyLine": {
-                    "lineId": 3452001000,
-                    "homePrice": "2.010",
-                    "awayPrice": "1.680",
+                    "lineId": 3453446692,
+                    "homePrice": "2.120",
+                    "awayPrice": "1.666",
                     "unavailable": false,
                     "offline": false
                   }
@@ -1565,474 +3165,9 @@
               },
               "homeTeamType": 0,
               "awayTeamType": 1,
-              "parlayRestriction": 2,
-              "rotNum": "45574",
+              "parlayRestriction": 1,
+              "rotNum": "45134",
               "resultingUnit": "Regular",
-              "hasLiveStream": false,
-              "hasScoreboard": false,
-              "live": false
-            }
-          ],
-          "seqNo": 306
-        },
-        {
-          "sportId": 12,
-          "id": 197466,
-          "name": "League of Legends - TCL",
-          "leagueCode": "league-of-legends-tcl",
-          "gameCode": "league-of-legends",
-          "container": "Turkey",
-          "events": [
-            {
-              "id": 1623845908,
-              "parentId": 0,
-              "time": 1770647400000,
-              "participants": [
-                {
-                  "name": "SU Esports",
-                  "englishName": "SU Esports",
-                  "type": "HOME",
-                  "fav": true
-                },
-                {
-                  "name": "Dark Passage",
-                  "englishName": "Dark Passage",
-                  "type": "AWAY",
-                  "fav": false
-                }
-              ],
-              "moreBet": 5,
-              "periods": {
-                "0": {
-                  "handicap": [
-                    {
-                      "lineId": 3452142248,
-                      "isAlt": false,
-                      "homeSpread": "-1.5",
-                      "awaySpread": "+1.5",
-                      "homeOdds": "2.220",
-                      "awayOdds": "1.497",
-                      "unavailable": false,
-                      "offline": false
-                    }
-                  ],
-                  "overUnder": [
-                    {
-                      "lineId": 3452142248,
-                      "isAlt": false,
-                      "overOdds": "2.060",
-                      "underOdds": "1.595",
-                      "points": "2.5",
-                      "unavailable": false,
-                      "offline": false
-                    }
-                  ],
-                  "moneyLine": {
-                    "lineId": 3452142248,
-                    "homePrice": "1.395",
-                    "awayPrice": "2.450",
-                    "unavailable": false,
-                    "offline": false
-                  },
-                  "indexMainLineHdp": 0,
-                  "indexMainLineOU": 0
-                },
-                "1": {
-                  "handicap": [
-                    {
-                      "unavailable": true
-                    }
-                  ],
-                  "overUnder": [
-                    {
-                      "unavailable": true
-                    }
-                  ],
-                  "moneyLine": {
-                    "lineId": 3452093361,
-                    "homePrice": "1.495",
-                    "awayPrice": "2.230",
-                    "unavailable": false,
-                    "offline": false
-                  }
-                },
-                "2": {
-                  "handicap": [
-                    {
-                      "unavailable": true
-                    }
-                  ],
-                  "overUnder": [
-                    {
-                      "unavailable": true
-                    }
-                  ],
-                  "moneyLine": {
-                    "lineId": 3452142246,
-                    "homePrice": "1.549",
-                    "awayPrice": "2.130",
-                    "unavailable": false,
-                    "offline": false
-                  }
-                }
-              },
-              "homeTeamType": 0,
-              "awayTeamType": 1,
-              "parlayRestriction": 2,
-              "rotNum": "56384",
-              "resultingUnit": "Regular",
-              "hasLiveStream": false,
-              "hasScoreboard": false,
-              "live": false
-            },
-            {
-              "id": 1623846287,
-              "parentId": 0,
-              "time": 1770658200000,
-              "participants": [
-                {
-                  "name": "S2G",
-                  "englishName": "S2G",
-                  "type": "HOME",
-                  "fav": true
-                },
-                {
-                  "name": "PCIFIC",
-                  "englishName": "PCIFIC",
-                  "type": "AWAY",
-                  "fav": false
-                }
-              ],
-              "moreBet": 6,
-              "periods": {
-                "0": {
-                  "handicap": [
-                    {
-                      "lineId": 3452083146,
-                      "isAlt": false,
-                      "homeSpread": "-1.5",
-                      "awaySpread": "+1.5",
-                      "homeOdds": "1.381",
-                      "awayOdds": "2.810",
-                      "unavailable": false,
-                      "offline": false
-                    }
-                  ],
-                  "overUnder": [
-                    {
-                      "lineId": 3452083146,
-                      "isAlt": false,
-                      "overOdds": "2.960",
-                      "underOdds": "1.293",
-                      "points": "2.5",
-                      "unavailable": false,
-                      "offline": false
-                    }
-                  ],
-                  "moneyLine": {
-                    "lineId": 3452083146,
-                    "homePrice": "1.061",
-                    "awayPrice": "6.450",
-                    "unavailable": false,
-                    "offline": false
-                  },
-                  "indexMainLineHdp": 0,
-                  "indexMainLineOU": 0
-                },
-                "1": {
-                  "handicap": [
-                    {
-                      "unavailable": true
-                    }
-                  ],
-                  "overUnder": [
-                    {
-                      "unavailable": true
-                    }
-                  ],
-                  "moneyLine": {
-                    "lineId": 3452083147,
-                    "homePrice": "1.166",
-                    "awayPrice": "4.210",
-                    "unavailable": false,
-                    "offline": false
-                  }
-                },
-                "2": {
-                  "handicap": [
-                    {
-                      "unavailable": true
-                    }
-                  ],
-                  "overUnder": [
-                    {
-                      "unavailable": true
-                    }
-                  ],
-                  "moneyLine": {
-                    "lineId": 3452083148,
-                    "homePrice": "1.166",
-                    "awayPrice": "4.210",
-                    "unavailable": false,
-                    "offline": false
-                  }
-                }
-              },
-              "homeTeamType": 0,
-              "awayTeamType": 1,
-              "parlayRestriction": 2,
-              "rotNum": "56386",
-              "resultingUnit": "Regular",
-              "hasLiveStream": false,
-              "hasScoreboard": false,
-              "live": false
-            },
-            {
-              "id": 1623886665,
-              "parentId": 1623846287,
-              "time": 1770658200000,
-              "participants": [
-                {
-                  "name": "S2G (Mortes)",
-                  "englishName": "S2G (Kills)",
-                  "type": "HOME",
-                  "fav": true
-                },
-                {
-                  "name": "PCIFIC (Mortes)",
-                  "englishName": "PCIFIC (Kills)",
-                  "type": "AWAY",
-                  "fav": false
-                }
-              ],
-              "moreBet": 24,
-              "periods": {
-                "1": {
-                  "handicap": [
-                    {
-                      "lineId": 54998844266,
-                      "isAlt": true,
-                      "homeSpread": "-7.5",
-                      "awaySpread": "+7.5",
-                      "homeOdds": "1.485",
-                      "awayOdds": "2.330",
-                      "unavailable": false,
-                      "offline": false
-                    },
-                    {
-                      "lineId": 54998844262,
-                      "isAlt": true,
-                      "homeSpread": "-8.5",
-                      "awaySpread": "+8.5",
-                      "homeOdds": "1.632",
-                      "awayOdds": "2.070",
-                      "unavailable": false,
-                      "offline": false
-                    },
-                    {
-                      "lineId": 3452084190,
-                      "isAlt": false,
-                      "homeSpread": "-9.5",
-                      "awaySpread": "+9.5",
-                      "homeOdds": "1.813",
-                      "awayOdds": "1.854",
-                      "unavailable": false,
-                      "offline": false
-                    },
-                    {
-                      "lineId": 54998844258,
-                      "isAlt": true,
-                      "homeSpread": "-10.5",
-                      "awaySpread": "+10.5",
-                      "homeOdds": "2.040",
-                      "awayOdds": "1.649",
-                      "unavailable": false,
-                      "offline": false
-                    },
-                    {
-                      "lineId": 54998844254,
-                      "isAlt": true,
-                      "homeSpread": "-11.5",
-                      "awaySpread": "+11.5",
-                      "homeOdds": "2.350",
-                      "awayOdds": "1.478",
-                      "unavailable": false,
-                      "offline": false
-                    }
-                  ],
-                  "overUnder": [
-                    {
-                      "lineId": 54998844265,
-                      "isAlt": true,
-                      "overOdds": "2.140",
-                      "underOdds": "1.584",
-                      "points": "28.5",
-                      "unavailable": false,
-                      "offline": false
-                    },
-                    {
-                      "lineId": 54998844261,
-                      "isAlt": true,
-                      "overOdds": "1.952",
-                      "underOdds": "1.714",
-                      "points": "27.5",
-                      "unavailable": false,
-                      "offline": false
-                    },
-                    {
-                      "lineId": 3452084190,
-                      "isAlt": false,
-                      "overOdds": "1.793",
-                      "underOdds": "1.877",
-                      "points": "26.5",
-                      "unavailable": false,
-                      "offline": false
-                    },
-                    {
-                      "lineId": 54998844257,
-                      "isAlt": true,
-                      "overOdds": "1.645",
-                      "underOdds": "2.040",
-                      "points": "25.5",
-                      "unavailable": false,
-                      "offline": false
-                    },
-                    {
-                      "lineId": 54998844253,
-                      "isAlt": true,
-                      "overOdds": "1.507",
-                      "underOdds": "2.290",
-                      "points": "24.5",
-                      "unavailable": false,
-                      "offline": false
-                    }
-                  ],
-                  "moneyLine": {
-                    "lineId": 3452084190,
-                    "homePrice": "1.186",
-                    "awayPrice": "3.580",
-                    "unavailable": false,
-                    "offline": false
-                  },
-                  "indexMainLineHdp": 2,
-                  "indexMainLineOU": 2
-                },
-                "2": {
-                  "handicap": [
-                    {
-                      "lineId": 54999800926,
-                      "isAlt": true,
-                      "homeSpread": "-7.5",
-                      "awaySpread": "+7.5",
-                      "homeOdds": "1.490",
-                      "awayOdds": "2.320",
-                      "unavailable": false,
-                      "offline": false
-                    },
-                    {
-                      "lineId": 54999800922,
-                      "isAlt": true,
-                      "homeSpread": "-8.5",
-                      "awaySpread": "+8.5",
-                      "homeOdds": "1.641",
-                      "awayOdds": "2.050",
-                      "unavailable": false,
-                      "offline": false
-                    },
-                    {
-                      "lineId": 3452131681,
-                      "isAlt": false,
-                      "homeSpread": "-9.5",
-                      "awaySpread": "+9.5",
-                      "homeOdds": "1.819",
-                      "awayOdds": "1.847",
-                      "unavailable": false,
-                      "offline": false
-                    },
-                    {
-                      "lineId": 54999800918,
-                      "isAlt": true,
-                      "homeSpread": "-10.5",
-                      "awaySpread": "+10.5",
-                      "homeOdds": "2.050",
-                      "awayOdds": "1.645",
-                      "unavailable": false,
-                      "offline": false
-                    },
-                    {
-                      "lineId": 54999800914,
-                      "isAlt": true,
-                      "homeSpread": "-11.5",
-                      "awaySpread": "+11.5",
-                      "homeOdds": "2.350",
-                      "awayOdds": "1.478",
-                      "unavailable": false,
-                      "offline": false
-                    }
-                  ],
-                  "overUnder": [
-                    {
-                      "lineId": 54999800925,
-                      "isAlt": true,
-                      "overOdds": "2.180",
-                      "underOdds": "1.561",
-                      "points": "29.5",
-                      "unavailable": false,
-                      "offline": false
-                    },
-                    {
-                      "lineId": 54999800921,
-                      "isAlt": true,
-                      "overOdds": "1.970",
-                      "underOdds": "1.699",
-                      "points": "28.5",
-                      "unavailable": false,
-                      "offline": false
-                    },
-                    {
-                      "lineId": 3452131681,
-                      "isAlt": false,
-                      "overOdds": "1.800",
-                      "underOdds": "1.869",
-                      "points": "27.5",
-                      "unavailable": false,
-                      "offline": false
-                    },
-                    {
-                      "lineId": 54999800917,
-                      "isAlt": true,
-                      "overOdds": "1.671",
-                      "underOdds": "2.010",
-                      "points": "26.5",
-                      "unavailable": false,
-                      "offline": false
-                    },
-                    {
-                      "lineId": 54999800913,
-                      "isAlt": true,
-                      "overOdds": "1.568",
-                      "underOdds": "2.170",
-                      "points": "25.5",
-                      "unavailable": false,
-                      "offline": false
-                    }
-                  ],
-                  "moneyLine": {
-                    "lineId": 3452131681,
-                    "homePrice": "1.189",
-                    "awayPrice": "3.560",
-                    "unavailable": false,
-                    "offline": false
-                  },
-                  "indexMainLineHdp": 2,
-                  "indexMainLineOU": 2
-                }
-              },
-              "homeTeamType": 0,
-              "awayTeamType": 1,
-              "parlayRestriction": 2,
-              "rotNum": "56386",
-              "resultingUnit": "Mortes",
               "hasLiveStream": false,
               "hasScoreboard": false,
               "live": false
